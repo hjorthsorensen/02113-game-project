@@ -25,3 +25,5 @@ test_run_dir/
 .Xil/
 vending/.Xil/
 usage_statistics_webtalk.*
+*.v
+*.fir
