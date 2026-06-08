@@ -75,10 +75,12 @@ class GameLogicTask5(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   //Setting the viewbox control outputs to zero
   io.viewBoxX := 0.U
   io.viewBoxY := 0.U
+  val imgReg = RegInit(0.U(4.W))
+  val cntReg = RegInit(0.U(5.W))
 
   //Setting the background buffer outputs to zero
-  io.backBufferWriteData := 0.U
-  io.backBufferWriteAddress := 0.U
+  io.backBufferWriteData := imgReg
+  io.backBufferWriteAddress := imgReg
   io.backBufferWriteEnable := false.B
 
   //Setting frame done to zero
@@ -88,33 +90,77 @@ class GameLogicTask5(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // Write here your game logic
   // (you might need to change the initialization values above)
   /////////////////////////////////////////////////////////////////
-
-  val backgroundReg = RegInit(0.U(4.W))
-
-  val idle :: background :: done :: Nil = Enum(3)
+  val idle :: compute1 :: done :: Nil = Enum(3)
   val stateReg = RegInit(idle)
 
-  switch(stateReg){
+  //Two registers holding the sprite sprite X and Y with the sprite initial position
+  val sprite0XReg = RegInit(32.S(11.W))
+  val sprite0YReg = RegInit((360-32).S(10.W))
+  val sprite2XReg = RegInit(32.S(11.W))
+  val sprite2YReg = RegInit((360-32).S(10.W))
 
-    is(idle){
-      when(io.newFrame){
-        stateReg := background
+  //A registers holding the sprite horizontal flip
+  val sprite0FlipHorizontalReg = RegInit(false.B)
+  val sprite2FlipHorizontalReg = RegInit(false.B)
+
+  //Making sprite 0 visible
+  io.spriteVisible(0) := true.B
+  //Making sprite 2 visible
+  io.spriteVisible(2) := true.B
+
+  //Connecting resiters to the graphic engine
+  io.spriteXPosition(0) := sprite0XReg
+  io.spriteYPosition(0) := sprite0YReg
+  io.spriteXPosition(2) := sprite2XReg
+  io.spriteYPosition(2) := sprite2YReg
+  io.spriteFlipHorizontal(0) := sprite0FlipHorizontalReg
+  io.spriteFlipHorizontal(2) := sprite2FlipHorizontalReg
+
+  
+  
+  //FSMD switch
+  switch(stateReg) {
+    is(idle) {
+      when(io.newFrame) {
+        stateReg := compute1
       }
     }
 
-    is(background){
-      backgroundReg := backgroundReg + 1.U
-      io.backBufferWriteData := 
-      when(backgroundReg > 10.U){
-        stateReg := done
+    is(compute1) {
+      when(io.btnD){
+        when(sprite0YReg < (480 - 32 - 24).S) {
+          sprite0YReg := sprite0YReg + 2.S
+        }
+      } .elsewhen(io.btnU){
+        when(sprite0YReg > (96).S) {
+          sprite0YReg := sprite0YReg - 2.S
+        }
       }
-      
+      when(io.btnR) {
+        when(sprite0XReg < (640 - 32 - 32).S) {
+          sprite0XReg := sprite0XReg + 2.S
+          sprite0FlipHorizontalReg := false.B
+        }
+      } .elsewhen(io.btnL){
+        when(sprite0XReg > 32.S) {
+          sprite0XReg := sprite0XReg - 2.S
+          sprite0FlipHorizontalReg := true.B
+        }
+      }
+
+      when(cnt > 30.U){
+        imgReg := imgReg + 1.U
+        io.backBufferWriteEnable := true.B
+      }
+
+      stateReg := done
     }
-    is(done){
 
-
+    is(done) {
+      cntReg := cntReg + 1.U
+      io.frameUpdateDone := true.B
+      stateReg := idle
     }
-
   }
 
 
