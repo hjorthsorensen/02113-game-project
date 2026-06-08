@@ -192,7 +192,6 @@ class GameLogicTask6(SpriteNumber: Int, BackTileNumber: Int) extends Module {
       stateReg := idle
     }
   }
-
 }
 
 //////////////////////////////////////////////////////////////////////////////
