@@ -2,9 +2,6 @@
 target/
 project/target/
 project/project/
-vending/target/
-vending/project/target/
-vending/project/project/
 test_run_dir/
 *.vcd
 
