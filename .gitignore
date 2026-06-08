@@ -1,0 +1,27 @@
+# --- Scala / SBT / Chisel ---
+target/
+project/target/
+project/project/
+vending/target/
+vending/project/target/
+vending/project/project/
+test_run_dir/
+*.vcd
+
+# --- IDEs (Metals, Bloop, VS Code) ---
+.metals/
+.bloop/
+.bsp/
+.settings/
+.vscode/
+*.swp
+*.swo
+
+# --- Vivado / FPGA Tools ---
+*.log
+*.jou
+*.str
+*.pb
+.Xil/
+vending/.Xil/
+usage_statistics_webtalk.*
