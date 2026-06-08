@@ -186,6 +186,118 @@ class GameLogicTask3(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
 
 
+  val idle :: compute1 :: done :: Nil = Enum(3)
+  val stateReg = RegInit(idle)
+
+  //Two registers holding the sprite sprite X and Y with the sprite initial position
+  val sprite0XReg = RegInit(32.S(11.W))
+  val sprite0YReg = RegInit((360-32).S(10.W))
+
+  val sprite1XReg = RegInit(500.S(11.W))
+  val sprite1YReg = RegInit((180-32).S(10.W))
+  val sprite2XReg = RegInit(32.S(11.W))
+  val sprite2YReg = RegInit((360-32).S(10.W))
+
+  //A registers holding the sprite horizontal flip
+  val sprite0FlipHorizontalReg = RegInit(false.B)
+
+  val sprite1FlipHorizontalReg = RegInit(false.B)
+  val sprite2FlipHorizontalReg = RegInit(false.B)
+
+  val sprite0VisibleReg = RegInit(true.B)
+
+  //Making sprite 0 visible and sprite 5 inverse of 0
+  io.spriteVisible(0) := sprite0VisibleReg
+  io.spriteVisible(5) := !sprite0VisibleReg
+  //Making sprite 1 visible
+  io.spriteVisible(1) := true.B
+  //Making sprite 2 visible
+  io.spriteVisible(2) := true.B
+
+  //Connecting resiters to the graphic engine
+  // Sprite 5 is locked to sprite 0
+  io.spriteXPosition(0) := sprite0XReg
+  io.spriteYPosition(0) := sprite0YReg
+  io.spriteXPosition(5) := sprite0XReg
+  io.spriteYPosition(5) := sprite0YReg
+
+  io.spriteXPosition(1) := sprite1XReg
+  io.spriteYPosition(1) := sprite1YReg
+
+  io.spriteXPosition(2) := sprite2XReg
+  io.spriteYPosition(2) := sprite2YReg
+
+  //Sprite 5 same flip as sprite 0
+  io.spriteFlipHorizontal(0) := sprite0FlipHorizontalReg
+  io.spriteFlipHorizontal(5) := sprite0FlipHorizontalReg
+  
+  io.spriteFlipHorizontal(1) := sprite1FlipHorizontalReg
+  io.spriteFlipHorizontal(2) := sprite2FlipHorizontalReg
+
+  //Counting frames:
+  val cntReg = RegInit(0.U(8.W))//8wide = 255frames
+  val fishReg = RegInit(0.U(8.W))//8wide = 255frames
+
+  //FSMD switch
+  switch(stateReg) {
+    is(idle) {
+      when(io.newFrame) {
+        stateReg := compute1
+      }
+    }
+
+    is(compute1) {
+      when(io.btnD){
+        when(sprite0YReg < (480 - 32 - 24).S) {
+          sprite0YReg := sprite0YReg + 2.S
+        }
+      } .elsewhen(io.btnU){
+        when(sprite0YReg > (96).S) {
+          sprite0YReg := sprite0YReg - 2.S
+        }
+      }
+      when(io.btnR) {
+        when(sprite0XReg < (640 - 32 - 32).S) {
+          sprite0XReg := sprite0XReg + 2.S
+          sprite0FlipHorizontalReg := false.B
+        }
+      } .elsewhen(io.btnL){
+        when(sprite0XReg > 32.S) {
+          sprite0XReg := sprite0XReg - 2.S
+          sprite0FlipHorizontalReg := true.B
+        }
+      }
+      when(fishReg >= 30.U){
+        sprite0VisibleReg := !sprite0VisibleReg
+        fishReg := 0.U
+      }
+      when(cntReg >= 30.U){
+        cntReg := 0.U
+        sprite1FlipHorizontalReg := !sprite1FlipHorizontalReg
+      }
+      
+      stateReg := done
+    }
+
+    is(done) {
+      when(io.btnD){
+        fishReg := fishReg + 1.U
+      }.elsewhen(io.btnR){
+        fishReg := fishReg + 1.U
+      }.elsewhen(io.btnU){
+        fishReg := fishReg + 1.U
+      }.elsewhen(io.btnL){
+        fishReg := fishReg + 1.U
+      }
+      cntReg := cntReg + 1.U
+      io.frameUpdateDone := true.B
+      stateReg := idle
+    }
+  }
+
+
+
+
 
 }
 
