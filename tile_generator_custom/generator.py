@@ -46,6 +46,8 @@ print(f"... Saving to memory file: {OUTPUT_MEM}")
 # Write to a .mem file (text format containing hexadecimal strings)
 with open(OUTPUT_MEM, 'w') as f:
     for pixel in flattened_data:
+        if pixel >> 6 & 1:
+            pixel = 0b1000000
         # Formats the byte as a 2-digit uppercase hex string (e.g., "7F")
         f.write(f"{pixel:07b}\n")
 
