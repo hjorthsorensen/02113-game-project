@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02113 Tile Generator</title>
+    <link rel="icon" type="image/x-ixon" href="img/favicon.ico">
+
+    <!-- Bootstrap CSS -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/tile_generator.css">
+
+</head>
+<body>
+
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast bg-white hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+            <div class="d-flex">
+                <div class="toast-body" id="toast_body">
+                    <p class="fw-bold m-0 p-0">Toast message!</p>
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+
+        <div class="container unselectable">
+            <p class="h2">02113 Tile Generator</p>
+        </div>
+
+        <div class="container unselectable">
+            <p  class="mb-2"> Welcome to the 02113 Tile Generator! Here you can quickly design the 32-by-32 pixels
+                tiles to be used as background or sprite.</p>
+            <p>
+                <b>Instructions:</b> Change the color of the pixels as desired.
+                You can select muliple pixels by keeping CTRL pressed or select a region by
+                keeping SHIFT pressed. By keeping CTRL pressed, you can also de-select pixels. You can copy the generated binary data into the memory initialization file,
+                or direcly download the .mem file. You can also upload an existing .mem file.</p>
+        </div>
+
+        <hr>
+
+        <div class="container unselectable">
+            <p class="h5 pb-2">Tile graphic</p>
+        </div>
+
+        <div class="container unselectable">
+            <div class="row">
+                <div class="col-9 border-end">
+                    <p class="h6">Pixel map</p>
+                    <div class="container p-0" id="pixel_map">
+                    </div>
+                </div>
+                <div class="col-3">
+                    <p class="h6">Preview</p>
+                    <div class="container p-0" id="preview">
+                    </div>
+                    <p class="h6 mt-3">Palette</p>
+                    <div class="container p-0" id="palette">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="container unselectable">
+            <p class="h5 pb-2">Memory content</p>
+        </div>
+
+        <div class="container unselectable">
+            <div class="row">
+                <div class="col-9 border-end">
+                    <div class="d-flex justify-content-between m-0 p-0">
+                        <p class="h6">Raw content</p>
+                        <div class="m-0 ps-0 pe-1 pt-0 pb-0" style="cursor:pointer; whitespace:pre-wrap;" id="copy">
+                            <small><u>Copy to clipboard</u></small>
+                        </div>
+                    </div>
+                    <textarea class="form-control" aria-label="With textarea" id="memory_content" rows="10"></textarea>
+                </div>
+
+                <div class="col-3">
+                    <p class="h6">Actions</p>
+                    <div class="container p-0">
+                        <div class="d-flex flex-column">
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" id="file_name">
+                                <span class="input-group-text" id="basic-addon2">.mem</span>
+                            </div>
+                            <button type="button" class="btn btn-primary" id="download_button">Download .mem file</button>
+                            <hr>
+                            <span class="btn btn-secondary btn-file">
+                                Upload .mem file <input type="file" accept=".mem" id="upload_button" onclick="this.value=null;">
+                            </span>
+                            <hr>
+                            <button type="button" class="btn btn-danger" id="clear_button">Clear all</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <p class="text-center unselectable">Made by Luca - 2025 - v2.0</p>
+
+    </div>
+
+</body>
+
+<script src="js/tile_generator.js"></script>
+
+</html>
+
+
