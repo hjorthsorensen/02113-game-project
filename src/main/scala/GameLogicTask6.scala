@@ -116,7 +116,7 @@ class GameLogicTask6(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   //Making sprite 3 invisible
   io.spriteVisible(3) := !spritePlayerAnimationVisibilityReg
   //Making sprite 4 visible
-  io.spriteVisible(4) := spritePlayerAnimationVisibilityReg
+  io.spriteVisible(4) := true.B
 
   //Connecting resiters to the graphic engine
   io.spriteXPosition(0) := sprite0XReg
@@ -178,7 +178,10 @@ class GameLogicTask6(SpriteNumber: Int, BackTileNumber: Int) extends Module {
       when(animationCounterReg === 0.U) {
         spritePlayerAnimationVisibilityReg := !spritePlayerAnimationVisibilityReg
       }
-        sprite4YReg := Mux(countReg > 0.S, sprite4YReg + 1.S, (360-60).S)
+      sprite4YReg := sprite4YReg - 1.S
+      when(sprite4YReg <= 50.S){
+        sprite4YReg := (479-32-64-10).S
+      }
       
       stateReg := done
       }
