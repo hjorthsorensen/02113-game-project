@@ -25,3 +25,5 @@ usage_statistics_webtalk.*
 *.v
 *.fir
 project/metals.sbt
+firrtl_black_box_resource_files.f
+Top.anno.json
