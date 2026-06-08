@@ -24,3 +24,4 @@ vending/.Xil/
 usage_statistics_webtalk.*
 *.v
 *.fir
+project/metals.sbt
