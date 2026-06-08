@@ -89,6 +89,34 @@ class GameLogicTask5(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // (you might need to change the initialization values above)
   /////////////////////////////////////////////////////////////////
 
+  val backgroundReg = RegInit(0.U(4.W))
+
+  val idle :: background :: done :: Nil = Enum(3)
+  val stateReg = RegInit(idle)
+
+  switch(stateReg){
+
+    is(idle){
+      when(io.newFrame){
+        stateReg := background
+      }
+    }
+
+    is(background){
+      backgroundReg := backgroundReg + 1.U
+      io.backBufferWriteData := 
+      when(backgroundReg > 10.U){
+        stateReg := done
+      }
+      
+    }
+    is(done){
+
+
+    }
+
+  }
+
 
 }
 
