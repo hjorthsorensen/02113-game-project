@@ -89,6 +89,95 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // (you might need to change the initialization values above)
   /////////////////////////////////////////////////////////////////
 
+  val idle :: inputCalc :: compute2 :: done :: Nil = Enum(4)
+  val stateReg = RegInit(idle)
+
+  def risingEdge(signal: Bool): Bool = signal && !RegNext(signal)
+  def fallingEdge(signal: Bool):Bool = !signal && RegNext(signal)
+
+  val btnCRising = risingEdge(btnC) && !throwing && !holding
+  val btnCFalling = fallingEdge(btnC)
+
+  val holding = RegInit(false.B)
+  val throwing = RegInit(false.B)
+  
+
+  val speed = RegInit(0.U(8.W))
+  val fpsReg = RegInit(0.U(8.W))
+  
+
+  val beerXReg = RegInit(32.S(11.W))
+  val beerYReg = RegInit((360-32).S(11.W))
+  
+  val tickThrow = (fpsReg XOR 20.U) && (fpsReg XOR 40.U) && (fpsReg XOR 60.U)
+
+  
+
+
+
+  
+  
+  //FSMD switch
+  switch(stateReg) {
+    is(idle) {
+      when(io.newFrame) {
+        stateReg := inputCalc
+      }
+    }
+
+    is(inputCalc) {
+      when(btnCRising){
+        holding := true.B
+      }
+      when(btnCFalling){
+        holding := false.B
+        throwing := true.B
+      }
+      
+
+      when(io.btnU) {
+        
+      }
+      when(io.btnD) {
+        
+      }
+      when(io.btnL) {
+        
+      }
+      when(io.btnR) {
+        
+      }
+      stateReg := compute2
+    }
+    is(compute2){
+      when(holding && tickThrow){
+        speed := speed + 1.U
+      }
+      when(throwing){
+        speed := speed - 1.U
+        beerXReg := beerXReg + speed
+      }
+      when(speed === 0.U){
+        throwing := false.B
+        beerXReg := 32.S
+        beerYReg := (360-32).S
+
+      }
+      when(fpsReg === 60.U){
+        fpsReg := 0.U
+      }
+
+      stateReg := done
+    }
+    is(done) {
+      fpsReg := fpsReg + 1.U
+      io.newFrame := true.B
+      stateReg := idle
+    }
+  }
+
+
+
   // Just forwarding the newFrame into the frameUpdateDone with a 2 clock cycle delay
   // frameUpdateDone will need to be driven by your game logic FSMs
   io.frameUpdateDone := RegNext(RegNext(io.newFrame))
