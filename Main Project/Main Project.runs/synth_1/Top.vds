@@ -1,0 +1,924 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Mon Jun  8 11:56:39 2026
+# Process ID         : 10008
+# Current directory  : C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Main Project/Main Project.runs/synth_1
+# Command line       : vivado.exe -log Top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source Top.tcl
+# Log file           : C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Main Project/Main Project.runs/synth_1/Top.vds
+# Journal file       : C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Main Project/Main Project.runs/synth_1\vivado.jou
+# Running On         : MSI
+# Platform           : Windows Server 2016 or Windows 10
+# Operating System   : 26200
+# Processor Detail   : AMD Ryzen 5 7535HS with Radeon Graphics        
+# CPU Frequency      : 3294 MHz
+# CPU Physical cores : 6
+# CPU Logical cores  : 12
+# Host memory        : 16328 MB
+# Swap memory        : 9147 MB
+# Total Virtual      : 25475 MB
+# Available Virtual  : 3924 MB
+#-----------------------------------------------------------
+source Top.tcl -notrace
+create_project: Time (s): cpu = 00:00:13 ; elapsed = 00:00:09 . Memory (MB): peak = 493.801 ; gain = 213.145
+Command: read_checkpoint -auto_incremental -incremental {C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Main Project/Main Project.srcs/utils_1/imports/synth_1/Top.dcp}
+INFO: [Vivado 12-5825] Read reference checkpoint from C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Main Project/Main Project.srcs/utils_1/imports/synth_1/Top.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top Top -part xc7a35tcpg236-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Device 21-403] Loading part xc7a35tcpg236-1
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 33556
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 1179.562 ; gain = 493.441
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'Top' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:3682]
+INFO: [Synth 8-6157] synthesizing module 'GameTop' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:3372]
+INFO: [Synth 8-6157] synthesizing module 'GraphicEngineVGA' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1370]
+INFO: [Synth 8-6157] synthesizing module 'Memory' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_0.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_0.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1]
+INFO: [Synth 8-6157] synthesizing module 'Memory_1' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:27]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized0' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_1.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_1.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized0' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_1' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:27]
+INFO: [Synth 8-6157] synthesizing module 'Memory_2' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:53]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized1' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_2.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_2.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized1' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_2' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:53]
+INFO: [Synth 8-6157] synthesizing module 'Memory_3' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:79]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized2' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_3.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_3.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized2' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_3' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:79]
+INFO: [Synth 8-6157] synthesizing module 'Memory_4' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:105]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized3' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_4.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_4.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized3' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_4' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:105]
+INFO: [Synth 8-6157] synthesizing module 'Memory_5' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:131]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized4' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_5.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_5.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized4' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_5' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:131]
+INFO: [Synth 8-6157] synthesizing module 'Memory_6' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:157]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized5' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_6.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_6.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized5' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_6' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:157]
+INFO: [Synth 8-6157] synthesizing module 'Memory_7' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:183]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized6' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_7.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_7.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized6' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_7' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:183]
+INFO: [Synth 8-6157] synthesizing module 'Memory_8' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:209]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized7' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_8.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_8.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized7' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_8' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:209]
+INFO: [Synth 8-6157] synthesizing module 'Memory_9' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:235]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized8' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_9.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_9.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized8' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_9' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:235]
+INFO: [Synth 8-6157] synthesizing module 'Memory_10' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:261]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized9' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_10.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_10.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized9' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_10' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:261]
+INFO: [Synth 8-6157] synthesizing module 'Memory_11' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:287]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized10' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_11.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_11.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized10' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_11' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:287]
+INFO: [Synth 8-6157] synthesizing module 'Memory_12' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:313]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized11' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_12.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_12.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized11' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_12' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:313]
+INFO: [Synth 8-6157] synthesizing module 'Memory_13' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:339]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized12' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_13.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_13.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized12' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_13' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:339]
+INFO: [Synth 8-6157] synthesizing module 'Memory_14' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:365]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized13' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_14.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_14.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized13' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_14' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:365]
+INFO: [Synth 8-6157] synthesizing module 'Memory_15' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:391]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized14' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_15.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_15.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized14' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_15' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:391]
+INFO: [Synth 8-6157] synthesizing module 'Memory_16' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:417]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized15' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_16.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_16.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized15' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_16' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:417]
+INFO: [Synth 8-6157] synthesizing module 'Memory_17' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:443]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized16' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_17.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_17.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized16' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_17' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:443]
+INFO: [Synth 8-6157] synthesizing module 'Memory_18' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:469]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized17' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_18.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_18.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized17' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_18' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:469]
+INFO: [Synth 8-6157] synthesizing module 'Memory_19' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:495]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized18' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_19.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_19.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized18' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_19' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:495]
+INFO: [Synth 8-6157] synthesizing module 'Memory_20' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:521]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized19' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_20.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_20.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized19' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_20' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:521]
+INFO: [Synth 8-6157] synthesizing module 'Memory_21' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:547]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized20' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_21.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_21.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized20' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_21' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:547]
+INFO: [Synth 8-6157] synthesizing module 'Memory_22' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:573]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized21' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_22.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_22.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized21' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_22' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:573]
+INFO: [Synth 8-6157] synthesizing module 'Memory_23' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:599]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized22' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_23.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_23.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized22' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_23' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:599]
+INFO: [Synth 8-6157] synthesizing module 'Memory_24' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:625]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized23' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_24.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_24.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized23' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_24' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:625]
+INFO: [Synth 8-6157] synthesizing module 'Memory_25' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:651]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized24' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_25.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_25.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized24' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_25' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:651]
+INFO: [Synth 8-6157] synthesizing module 'Memory_26' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:677]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized25' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_26.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_26.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized25' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_26' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:677]
+INFO: [Synth 8-6157] synthesizing module 'Memory_27' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:703]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized26' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_27.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_27.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized26' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_27' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:703]
+INFO: [Synth 8-6157] synthesizing module 'Memory_28' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:729]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized27' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_28.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_28.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized27' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_28' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:729]
+INFO: [Synth 8-6157] synthesizing module 'Memory_29' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:755]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized28' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_29.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_29.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized28' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_29' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:755]
+INFO: [Synth 8-6157] synthesizing module 'Memory_30' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:781]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized29' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_30.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_30.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized29' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_30' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:781]
+INFO: [Synth 8-6157] synthesizing module 'Memory_31' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:807]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized30' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backtile_init_31.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backtile_init_31.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized30' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_31' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:807]
+INFO: [Synth 8-6157] synthesizing module 'Memory_32' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:833]
+INFO: [Synth 8-6157] synthesizing module 'RamSpWf' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 11 - type: integer 
+	Parameter DATA_WIDTH bound to: 5 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'RamSpWf' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_32' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:833]
+INFO: [Synth 8-6157] synthesizing module 'Memory_34' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:861]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized31' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 11 - type: integer 
+	Parameter DATA_WIDTH bound to: 5 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/backbuffer_init.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/backbuffer_init.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized31' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_34' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:861]
+INFO: [Synth 8-6157] synthesizing module 'Memory_35' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:887]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized32' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_0.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_0.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized32' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_35' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:887]
+INFO: [Synth 8-6157] synthesizing module 'Memory_36' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:913]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized33' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_1.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_1.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized33' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_36' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:913]
+INFO: [Synth 8-6157] synthesizing module 'Memory_37' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:939]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized34' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_2.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_2.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized34' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_37' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:939]
+INFO: [Synth 8-6157] synthesizing module 'Memory_38' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:965]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized35' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_3.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_3.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized35' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_38' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:965]
+INFO: [Synth 8-6157] synthesizing module 'Memory_39' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:991]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized36' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_4.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_4.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized36' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_39' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:991]
+INFO: [Synth 8-6157] synthesizing module 'Memory_40' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1017]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized37' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_5.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_5.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized37' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_40' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1017]
+INFO: [Synth 8-6157] synthesizing module 'Memory_41' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1043]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized38' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_6.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_6.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized38' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_41' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1043]
+INFO: [Synth 8-6157] synthesizing module 'Memory_42' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1069]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized39' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_7.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_7.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized39' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_42' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1069]
+INFO: [Synth 8-6157] synthesizing module 'Memory_43' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1095]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized40' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_8.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_8.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized40' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_43' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1095]
+INFO: [Synth 8-6157] synthesizing module 'Memory_44' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1121]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized41' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_9.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_9.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized41' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_44' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1121]
+INFO: [Synth 8-6157] synthesizing module 'Memory_45' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1147]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized42' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_10.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_10.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized42' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_45' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1147]
+INFO: [Synth 8-6157] synthesizing module 'Memory_46' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1173]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized43' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_11.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_11.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized43' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_46' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1173]
+INFO: [Synth 8-6157] synthesizing module 'Memory_47' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1199]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized44' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_12.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_12.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized44' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_47' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1199]
+INFO: [Synth 8-6157] synthesizing module 'Memory_48' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1225]
+INFO: [Synth 8-6157] synthesizing module 'RamInitSpWf__parameterized45' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_13.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_13.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized45' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_48' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1225]
+INFO: [Synth 8-6157] synthesizing module 'Memory_49' [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1251]
+INFO: [Common 17-14] Message 'Synth 8-6157' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_14.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_14.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized46' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_49' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1251]
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter DATA_WIDTH bound to: 7 - type: integer 
+	Parameter LOAD_FILE bound to: memory_init/sprite_init_15.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'memory_init/sprite_init_15.mem' is read successfully [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'RamInitSpWf__parameterized47' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/RamInitSpWf.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'Memory_50' (0#1) [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:1277]
+INFO: [Common 17-14] Message 'Synth 8-6155' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_2_pipeReg_1_0_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2459]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_2_pipeReg_1_1_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2659]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_3_pipeReg_1_0_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2461]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_3_pipeReg_1_1_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2668]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_4_pipeReg_1_0_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2463]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_4_pipeReg_1_1_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2677]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_5_pipeReg_1_0_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2465]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_5_pipeReg_1_1_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2686]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_6_pipeReg_1_0_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2467]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_6_pipeReg_1_1_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2695]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_7_pipeReg_1_0_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2469]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_7_pipeReg_1_1_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2704]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_8_pipeReg_1_0_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2471]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_8_pipeReg_1_1_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2713]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_9_pipeReg_1_0_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2473]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_9_pipeReg_1_1_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2722]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_10_pipeReg_1_0_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2475]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_10_pipeReg_1_1_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2731]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_11_pipeReg_1_0_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2477]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_11_pipeReg_1_1_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2740]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_12_pipeReg_1_0_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2479]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_12_pipeReg_1_1_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2749]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_13_pipeReg_1_0_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2481]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_13_pipeReg_1_1_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2758]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_14_pipeReg_1_0_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2483]
+WARNING: [Synth 8-6014] Unused sequential element multiHotPriortyReductionTree_io_selectInput_14_pipeReg_1_1_reg was removed.  [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Top.v:2767]
+WARNING: [Synth 8-3917] design Top has port io_led_0 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_led_1 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_led_2 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_led_3 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_led_4 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_led_5 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_led_6 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_led_7 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_backBufferWriteError driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_viewBoxOutOfRangeError driven by constant 0
+WARNING: [Synth 8-7129] Port io_btnC in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_0 in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_1 in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_2 in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_3 in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_4 in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_5 in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_6 in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_7 in module Top is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1313.191 ; gain = 627.070
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1313.191 ; gain = 627.070
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1313.191 ; gain = 627.070
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.019 . Memory (MB): peak = 1313.191 ; gain = 0.000
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/vivado/Basys3Game/Basys3Game.srcs/constrs_1/imports/code/GameBasys3.xdc]
+Finished Parsing XDC File [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/vivado/Basys3Game/Basys3Game.srcs/constrs_1/imports/code/GameBasys3.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/vivado/Basys3Game/Basys3Game.srcs/constrs_1/imports/code/GameBasys3.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/Top_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/Top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1401.418 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.008 . Memory (MB): peak = 1401.418 ; gain = 0.000
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 1401.418 ; gain = 715.297
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a35tcpg236-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 1401.418 ; gain = 715.297
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 1401.418 ; gain = 715.297
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'stateReg_reg' in module 'GameLogicTask1'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                 iSTATE0 |                             0001 |                               00
+                 iSTATE1 |                             1000 |                               01
+                 iSTATE2 |                             0010 |                               10
+                  iSTATE |                             0100 |                               11
+*
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'stateReg_reg' using encoding 'one-hot' in module 'GameLogicTask1'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 1401.418 ; gain = 715.297
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   3 Input   12 Bit       Adders := 2     
+	   2 Input   12 Bit       Adders := 1     
+	   3 Input   11 Bit       Adders := 2     
+	   2 Input   11 Bit       Adders := 2     
+	   2 Input   10 Bit       Adders := 4     
+	   2 Input    5 Bit       Adders := 1     
+	   2 Input    2 Bit       Adders := 1     
++---Registers : 
+	               11 Bit    Registers := 6     
+	               10 Bit    Registers := 6     
+	                7 Bit    Registers := 80    
+	                6 Bit    Registers := 18    
+	                5 Bit    Registers := 5     
+	                4 Bit    Registers := 3     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 107   
++---RAMs : 
+	              10K Bit	(2048 X 5 bit)          RAMs := 3     
+	               7K Bit	(1024 X 7 bit)          RAMs := 48    
++---Muxes : 
+	   2 Input   12 Bit        Muxes := 1     
+	   2 Input   11 Bit        Muxes := 3     
+	   2 Input    6 Bit        Muxes := 16    
+	   2 Input    5 Bit        Muxes := 1     
+	   4 Input    4 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 2     
+	   2 Input    2 Bit        Muxes := 3     
+	   2 Input    1 Bit        Muxes := 12    
+	   5 Input    1 Bit        Muxes := 1     
+	   4 Input    1 Bit        Muxes := 1     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 90 (col length:60)
+BRAMs: 100 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-3917] design Top has port io_led_0 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_led_1 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_led_2 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_led_3 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_led_4 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_led_5 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_led_6 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_led_7 driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_backBufferWriteError driven by constant 0
+WARNING: [Synth 8-3917] design Top has port io_viewBoxOutOfRangeError driven by constant 0
+WARNING: [Synth 8-7129] Port io_btnC in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_0 in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_1 in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_2 in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_3 in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_4 in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_5 in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_6 in module Top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_sw_7 in module Top is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:22 ; elapsed = 00:00:24 . Memory (MB): peak = 1401.418 ; gain = 715.297
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Block RAM: Preliminary Mapping Report (see note below)
++------------------------------+------------------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name                   | RTL Object                                                       | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++------------------------------+------------------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|RamInitSpWf:                  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized0:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized1:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized2:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized3:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized4:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized5:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|Top                           | gameTop/graphicEngineVGA/backBufferShadowMemory/ramsSpWf/RAM_reg | 2 K x 5(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized31: | RAM_reg                                                          | 2 K x 5(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized32: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized47: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|Top                           | gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg       | 2 K x 5(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
++------------------------------+------------------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+
+Note: The table above is a preliminary report that shows the Block RAMs at the current stage of the synthesis flow. Some Block RAMs may be reimplemented as non Block RAM primitives later in the synthesis flow. Multiple instantiated Block RAMs are reported only once. 
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:27 ; elapsed = 00:00:30 . Memory (MB): peak = 1523.605 ; gain = 837.484
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:29 ; elapsed = 00:00:31 . Memory (MB): peak = 1565.777 ; gain = 879.656
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Block RAM: Final Mapping Report
++------------------------------+------------------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name                   | RTL Object                                                       | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++------------------------------+------------------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|RamInitSpWf:                  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized0:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized1:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized2:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized3:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized4:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized5:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized6:  | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|Top                           | gameTop/graphicEngineVGA/backBufferShadowMemory/ramsSpWf/RAM_reg | 2 K x 5(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized31: | RAM_reg                                                          | 2 K x 5(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized32: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized33: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|RamInitSpWf__parameterized47: | RAM_reg                                                          | 1 K x 7(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
+|Top                           | gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg       | 2 K x 5(WRITE_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
++------------------------------+------------------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_7/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_8/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_8/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_9/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_9/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_10/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_10/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_11/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_11/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_12/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_12/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_13/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_13/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_14/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_14/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_15/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_15/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_16/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_16/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_17/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_17/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_18/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_18/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_19/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_19/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_20/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_20/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_21/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_21/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_22/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_22/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_23/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_23/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_24/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_24/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_25/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_25/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_26/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_26/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_27/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_27/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_28/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_28/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_29/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_29/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_30/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/backTileMemories_30/ramsSpWf/RAM_reg' (RAMB18E1_7) to 'gameTop/graphicEngineVGA/backTileMemories_31/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/spriteMemories_1/ramsSpWf/RAM_reg' (RAMB18E1_11) to 'gameTop/graphicEngineVGA/spriteMemories_2/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/spriteMemories_2/ramsSpWf/RAM_reg' (RAMB18E1_11) to 'gameTop/graphicEngineVGA/spriteMemories_3/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/spriteMemories_3/ramsSpWf/RAM_reg' (RAMB18E1_11) to 'gameTop/graphicEngineVGA/spriteMemories_4/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/spriteMemories_4/ramsSpWf/RAM_reg' (RAMB18E1_11) to 'gameTop/graphicEngineVGA/spriteMemories_5/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/spriteMemories_5/ramsSpWf/RAM_reg' (RAMB18E1_11) to 'gameTop/graphicEngineVGA/spriteMemories_6/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/spriteMemories_6/ramsSpWf/RAM_reg' (RAMB18E1_11) to 'gameTop/graphicEngineVGA/spriteMemories_7/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/spriteMemories_7/ramsSpWf/RAM_reg' (RAMB18E1_11) to 'gameTop/graphicEngineVGA/spriteMemories_8/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/spriteMemories_8/ramsSpWf/RAM_reg' (RAMB18E1_11) to 'gameTop/graphicEngineVGA/spriteMemories_9/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/spriteMemories_9/ramsSpWf/RAM_reg' (RAMB18E1_11) to 'gameTop/graphicEngineVGA/spriteMemories_10/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/spriteMemories_10/ramsSpWf/RAM_reg' (RAMB18E1_11) to 'gameTop/graphicEngineVGA/spriteMemories_11/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/spriteMemories_11/ramsSpWf/RAM_reg' (RAMB18E1_11) to 'gameTop/graphicEngineVGA/spriteMemories_12/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/spriteMemories_12/ramsSpWf/RAM_reg' (RAMB18E1_11) to 'gameTop/graphicEngineVGA/spriteMemories_13/ramsSpWf/RAM_reg'
+INFO: [Synth 8-223] decloning instance 'gameTop/graphicEngineVGA/spriteMemories_13/ramsSpWf/RAM_reg' (RAMB18E1_11) to 'gameTop/graphicEngineVGA/spriteMemories_14/ramsSpWf/RAM_reg'
+INFO: [Synth 8-7052] The timing for the instance gameTop/graphicEngineVGA/backBufferShadowMemory/ramsSpWf/RAM_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:29 ; elapsed = 00:00:32 . Memory (MB): peak = 1566.980 ; gain = 880.859
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:34 ; elapsed = 00:00:36 . Memory (MB): peak = 1769.160 ; gain = 1083.039
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:34 ; elapsed = 00:00:36 . Memory (MB): peak = 1769.160 ; gain = 1083.039
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:34 ; elapsed = 00:00:37 . Memory (MB): peak = 1769.160 ; gain = 1083.039
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:34 ; elapsed = 00:00:37 . Memory (MB): peak = 1769.160 ; gain = 1083.039
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:34 ; elapsed = 00:00:37 . Memory (MB): peak = 1770.199 ; gain = 1084.078
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:34 ; elapsed = 00:00:37 . Memory (MB): peak = 1770.199 ; gain = 1084.078
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Static Shift Register Report:
++------------+-------------------------------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|Module Name | RTL Name                                              | Length | Width | Reset Signal | Pull out first Reg | Pull out last Reg | SRL16E | SRLC32E | 
++------------+-------------------------------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|Top         | gameTop/graphicEngineVGA/pixelColourVGA_pipeReg_0_reg | 3      | 1     | NO           | NO                 | YES               | 1      | 0       | 
+|Top         | gameTop/graphicEngineVGA/io_Hsync_pipeReg_0_reg       | 4      | 1     | NO           | NO                 | YES               | 1      | 0       | 
+|Top         | gameTop/graphicEngineVGA/io_Vsync_pipeReg_0_reg       | 4      | 1     | NO           | NO                 | YES               | 1      | 0       | 
++------------+-------------------------------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+---------+------+
+|      |Cell     |Count |
++------+---------+------+
+|1     |BUFG     |     1|
+|2     |CARRY4   |    56|
+|3     |LUT1     |    31|
+|4     |LUT2     |   116|
+|5     |LUT3     |    34|
+|6     |LUT4     |    28|
+|7     |LUT5     |    81|
+|8     |LUT6     |    68|
+|9     |MUXF7    |    19|
+|10    |RAMB18E1 |    14|
+|24    |SRL16E   |     3|
+|25    |FDRE     |   299|
+|26    |FDSE     |    23|
+|27    |IBUF     |     6|
+|28    |OBUF     |    25|
++------+---------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:34 ; elapsed = 00:00:37 . Memory (MB): peak = 1770.199 ; gain = 1084.078
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 20 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:24 ; elapsed = 00:00:34 . Memory (MB): peak = 1770.199 ; gain = 995.852
+Synthesis Optimization Complete : Time (s): cpu = 00:00:34 ; elapsed = 00:00:37 . Memory (MB): peak = 1770.199 ; gain = 1084.078
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.012 . Memory (MB): peak = 1779.340 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 89 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1783.043 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: 56335446
+INFO: [Common 17-83] Releasing license: Synthesis
+313 Infos, 65 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:38 ; elapsed = 00:00:43 . Memory (MB): peak = 1783.043 ; gain = 1281.438
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 1783.043 ; gain = 0.000
+INFO: [Common 17-1381] The checkpoint 'C:/Users/noahd/Desktop/Kodning/Digital Project Design/main proj/02113-game-project/Main Project/Main Project.runs/synth_1/Top.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file Top_utilization_synth.rpt -pb Top_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Mon Jun  8 11:57:36 2026...

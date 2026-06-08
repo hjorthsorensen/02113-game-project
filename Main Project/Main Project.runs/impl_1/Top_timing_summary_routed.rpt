@@ -1,0 +1,2531 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
+| Date         : Mon Jun  8 11:59:14 2026
+| Host         : MSI running 64-bit major release  (build 9200)
+| Command      : report_timing_summary -max_paths 10 -routable_nets -report_unconstrained -file Top_timing_summary_routed.rpt -pb Top_timing_summary_routed.pb -rpx Top_timing_summary_routed.rpx -warn_on_violation
+| Design       : Top
+| Device       : 7a35t-cpg236
+| Speed File   : -1  PRODUCTION 1.23 2018-06-13
+| Design State : Routed
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Summary Report
+
+------------------------------------------------------------------------------------------------
+| Timer Settings
+| --------------
+------------------------------------------------------------------------------------------------
+
+  Enable Multi Corner Analysis               :  Yes
+  Enable Pessimism Removal                   :  Yes
+  Pessimism Removal Resolution               :  Nearest Common Node
+  Enable Input Delay Default Clock           :  No
+  Enable Preset / Clear Arcs                 :  No
+  Disable Flight Delays                      :  No
+  Ignore I/O Paths                           :  No
+  Timing Early Launch at Borrowing Latches   :  No
+  Borrow Time for Max Delay Exceptions       :  Yes
+  Merge Timing Exceptions                    :  Yes
+  Inter-SLR Compensation                     :  Conservative
+
+  Corner  Analyze    Analyze    
+  Name    Max Paths  Min Paths  
+  ------  ---------  ---------  
+  Slow    Yes        Yes        
+  Fast    Yes        Yes        
+
+
+------------------------------------------------------------------------------------------------
+| Report Methodology
+| ------------------
+------------------------------------------------------------------------------------------------
+
+Rule       Severity  Description                                 Violations  
+---------  --------  ------------------------------------------  ----------  
+SYNTH-6    Warning   Timing of a RAM block might be sub-optimal  2           
+TIMING-18  Warning   Missing input or output delay               20          
+
+Note: This report is based on the most recent report_methodology run and may not be up-to-date. Run report_methodology on the current design for the latest report.
+
+
+
+check_timing report
+
+Table of Contents
+-----------------
+1. checking no_clock (0)
+2. checking constant_clock (0)
+3. checking pulse_width_clock (0)
+4. checking unconstrained_internal_endpoints (0)
+5. checking no_input_delay (5)
+6. checking no_output_delay (15)
+7. checking multiple_clock (0)
+8. checking generated_clocks (0)
+9. checking loops (0)
+10. checking partial_input_delay (0)
+11. checking partial_output_delay (0)
+12. checking latch_loops (0)
+
+1. checking no_clock (0)
+------------------------
+ There are 0 register/latch pins with no clock.
+
+
+2. checking constant_clock (0)
+------------------------------
+ There are 0 register/latch pins with constant_clock.
+
+
+3. checking pulse_width_clock (0)
+---------------------------------
+ There are 0 register/latch pins which need pulse_width check
+
+
+4. checking unconstrained_internal_endpoints (0)
+------------------------------------------------
+ There are 0 pins that are not constrained for maximum delay.
+
+ There are 0 pins that are not constrained for maximum delay due to constant clock.
+
+
+5. checking no_input_delay (5)
+------------------------------
+ There are 5 input ports with no input delay specified. (HIGH)
+
+ There are 0 input ports with no input delay but user has a false path constraint.
+
+
+6. checking no_output_delay (15)
+--------------------------------
+ There are 15 ports with no output delay specified. (HIGH)
+
+ There are 0 ports with no output delay but user has a false path constraint
+
+ There are 0 ports with no output delay but with a timing clock defined on it or propagating through it
+
+
+7. checking multiple_clock (0)
+------------------------------
+ There are 0 register/latch pins with multiple clocks.
+
+
+8. checking generated_clocks (0)
+--------------------------------
+ There are 0 generated clocks that are not connected to a clock source.
+
+
+9. checking loops (0)
+---------------------
+ There are 0 combinational loops in the design.
+
+
+10. checking partial_input_delay (0)
+------------------------------------
+ There are 0 input ports with partial input delay specified.
+
+
+11. checking partial_output_delay (0)
+-------------------------------------
+ There are 0 ports with partial output delay specified.
+
+
+12. checking latch_loops (0)
+----------------------------
+ There are 0 combinational latch loops in the design through latch input
+
+
+
+------------------------------------------------------------------------------------------------
+| Design Timing Summary
+| ---------------------
+------------------------------------------------------------------------------------------------
+
+    WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+    -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+      3.549        0.000                      0                  905        0.132        0.000                      0                  905        4.020        0.000                       0                   350  
+
+
+All user specified timing constraints are met.
+
+
+------------------------------------------------------------------------------------------------
+| Clock Summary
+| -------------
+------------------------------------------------------------------------------------------------
+
+Clock        Waveform(ns)       Period(ns)      Frequency(MHz)
+-----        ------------       ----------      --------------
+sys_clk_pin  {0.000 5.000}      10.000          100.000         
+
+
+------------------------------------------------------------------------------------------------
+| Intra Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+Clock             WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+-----             -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+sys_clk_pin         3.549        0.000                      0                  905        0.132        0.000                      0                  905        4.020        0.000                       0                   350  
+
+
+------------------------------------------------------------------------------------------------
+| Inter Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints  
+----------    --------          -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Other Path Groups Table
+| -----------------------
+------------------------------------------------------------------------------------------------
+
+Path Group    From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints  
+----------    ----------    --------          -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| User Ignored Path Table
+| -----------------------
+------------------------------------------------------------------------------------------------
+
+Path Group    From Clock    To Clock    
+----------    ----------    --------    
+
+
+------------------------------------------------------------------------------------------------
+| Unconstrained Path Table
+| ------------------------
+------------------------------------------------------------------------------------------------
+
+Path Group    From Clock    To Clock    
+----------    ----------    --------    
+(none)        sys_clk_pin                 
+(none)                      sys_clk_pin   
+
+
+------------------------------------------------------------------------------------------------
+| Timing Details
+| --------------
+------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  sys_clk_pin
+  To Clock:  sys_clk_pin
+
+Setup :            0  Failing Endpoints,  Worst Slack        3.549ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.132ns,  Total Violation        0.000ns
+PW    :            0  Failing Endpoints,  Worst Slack        4.020ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             3.549ns  (required time - arrival time)
+  Source:                 gameTop/graphicEngineVGA/CounterXReg_reg[1]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_0_pipeReg_1_1_reg/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        6.453ns  (logic 3.249ns (50.352%)  route 3.204ns (49.648%))
+  Logic Levels:           7  (CARRY4=4 LUT2=1 LUT3=1 LUT5=1)
+  Clock Path Skew:        -0.040ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.769ns = ( 14.769 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.067ns
+    Clock Pessimism Removal (CPR):    0.258ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.546     5.067    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X48Y80         FDRE                                         r  gameTop/graphicEngineVGA/CounterXReg_reg[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X48Y80         FDRE (Prop_fdre_C_Q)         0.456     5.523 r  gameTop/graphicEngineVGA/CounterXReg_reg[1]/Q
+                         net (fo=18, routed)          1.072     6.595    gameTop/graphicEngineVGA/inSpriteXValue_1[1]
+    SLICE_X55Y78         LUT2 (Prop_lut2_I0_O)        0.124     6.719 r  gameTop/graphicEngineVGA/inSpriteXValue_carry_i_3/O
+                         net (fo=1, routed)           0.000     6.719    gameTop/graphicEngineVGA/inSpriteXValue_carry_i_3_n_0
+    SLICE_X55Y78         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550     7.269 r  gameTop/graphicEngineVGA/inSpriteXValue_carry/CO[3]
+                         net (fo=1, routed)           0.000     7.269    gameTop/graphicEngineVGA/inSpriteXValue_carry_n_0
+    SLICE_X55Y79         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.334     7.603 r  gameTop/graphicEngineVGA/inSpriteXValue_carry__0/O[1]
+                         net (fo=4, routed)           0.614     8.216    gameTop/graphicEngineVGA/spriteMemories_0/ramsSpWf/inSpriteXValue[5]
+    SLICE_X56Y79         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.836     9.052 r  gameTop/graphicEngineVGA/spriteMemories_0/ramsSpWf/RAM_reg_i_16__0/CO[3]
+                         net (fo=1, routed)           0.000     9.052    gameTop/graphicEngineVGA/spriteMemories_0_n_4
+    SLICE_X56Y80         CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.315     9.367 f  gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_0_pipeReg_1_13_carry_i_7/O[3]
+                         net (fo=3, routed)           0.851    10.218    gameTop/graphicEngineVGA/_inSpriteX_0_T_2[11]
+    SLICE_X55Y77         LUT3 (Prop_lut3_I0_O)        0.302    10.520 f  gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_0_pipeReg_1_1_i_2/O
+                         net (fo=1, routed)           0.667    11.187    gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_0_pipeReg_1_1_i_2_n_0
+    SLICE_X54Y77         LUT5 (Prop_lut5_I0_O)        0.332    11.519 r  gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_0_pipeReg_1_1_i_1/O
+                         net (fo=1, routed)           0.000    11.519    gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_0_pipeReg_1_10
+    SLICE_X54Y77         FDRE                                         r  gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_0_pipeReg_1_1_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                     10.000    10.000 r  
+    W5                                                0.000    10.000 r  clock (IN)
+                         net (fo=0)                   0.000    10.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.388    11.388 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.862    13.250    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.341 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.428    14.769    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X54Y77         FDRE                                         r  gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_0_pipeReg_1_1_reg/C
+                         clock pessimism              0.258    15.027    
+                         clock uncertainty           -0.035    14.992    
+    SLICE_X54Y77         FDRE (Setup_fdre_C_D)        0.077    15.069    gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_0_pipeReg_1_1_reg
+  -------------------------------------------------------------------
+                         required time                         15.069    
+                         arrival time                         -11.519    
+  -------------------------------------------------------------------
+                         slack                                  3.549    
+
+Slack (MET) :             3.873ns  (required time - arrival time)
+  Source:                 gameTop/graphicEngineVGA/CounterYReg_reg[9]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg/ADDRARDADDR[13]
+                            (rising edge-triggered cell RAMB18E1 clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        5.323ns  (logic 2.671ns (50.182%)  route 2.652ns (49.818%))
+  Logic Levels:           5  (CARRY4=3 LUT2=1 LUT3=1)
+  Clock Path Skew:        0.005ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.816ns = ( 14.816 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.069ns
+    Clock Pessimism Removal (CPR):    0.258ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.548     5.069    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X50Y81         FDRE                                         r  gameTop/graphicEngineVGA/CounterYReg_reg[9]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X50Y81         FDRE (Prop_fdre_C_Q)         0.478     5.547 r  gameTop/graphicEngineVGA/CounterYReg_reg[9]/Q
+                         net (fo=13, routed)          0.855     6.402    gameTop/graphicEngineVGA/pixelYBack[9]
+    SLICE_X51Y83         LUT2 (Prop_lut2_I0_O)        0.295     6.697 r  gameTop/graphicEngineVGA/RAM_reg_i_18__1/O
+                         net (fo=1, routed)           0.000     6.697    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/S[2]
+    SLICE_X51Y83         CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401     7.098 r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_15__1/CO[3]
+                         net (fo=1, routed)           0.000     7.098    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_15__1_n_0
+    SLICE_X51Y84         CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222     7.320 r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_14__0/O[0]
+                         net (fo=1, routed)           0.600     7.920    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/_backBufferMemory_io_address_T_3[8]
+    SLICE_X50Y84         CARRY4 (Prop_carry4_S[1]_O[3])
+                                                      0.942     8.862 r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_12__0/O[3]
+                         net (fo=1, routed)           0.600     9.462    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/_backBufferMemory_io_address_T_4[10]
+    SLICE_X49Y85         LUT3 (Prop_lut3_I2_O)        0.333     9.795 r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_1__0/O
+                         net (fo=1, routed)           0.597    10.392    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/backBufferMemory_io_address[10]
+    RAMB18_X1Y34         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg/ADDRARDADDR[13]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                     10.000    10.000 r  
+    W5                                                0.000    10.000 r  clock (IN)
+                         net (fo=0)                   0.000    10.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.388    11.388 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.862    13.250    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.341 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.475    14.816    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/clock_IBUF_BUFG
+    RAMB18_X1Y34         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg/CLKARDCLK
+                         clock pessimism              0.258    15.074    
+                         clock uncertainty           -0.035    15.039    
+    RAMB18_X1Y34         RAMB18E1 (Setup_ramb18e1_CLKARDCLK_ADDRARDADDR[13])
+                                                     -0.774    14.265    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg
+  -------------------------------------------------------------------
+                         required time                         14.265    
+                         arrival time                         -10.392    
+  -------------------------------------------------------------------
+                         slack                                  3.873    
+
+Slack (MET) :             4.153ns  (required time - arrival time)
+  Source:                 gameTop/graphicEngineVGA/CounterYReg_reg[9]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg/ADDRARDADDR[12]
+                            (rising edge-triggered cell RAMB18E1 clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        5.047ns  (logic 2.566ns (50.839%)  route 2.481ns (49.161%))
+  Logic Levels:           5  (CARRY4=3 LUT2=1 LUT3=1)
+  Clock Path Skew:        0.005ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.816ns = ( 14.816 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.069ns
+    Clock Pessimism Removal (CPR):    0.258ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.548     5.069    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X50Y81         FDRE                                         r  gameTop/graphicEngineVGA/CounterYReg_reg[9]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X50Y81         FDRE (Prop_fdre_C_Q)         0.478     5.547 r  gameTop/graphicEngineVGA/CounterYReg_reg[9]/Q
+                         net (fo=13, routed)          0.855     6.402    gameTop/graphicEngineVGA/pixelYBack[9]
+    SLICE_X51Y83         LUT2 (Prop_lut2_I0_O)        0.295     6.697 r  gameTop/graphicEngineVGA/RAM_reg_i_18__1/O
+                         net (fo=1, routed)           0.000     6.697    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/S[2]
+    SLICE_X51Y83         CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.401     7.098 r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_15__1/CO[3]
+                         net (fo=1, routed)           0.000     7.098    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_15__1_n_0
+    SLICE_X51Y84         CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222     7.320 r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_14__0/O[0]
+                         net (fo=1, routed)           0.600     7.920    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/_backBufferMemory_io_address_T_3[8]
+    SLICE_X50Y84         CARRY4 (Prop_carry4_S[1]_O[2])
+                                                      0.877     8.797 r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_12__0/O[2]
+                         net (fo=1, routed)           0.421     9.217    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/_backBufferMemory_io_address_T_4[9]
+    SLICE_X50Y85         LUT3 (Prop_lut3_I2_O)        0.293     9.510 r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_2__0/O
+                         net (fo=1, routed)           0.606    10.116    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/backBufferMemory_io_address[9]
+    RAMB18_X1Y34         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg/ADDRARDADDR[12]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                     10.000    10.000 r  
+    W5                                                0.000    10.000 r  clock (IN)
+                         net (fo=0)                   0.000    10.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.388    11.388 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.862    13.250    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.341 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.475    14.816    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/clock_IBUF_BUFG
+    RAMB18_X1Y34         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg/CLKARDCLK
+                         clock pessimism              0.258    15.074    
+                         clock uncertainty           -0.035    15.039    
+    RAMB18_X1Y34         RAMB18E1 (Setup_ramb18e1_CLKARDCLK_ADDRARDADDR[12])
+                                                     -0.770    14.269    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg
+  -------------------------------------------------------------------
+                         required time                         14.269    
+                         arrival time                         -10.116    
+  -------------------------------------------------------------------
+                         slack                                  4.153    
+
+Slack (MET) :             4.185ns  (required time - arrival time)
+  Source:                 gameTop/graphicEngineVGA/CounterXReg_reg[1]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/spriteMemories_0/ramsSpWf/RAM_reg/ADDRARDADDR[8]
+                            (rising edge-triggered cell RAMB18E1 clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        5.214ns  (logic 2.198ns (42.156%)  route 3.016ns (57.844%))
+  Logic Levels:           6  (CARRY4=3 LUT1=1 LUT2=1 LUT3=1)
+  Clock Path Skew:        0.000ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.809ns = ( 14.809 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.067ns
+    Clock Pessimism Removal (CPR):    0.258ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.546     5.067    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X48Y80         FDRE                                         r  gameTop/graphicEngineVGA/CounterXReg_reg[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X48Y80         FDRE (Prop_fdre_C_Q)         0.456     5.523 r  gameTop/graphicEngineVGA/CounterXReg_reg[1]/Q
+                         net (fo=18, routed)          1.072     6.595    gameTop/graphicEngineVGA/inSpriteXValue_1[1]
+    SLICE_X55Y78         LUT2 (Prop_lut2_I0_O)        0.124     6.719 r  gameTop/graphicEngineVGA/inSpriteXValue_carry_i_3/O
+                         net (fo=1, routed)           0.000     6.719    gameTop/graphicEngineVGA/inSpriteXValue_carry_i_3_n_0
+    SLICE_X55Y78         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550     7.269 r  gameTop/graphicEngineVGA/inSpriteXValue_carry/CO[3]
+                         net (fo=1, routed)           0.000     7.269    gameTop/graphicEngineVGA/inSpriteXValue_carry_n_0
+    SLICE_X55Y79         CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222     7.491 f  gameTop/graphicEngineVGA/inSpriteXValue_carry__0/O[0]
+                         net (fo=3, routed)           0.618     8.108    gameTop/graphicEngineVGA/spriteMemories_0/ramsSpWf/inSpriteXValue[4]
+    SLICE_X56Y79         LUT1 (Prop_lut1_I0_O)        0.299     8.407 r  gameTop/graphicEngineVGA/spriteMemories_0/ramsSpWf/RAM_reg_i_20__0/O
+                         net (fo=1, routed)           0.000     8.407    gameTop/graphicEngineVGA/spriteMemories_0/ramsSpWf/RAM_reg_i_20__0_n_0
+    SLICE_X56Y79         CARRY4 (Prop_carry4_S[0]_O[0])
+                                                      0.252     8.659 r  gameTop/graphicEngineVGA/spriteMemories_0/ramsSpWf/RAM_reg_i_16__0/O[0]
+                         net (fo=2, routed)           0.734     9.394    gameTop/graphicEngineVGA/spriteMemories_0/ramsSpWf/O[0]
+    SLICE_X55Y77         LUT3 (Prop_lut3_I0_O)        0.295     9.689 r  gameTop/graphicEngineVGA/spriteMemories_0/ramsSpWf/RAM_reg_i_3__0/O
+                         net (fo=1, routed)           0.592    10.281    gameTop/graphicEngineVGA/spriteMemories_0/ramsSpWf/RAM_reg_i_3__0_n_0
+    RAMB18_X2Y31         RAMB18E1                                     r  gameTop/graphicEngineVGA/spriteMemories_0/ramsSpWf/RAM_reg/ADDRARDADDR[8]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                     10.000    10.000 r  
+    W5                                                0.000    10.000 r  clock (IN)
+                         net (fo=0)                   0.000    10.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.388    11.388 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.862    13.250    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.341 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.468    14.809    gameTop/graphicEngineVGA/spriteMemories_0/ramsSpWf/clock_IBUF_BUFG
+    RAMB18_X2Y31         RAMB18E1                                     r  gameTop/graphicEngineVGA/spriteMemories_0/ramsSpWf/RAM_reg/CLKARDCLK
+                         clock pessimism              0.258    15.067    
+                         clock uncertainty           -0.035    15.032    
+    RAMB18_X2Y31         RAMB18E1 (Setup_ramb18e1_CLKARDCLK_ADDRARDADDR[8])
+                                                     -0.566    14.466    gameTop/graphicEngineVGA/spriteMemories_0/ramsSpWf/RAM_reg
+  -------------------------------------------------------------------
+                         required time                         14.466    
+                         arrival time                         -10.281    
+  -------------------------------------------------------------------
+                         slack                                  4.185    
+
+Slack (MET) :             4.245ns  (required time - arrival time)
+  Source:                 gameTop/graphicEngineVGA/CounterYReg_reg[7]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg/ADDRARDADDR[9]
+                            (rising edge-triggered cell RAMB18E1 clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        4.950ns  (logic 2.252ns (45.495%)  route 2.698ns (54.505%))
+  Logic Levels:           4  (CARRY4=2 LUT2=1 LUT3=1)
+  Clock Path Skew:        0.003ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.816ns = ( 14.816 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.071ns
+    Clock Pessimism Removal (CPR):    0.258ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.550     5.071    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X50Y82         FDRE                                         r  gameTop/graphicEngineVGA/CounterYReg_reg[7]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X50Y82         FDRE (Prop_fdre_C_Q)         0.478     5.549 r  gameTop/graphicEngineVGA/CounterYReg_reg[7]/Q
+                         net (fo=13, routed)          0.542     6.090    gameTop/graphicEngineVGA/pixelYBack[7]
+    SLICE_X51Y83         LUT2 (Prop_lut2_I0_O)        0.301     6.391 r  gameTop/graphicEngineVGA/RAM_reg_i_20__1/O
+                         net (fo=1, routed)           0.000     6.391    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/S[0]
+    SLICE_X51Y83         CARRY4 (Prop_carry4_S[1]_O[2])
+                                                      0.580     6.971 r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_15__1/O[2]
+                         net (fo=1, routed)           0.505     7.476    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/_backBufferMemory_io_address_T_3[6]
+    SLICE_X50Y83         CARRY4 (Prop_carry4_S[3]_O[3])
+                                                      0.557     8.033 r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_13__0/O[3]
+                         net (fo=1, routed)           0.919     8.953    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/_backBufferMemory_io_address_T_4[6]
+    SLICE_X50Y85         LUT3 (Prop_lut3_I2_O)        0.336     9.289 r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_5__1/O
+                         net (fo=1, routed)           0.732    10.021    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/backBufferMemory_io_address[6]
+    RAMB18_X1Y34         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg/ADDRARDADDR[9]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                     10.000    10.000 r  
+    W5                                                0.000    10.000 r  clock (IN)
+                         net (fo=0)                   0.000    10.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.388    11.388 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.862    13.250    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.341 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.475    14.816    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/clock_IBUF_BUFG
+    RAMB18_X1Y34         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg/CLKARDCLK
+                         clock pessimism              0.258    15.074    
+                         clock uncertainty           -0.035    15.039    
+    RAMB18_X1Y34         RAMB18E1 (Setup_ramb18e1_CLKARDCLK_ADDRARDADDR[9])
+                                                     -0.773    14.266    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg
+  -------------------------------------------------------------------
+                         required time                         14.266    
+                         arrival time                         -10.021    
+  -------------------------------------------------------------------
+                         slack                                  4.245    
+
+Slack (MET) :             4.281ns  (required time - arrival time)
+  Source:                 gameTop/graphicEngineVGA/CounterXReg_reg[1]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_15_pipeReg_1_1_reg/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        5.677ns  (logic 2.522ns (44.427%)  route 3.155ns (55.573%))
+  Logic Levels:           7  (CARRY4=3 LUT2=2 LUT4=1 LUT5=1)
+  Clock Path Skew:        -0.036ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.773ns = ( 14.773 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.067ns
+    Clock Pessimism Removal (CPR):    0.258ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.546     5.067    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X48Y80         FDRE                                         r  gameTop/graphicEngineVGA/CounterXReg_reg[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X48Y80         FDRE (Prop_fdre_C_Q)         0.456     5.523 r  gameTop/graphicEngineVGA/CounterXReg_reg[1]/Q
+                         net (fo=18, routed)          1.346     6.869    gameTop/graphicEngineVGA/inSpriteXValue_1[1]
+    SLICE_X52Y80         LUT2 (Prop_lut2_I0_O)        0.124     6.993 r  gameTop/graphicEngineVGA/inSpriteXValue_15_carry_i_3/O
+                         net (fo=1, routed)           0.000     6.993    gameTop/graphicEngineVGA/inSpriteXValue_15_carry_i_3_n_0
+    SLICE_X52Y80         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533     7.526 r  gameTop/graphicEngineVGA/inSpriteXValue_15_carry/CO[3]
+                         net (fo=1, routed)           0.000     7.526    gameTop/graphicEngineVGA/inSpriteXValue_15_carry_n_0
+    SLICE_X52Y81         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323     7.849 r  gameTop/graphicEngineVGA/inSpriteXValue_15_carry__0/O[1]
+                         net (fo=2, routed)           0.801     8.650    gameTop/graphicEngineVGA/inSpriteXValue_15_carry__0_n_6
+    SLICE_X53Y82         LUT2 (Prop_lut2_I0_O)        0.306     8.956 r  gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_15_pipeReg_1_13_carry_i_6/O
+                         net (fo=1, routed)           0.000     8.956    gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_15_pipeReg_1_13_carry_i_6_n_0
+    SLICE_X53Y82         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532     9.488 r  gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_15_pipeReg_1_13_carry/CO[3]
+                         net (fo=1, routed)           0.605    10.093    gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_15_pipeReg_1_13
+    SLICE_X51Y81         LUT4 (Prop_lut4_I1_O)        0.124    10.217 r  gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_15_pipeReg_1_1_i_3/O
+                         net (fo=1, routed)           0.403    10.620    gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_15_pipeReg_1_1_i_3_n_0
+    SLICE_X51Y81         LUT5 (Prop_lut5_I4_O)        0.124    10.744 r  gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_15_pipeReg_1_1_i_1/O
+                         net (fo=1, routed)           0.000    10.744    gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_15_pipeReg_1_10
+    SLICE_X51Y81         FDRE                                         r  gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_15_pipeReg_1_1_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                     10.000    10.000 r  
+    W5                                                0.000    10.000 r  clock (IN)
+                         net (fo=0)                   0.000    10.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.388    11.388 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.862    13.250    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.341 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.432    14.773    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X51Y81         FDRE                                         r  gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_15_pipeReg_1_1_reg/C
+                         clock pessimism              0.258    15.031    
+                         clock uncertainty           -0.035    14.996    
+    SLICE_X51Y81         FDRE (Setup_fdre_C_D)        0.029    15.025    gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_15_pipeReg_1_1_reg
+  -------------------------------------------------------------------
+                         required time                         15.025    
+                         arrival time                         -10.744    
+  -------------------------------------------------------------------
+                         slack                                  4.281    
+
+Slack (MET) :             4.282ns  (required time - arrival time)
+  Source:                 gameTop/graphicEngineVGA/CounterYReg_reg[5]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/spriteVisibleReg_7_reg/D
+                            (rising edge-triggered cell FDSE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        5.746ns  (logic 1.014ns (17.647%)  route 4.732ns (82.353%))
+  Logic Levels:           4  (LUT2=1 LUT5=2 LUT6=1)
+  Clock Path Skew:        0.031ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.842ns = ( 14.842 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.069ns
+    Clock Pessimism Removal (CPR):    0.258ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.548     5.069    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X50Y81         FDRE                                         r  gameTop/graphicEngineVGA/CounterYReg_reg[5]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X50Y81         FDRE (Prop_fdre_C_Q)         0.518     5.587 r  gameTop/graphicEngineVGA/CounterYReg_reg[5]/Q
+                         net (fo=13, routed)          1.225     6.812    gameTop/graphicEngineVGA/pixelYBack[5]
+    SLICE_X48Y78         LUT5 (Prop_lut5_I1_O)        0.124     6.936 r  gameTop/graphicEngineVGA/CounterYReg[0]_i_2/O
+                         net (fo=2, routed)           0.509     7.445    gameTop/graphicEngineVGA/CounterYReg[0]_i_2_n_0
+    SLICE_X49Y78         LUT6 (Prop_lut6_I4_O)        0.124     7.569 r  gameTop/graphicEngineVGA/CounterYReg[4]_i_3/O
+                         net (fo=10, routed)          0.984     8.553    gameTop/graphicEngineVGA/CounterYReg[4]_i_3_n_0
+    SLICE_X47Y81         LUT5 (Prop_lut5_I3_O)        0.124     8.677 f  gameTop/graphicEngineVGA/FSM_onehot_stateReg[3]_i_7/O
+                         net (fo=59, routed)          2.014    10.691    gameTop/graphicEngineVGA/graphicEngineVGA_io_newFrame
+    SLICE_X59Y83         LUT2 (Prop_lut2_I0_O)        0.124    10.815 r  gameTop/graphicEngineVGA/spriteVisibleReg_7_i_1/O
+                         net (fo=1, routed)           0.000    10.815    gameTop/graphicEngineVGA/spriteVisibleReg_7_i_1_n_0
+    SLICE_X59Y83         FDSE                                         r  gameTop/graphicEngineVGA/spriteVisibleReg_7_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                     10.000    10.000 r  
+    W5                                                0.000    10.000 r  clock (IN)
+                         net (fo=0)                   0.000    10.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.388    11.388 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.862    13.250    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.341 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.501    14.842    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X59Y83         FDSE                                         r  gameTop/graphicEngineVGA/spriteVisibleReg_7_reg/C
+                         clock pessimism              0.258    15.100    
+                         clock uncertainty           -0.035    15.065    
+    SLICE_X59Y83         FDSE (Setup_fdse_C_D)        0.032    15.097    gameTop/graphicEngineVGA/spriteVisibleReg_7_reg
+  -------------------------------------------------------------------
+                         required time                         15.097    
+                         arrival time                         -10.815    
+  -------------------------------------------------------------------
+                         slack                                  4.282    
+
+Slack (MET) :             4.293ns  (required time - arrival time)
+  Source:                 gameTop/graphicEngineVGA/CounterYReg_reg[7]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg/ADDRARDADDR[10]
+                            (rising edge-triggered cell RAMB18E1 clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        4.885ns  (logic 2.577ns (52.754%)  route 2.308ns (47.246%))
+  Logic Levels:           5  (CARRY4=3 LUT2=1 LUT3=1)
+  Clock Path Skew:        0.003ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.816ns = ( 14.816 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.071ns
+    Clock Pessimism Removal (CPR):    0.258ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.550     5.071    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X50Y82         FDRE                                         r  gameTop/graphicEngineVGA/CounterYReg_reg[7]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X50Y82         FDRE (Prop_fdre_C_Q)         0.478     5.549 r  gameTop/graphicEngineVGA/CounterYReg_reg[7]/Q
+                         net (fo=13, routed)          0.542     6.090    gameTop/graphicEngineVGA/pixelYBack[7]
+    SLICE_X51Y83         LUT2 (Prop_lut2_I0_O)        0.301     6.391 r  gameTop/graphicEngineVGA/RAM_reg_i_20__1/O
+                         net (fo=1, routed)           0.000     6.391    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/S[0]
+    SLICE_X51Y83         CARRY4 (Prop_carry4_S[1]_O[2])
+                                                      0.580     6.971 r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_15__1/O[2]
+                         net (fo=1, routed)           0.505     7.476    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/_backBufferMemory_io_address_T_3[6]
+    SLICE_X50Y83         CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.678     8.154 r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_13__0/CO[3]
+                         net (fo=1, routed)           0.000     8.154    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_13__0_n_0
+    SLICE_X50Y84         CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.219     8.373 r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_12__0/O[0]
+                         net (fo=1, routed)           0.663     9.036    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/_backBufferMemory_io_address_T_4[7]
+    SLICE_X50Y85         LUT3 (Prop_lut3_I2_O)        0.321     9.357 r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg_i_4__1/O
+                         net (fo=1, routed)           0.599     9.956    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/backBufferMemory_io_address[7]
+    RAMB18_X1Y34         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg/ADDRARDADDR[10]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                     10.000    10.000 r  
+    W5                                                0.000    10.000 r  clock (IN)
+                         net (fo=0)                   0.000    10.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.388    11.388 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.862    13.250    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.341 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.475    14.816    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/clock_IBUF_BUFG
+    RAMB18_X1Y34         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg/CLKARDCLK
+                         clock pessimism              0.258    15.074    
+                         clock uncertainty           -0.035    15.039    
+    RAMB18_X1Y34         RAMB18E1 (Setup_ramb18e1_CLKARDCLK_ADDRARDADDR[10])
+                                                     -0.790    14.249    gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg
+  -------------------------------------------------------------------
+                         required time                         14.249    
+                         arrival time                          -9.956    
+  -------------------------------------------------------------------
+                         slack                                  4.293    
+
+Slack (MET) :             4.302ns  (required time - arrival time)
+  Source:                 gameTop/graphicEngineVGA/CounterYReg_reg[5]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/spriteVisibleReg_5_reg/D
+                            (rising edge-triggered cell FDSE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        5.724ns  (logic 1.014ns (17.713%)  route 4.710ns (82.287%))
+  Logic Levels:           4  (LUT2=1 LUT5=2 LUT6=1)
+  Clock Path Skew:        0.031ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.842ns = ( 14.842 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.069ns
+    Clock Pessimism Removal (CPR):    0.258ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.548     5.069    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X50Y81         FDRE                                         r  gameTop/graphicEngineVGA/CounterYReg_reg[5]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X50Y81         FDRE (Prop_fdre_C_Q)         0.518     5.587 r  gameTop/graphicEngineVGA/CounterYReg_reg[5]/Q
+                         net (fo=13, routed)          1.225     6.812    gameTop/graphicEngineVGA/pixelYBack[5]
+    SLICE_X48Y78         LUT5 (Prop_lut5_I1_O)        0.124     6.936 r  gameTop/graphicEngineVGA/CounterYReg[0]_i_2/O
+                         net (fo=2, routed)           0.509     7.445    gameTop/graphicEngineVGA/CounterYReg[0]_i_2_n_0
+    SLICE_X49Y78         LUT6 (Prop_lut6_I4_O)        0.124     7.569 r  gameTop/graphicEngineVGA/CounterYReg[4]_i_3/O
+                         net (fo=10, routed)          0.984     8.553    gameTop/graphicEngineVGA/CounterYReg[4]_i_3_n_0
+    SLICE_X47Y81         LUT5 (Prop_lut5_I3_O)        0.124     8.677 f  gameTop/graphicEngineVGA/FSM_onehot_stateReg[3]_i_7/O
+                         net (fo=59, routed)          1.992    10.669    gameTop/graphicEngineVGA/graphicEngineVGA_io_newFrame
+    SLICE_X59Y83         LUT2 (Prop_lut2_I0_O)        0.124    10.793 r  gameTop/graphicEngineVGA/spriteVisibleReg_5_i_1/O
+                         net (fo=1, routed)           0.000    10.793    gameTop/graphicEngineVGA/spriteVisibleReg_5_i_1_n_0
+    SLICE_X59Y83         FDSE                                         r  gameTop/graphicEngineVGA/spriteVisibleReg_5_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                     10.000    10.000 r  
+    W5                                                0.000    10.000 r  clock (IN)
+                         net (fo=0)                   0.000    10.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.388    11.388 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.862    13.250    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.341 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.501    14.842    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X59Y83         FDSE                                         r  gameTop/graphicEngineVGA/spriteVisibleReg_5_reg/C
+                         clock pessimism              0.258    15.100    
+                         clock uncertainty           -0.035    15.065    
+    SLICE_X59Y83         FDSE (Setup_fdse_C_D)        0.031    15.096    gameTop/graphicEngineVGA/spriteVisibleReg_5_reg
+  -------------------------------------------------------------------
+                         required time                         15.096    
+                         arrival time                         -10.793    
+  -------------------------------------------------------------------
+                         slack                                  4.302    
+
+Slack (MET) :             4.308ns  (required time - arrival time)
+  Source:                 gameTop/graphicEngineVGA/CounterYReg_reg[5]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/gameLogic/FSM_onehot_stateReg_reg[0]/CE
+                            (rising edge-triggered cell FDSE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk_pin rise@10.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        5.449ns  (logic 1.014ns (18.610%)  route 4.435ns (81.390%))
+  Logic Levels:           4  (LUT5=3 LUT6=1)
+  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.772ns = ( 14.772 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.069ns
+    Clock Pessimism Removal (CPR):    0.258ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.548     5.069    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X50Y81         FDRE                                         r  gameTop/graphicEngineVGA/CounterYReg_reg[5]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X50Y81         FDRE (Prop_fdre_C_Q)         0.518     5.587 f  gameTop/graphicEngineVGA/CounterYReg_reg[5]/Q
+                         net (fo=13, routed)          1.225     6.812    gameTop/graphicEngineVGA/pixelYBack[5]
+    SLICE_X48Y78         LUT5 (Prop_lut5_I1_O)        0.124     6.936 f  gameTop/graphicEngineVGA/CounterYReg[0]_i_2/O
+                         net (fo=2, routed)           0.509     7.445    gameTop/graphicEngineVGA/CounterYReg[0]_i_2_n_0
+    SLICE_X49Y78         LUT6 (Prop_lut6_I4_O)        0.124     7.569 f  gameTop/graphicEngineVGA/CounterYReg[4]_i_3/O
+                         net (fo=10, routed)          0.984     8.553    gameTop/graphicEngineVGA/CounterYReg[4]_i_3_n_0
+    SLICE_X47Y81         LUT5 (Prop_lut5_I3_O)        0.124     8.677 r  gameTop/graphicEngineVGA/FSM_onehot_stateReg[3]_i_7/O
+                         net (fo=59, routed)          1.197     9.874    gameTop/gameLogic/FSM_onehot_stateReg_reg[0]_0
+    SLICE_X54Y80         LUT5 (Prop_lut5_I3_O)        0.124     9.998 r  gameTop/gameLogic/FSM_onehot_stateReg[3]_i_2/O
+                         net (fo=4, routed)           0.519    10.518    gameTop/gameLogic/FSM_onehot_stateReg[3]_i_2_n_0
+    SLICE_X54Y80         FDSE                                         r  gameTop/gameLogic/FSM_onehot_stateReg_reg[0]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                     10.000    10.000 r  
+    W5                                                0.000    10.000 r  clock (IN)
+                         net (fo=0)                   0.000    10.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.388    11.388 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.862    13.250    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.341 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.431    14.772    gameTop/gameLogic/clock_IBUF_BUFG
+    SLICE_X54Y80         FDSE                                         r  gameTop/gameLogic/FSM_onehot_stateReg_reg[0]/C
+                         clock pessimism              0.258    15.030    
+                         clock uncertainty           -0.035    14.995    
+    SLICE_X54Y80         FDSE (Setup_fdse_C_CE)      -0.169    14.826    gameTop/gameLogic/FSM_onehot_stateReg_reg[0]
+  -------------------------------------------------------------------
+                         required time                         14.826    
+                         arrival time                         -10.518    
+  -------------------------------------------------------------------
+                         slack                                  4.308    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.132ns  (arrival time - required time)
+  Source:                 gameTop/graphicEngineVGA/backMemoryRestoreCounter_reg[7]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg/ADDRARDADDR[10]
+                            (rising edge-triggered cell RAMB18E1 clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.396ns  (logic 0.164ns (41.420%)  route 0.232ns (58.580%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.080ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.005ns
+    Source Clock Delay      (SCD):    1.446ns
+    Clock Pessimism Removal (CPR):    0.478ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.563     1.446    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X54Y90         FDRE                                         r  gameTop/graphicEngineVGA/backMemoryRestoreCounter_reg[7]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X54Y90         FDRE (Prop_fdre_C_Q)         0.164     1.610 r  gameTop/graphicEngineVGA/backMemoryRestoreCounter_reg[7]/Q
+                         net (fo=3, routed)           0.232     1.842    gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/D[7]
+    RAMB18_X2Y36         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg/ADDRARDADDR[10]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.414     0.414 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.685     1.099    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.128 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.877     2.005    gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/clock_IBUF_BUFG
+    RAMB18_X2Y36         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg/CLKARDCLK
+                         clock pessimism             -0.478     1.527    
+    RAMB18_X2Y36         RAMB18E1 (Hold_ramb18e1_CLKARDCLK_ADDRARDADDR[10])
+                                                      0.183     1.710    gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg
+  -------------------------------------------------------------------
+                         required time                         -1.710    
+                         arrival time                           1.842    
+  -------------------------------------------------------------------
+                         slack                                  0.132    
+
+Slack (MET) :             0.133ns  (arrival time - required time)
+  Source:                 gameTop/graphicEngineVGA/backMemoryRestoreCounter_reg[6]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg/ADDRARDADDR[9]
+                            (rising edge-triggered cell RAMB18E1 clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.396ns  (logic 0.164ns (41.393%)  route 0.232ns (58.607%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.080ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.005ns
+    Source Clock Delay      (SCD):    1.446ns
+    Clock Pessimism Removal (CPR):    0.478ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.563     1.446    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X54Y90         FDRE                                         r  gameTop/graphicEngineVGA/backMemoryRestoreCounter_reg[6]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X54Y90         FDRE (Prop_fdre_C_Q)         0.164     1.610 r  gameTop/graphicEngineVGA/backMemoryRestoreCounter_reg[6]/Q
+                         net (fo=3, routed)           0.232     1.842    gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/D[6]
+    RAMB18_X2Y36         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg/ADDRARDADDR[9]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.414     0.414 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.685     1.099    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.128 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.877     2.005    gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/clock_IBUF_BUFG
+    RAMB18_X2Y36         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg/CLKARDCLK
+                         clock pessimism             -0.478     1.527    
+    RAMB18_X2Y36         RAMB18E1 (Hold_ramb18e1_CLKARDCLK_ADDRARDADDR[9])
+                                                      0.183     1.710    gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg
+  -------------------------------------------------------------------
+                         required time                         -1.710    
+                         arrival time                           1.842    
+  -------------------------------------------------------------------
+                         slack                                  0.133    
+
+Slack (MET) :             0.136ns  (arrival time - required time)
+  Source:                 gameTop/graphicEngineVGA/backMemoryRestoreCounter_reg[9]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg/ADDRARDADDR[12]
+                            (rising edge-triggered cell RAMB18E1 clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.399ns  (logic 0.164ns (41.087%)  route 0.235ns (58.912%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.080ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.005ns
+    Source Clock Delay      (SCD):    1.446ns
+    Clock Pessimism Removal (CPR):    0.478ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.563     1.446    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X54Y91         FDRE                                         r  gameTop/graphicEngineVGA/backMemoryRestoreCounter_reg[9]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X54Y91         FDRE (Prop_fdre_C_Q)         0.164     1.610 r  gameTop/graphicEngineVGA/backMemoryRestoreCounter_reg[9]/Q
+                         net (fo=3, routed)           0.235     1.845    gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/D[9]
+    RAMB18_X2Y36         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg/ADDRARDADDR[12]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.414     0.414 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.685     1.099    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.128 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.877     2.005    gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/clock_IBUF_BUFG
+    RAMB18_X2Y36         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg/CLKARDCLK
+                         clock pessimism             -0.478     1.527    
+    RAMB18_X2Y36         RAMB18E1 (Hold_ramb18e1_CLKARDCLK_ADDRARDADDR[12])
+                                                      0.183     1.710    gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg
+  -------------------------------------------------------------------
+                         required time                         -1.710    
+                         arrival time                           1.845    
+  -------------------------------------------------------------------
+                         slack                                  0.136    
+
+Slack (MET) :             0.152ns  (arrival time - required time)
+  Source:                 gameTop/graphicEngineVGA/CounterXReg_reg[3]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/backTileMemories_4/ramsSpWf/RAM_reg/ADDRARDADDR[7]
+                            (rising edge-triggered cell RAMB18E1 clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.340ns  (logic 0.128ns (37.595%)  route 0.212ns (62.405%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.059ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.997ns
+    Source Clock Delay      (SCD):    1.439ns
+    Clock Pessimism Removal (CPR):    0.498ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.556     1.439    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X48Y80         FDRE                                         r  gameTop/graphicEngineVGA/CounterXReg_reg[3]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X48Y80         FDRE (Prop_fdre_C_Q)         0.128     1.567 r  gameTop/graphicEngineVGA/CounterXReg_reg[3]/Q
+                         net (fo=16, routed)          0.212     1.780    gameTop/graphicEngineVGA/backTileMemories_4/ramsSpWf/ADDRARDADDR[3]
+    RAMB18_X1Y32         RAMB18E1                                     r  gameTop/graphicEngineVGA/backTileMemories_4/ramsSpWf/RAM_reg/ADDRARDADDR[7]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.414     0.414 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.685     1.099    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.128 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.869     1.997    gameTop/graphicEngineVGA/backTileMemories_4/ramsSpWf/clock_IBUF_BUFG
+    RAMB18_X1Y32         RAMB18E1                                     r  gameTop/graphicEngineVGA/backTileMemories_4/ramsSpWf/RAM_reg/CLKARDCLK
+                         clock pessimism             -0.498     1.499    
+    RAMB18_X1Y32         RAMB18E1 (Hold_ramb18e1_CLKARDCLK_ADDRARDADDR[7])
+                                                      0.129     1.628    gameTop/graphicEngineVGA/backTileMemories_4/ramsSpWf/RAM_reg
+  -------------------------------------------------------------------
+                         required time                         -1.628    
+                         arrival time                           1.780    
+  -------------------------------------------------------------------
+                         slack                                  0.152    
+
+Slack (MET) :             0.152ns  (arrival time - required time)
+  Source:                 gameTop/graphicEngineVGA/CounterXReg_reg[3]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/backTileMemories_5/ramsSpWf/RAM_reg/ADDRARDADDR[7]
+                            (rising edge-triggered cell RAMB18E1 clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.340ns  (logic 0.128ns (37.595%)  route 0.212ns (62.405%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.059ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.997ns
+    Source Clock Delay      (SCD):    1.439ns
+    Clock Pessimism Removal (CPR):    0.498ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.556     1.439    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X48Y80         FDRE                                         r  gameTop/graphicEngineVGA/CounterXReg_reg[3]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X48Y80         FDRE (Prop_fdre_C_Q)         0.128     1.567 r  gameTop/graphicEngineVGA/CounterXReg_reg[3]/Q
+                         net (fo=16, routed)          0.212     1.780    gameTop/graphicEngineVGA/backTileMemories_5/ramsSpWf/ADDRARDADDR[3]
+    RAMB18_X1Y33         RAMB18E1                                     r  gameTop/graphicEngineVGA/backTileMemories_5/ramsSpWf/RAM_reg/ADDRARDADDR[7]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.414     0.414 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.685     1.099    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.128 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.869     1.997    gameTop/graphicEngineVGA/backTileMemories_5/ramsSpWf/clock_IBUF_BUFG
+    RAMB18_X1Y33         RAMB18E1                                     r  gameTop/graphicEngineVGA/backTileMemories_5/ramsSpWf/RAM_reg/CLKARDCLK
+                         clock pessimism             -0.498     1.499    
+    RAMB18_X1Y33         RAMB18E1 (Hold_ramb18e1_CLKARDCLK_ADDRARDADDR[7])
+                                                      0.129     1.628    gameTop/graphicEngineVGA/backTileMemories_5/ramsSpWf/RAM_reg
+  -------------------------------------------------------------------
+                         required time                         -1.628    
+                         arrival time                           1.780    
+  -------------------------------------------------------------------
+                         slack                                  0.152    
+
+Slack (MET) :             0.161ns  (arrival time - required time)
+  Source:                 gameTop/graphicEngineVGA/backMemoryRestoreCounter_reg[5]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg/ADDRARDADDR[8]
+                            (rising edge-triggered cell RAMB18E1 clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.424ns  (logic 0.164ns (38.677%)  route 0.260ns (61.323%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.080ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.005ns
+    Source Clock Delay      (SCD):    1.446ns
+    Clock Pessimism Removal (CPR):    0.478ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.563     1.446    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X54Y90         FDRE                                         r  gameTop/graphicEngineVGA/backMemoryRestoreCounter_reg[5]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X54Y90         FDRE (Prop_fdre_C_Q)         0.164     1.610 r  gameTop/graphicEngineVGA/backMemoryRestoreCounter_reg[5]/Q
+                         net (fo=3, routed)           0.260     1.870    gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/D[5]
+    RAMB18_X2Y36         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg/ADDRARDADDR[8]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.414     0.414 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.685     1.099    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.128 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.877     2.005    gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/clock_IBUF_BUFG
+    RAMB18_X2Y36         RAMB18E1                                     r  gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg/CLKARDCLK
+                         clock pessimism             -0.478     1.527    
+    RAMB18_X2Y36         RAMB18E1 (Hold_ramb18e1_CLKARDCLK_ADDRARDADDR[8])
+                                                      0.183     1.710    gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg
+  -------------------------------------------------------------------
+                         required time                         -1.710    
+                         arrival time                           1.870    
+  -------------------------------------------------------------------
+                         slack                                  0.161    
+
+Slack (MET) :             0.169ns  (arrival time - required time)
+  Source:                 gameTop/graphicEngineVGA/spriteVisibleReg_3_reg/C
+                            (rising edge-triggered cell FDSE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_3_pipeReg__1_reg/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.253ns  (logic 0.141ns (55.707%)  route 0.112ns (44.293%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.014ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.982ns
+    Source Clock Delay      (SCD):    1.470ns
+    Clock Pessimism Removal (CPR):    0.498ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.587     1.470    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X59Y83         FDSE                                         r  gameTop/graphicEngineVGA/spriteVisibleReg_3_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X59Y83         FDSE (Prop_fdse_C_Q)         0.141     1.611 r  gameTop/graphicEngineVGA/spriteVisibleReg_3_reg/Q
+                         net (fo=2, routed)           0.112     1.723    gameTop/graphicEngineVGA/spriteVisibleReg_3
+    SLICE_X61Y83         FDRE                                         r  gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_3_pipeReg__1_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.414     0.414 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.685     1.099    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.128 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.855     1.982    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X61Y83         FDRE                                         r  gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_3_pipeReg__1_reg/C
+                         clock pessimism             -0.498     1.484    
+    SLICE_X61Y83         FDRE (Hold_fdre_C_D)         0.070     1.554    gameTop/graphicEngineVGA/multiHotPriortyReductionTree_io_selectInput_3_pipeReg__1_reg
+  -------------------------------------------------------------------
+                         required time                         -1.554    
+                         arrival time                           1.723    
+  -------------------------------------------------------------------
+                         slack                                  0.169    
+
+Slack (MET) :             0.173ns  (arrival time - required time)
+  Source:                 gameTop/gameLogic/sprite0XReg_reg[7]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/spriteXPositionReg_0_reg[7]/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.269ns  (logic 0.141ns (52.480%)  route 0.128ns (47.520%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.951ns
+    Source Clock Delay      (SCD):    1.440ns
+    Clock Pessimism Removal (CPR):    0.498ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.557     1.440    gameTop/gameLogic/clock_IBUF_BUFG
+    SLICE_X57Y79         FDRE                                         r  gameTop/gameLogic/sprite0XReg_reg[7]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X57Y79         FDRE (Prop_fdre_C_Q)         0.141     1.581 r  gameTop/gameLogic/sprite0XReg_reg[7]/Q
+                         net (fo=6, routed)           0.128     1.709    gameTop/graphicEngineVGA/D[6]
+    SLICE_X56Y79         FDRE                                         r  gameTop/graphicEngineVGA/spriteXPositionReg_0_reg[7]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.414     0.414 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.685     1.099    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.128 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.823     1.951    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X56Y79         FDRE                                         r  gameTop/graphicEngineVGA/spriteXPositionReg_0_reg[7]/C
+                         clock pessimism             -0.498     1.453    
+    SLICE_X56Y79         FDRE (Hold_fdre_C_D)         0.083     1.536    gameTop/graphicEngineVGA/spriteXPositionReg_0_reg[7]
+  -------------------------------------------------------------------
+                         required time                         -1.536    
+                         arrival time                           1.709    
+  -------------------------------------------------------------------
+                         slack                                  0.173    
+
+Slack (MET) :             0.177ns  (arrival time - required time)
+  Source:                 gameTop/gameLogic/sprite0XReg_reg[8]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/spriteXPositionReg_0_reg[8]/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.275ns  (logic 0.141ns (51.351%)  route 0.134ns (48.649%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.952ns
+    Source Clock Delay      (SCD):    1.441ns
+    Clock Pessimism Removal (CPR):    0.498ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.558     1.441    gameTop/gameLogic/clock_IBUF_BUFG
+    SLICE_X57Y80         FDRE                                         r  gameTop/gameLogic/sprite0XReg_reg[8]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X57Y80         FDRE (Prop_fdre_C_Q)         0.141     1.582 r  gameTop/gameLogic/sprite0XReg_reg[8]/Q
+                         net (fo=6, routed)           0.134     1.716    gameTop/graphicEngineVGA/D[7]
+    SLICE_X56Y80         FDRE                                         r  gameTop/graphicEngineVGA/spriteXPositionReg_0_reg[8]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.414     0.414 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.685     1.099    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.128 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.824     1.952    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X56Y80         FDRE                                         r  gameTop/graphicEngineVGA/spriteXPositionReg_0_reg[8]/C
+                         clock pessimism             -0.498     1.454    
+    SLICE_X56Y80         FDRE (Hold_fdre_C_D)         0.085     1.539    gameTop/graphicEngineVGA/spriteXPositionReg_0_reg[8]
+  -------------------------------------------------------------------
+                         required time                         -1.539    
+                         arrival time                           1.716    
+  -------------------------------------------------------------------
+                         slack                                  0.177    
+
+Slack (MET) :             0.177ns  (arrival time - required time)
+  Source:                 gameTop/gameLogic/sprite0XReg_reg[4]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            gameTop/graphicEngineVGA/spriteXPositionReg_0_reg[4]/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk_pin
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk_pin rise@0.000ns - sys_clk_pin rise@0.000ns)
+  Data Path Delay:        0.275ns  (logic 0.141ns (51.351%)  route 0.134ns (48.649%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.951ns
+    Source Clock Delay      (SCD):    1.440ns
+    Clock Pessimism Removal (CPR):    0.498ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.557     1.440    gameTop/gameLogic/clock_IBUF_BUFG
+    SLICE_X57Y79         FDRE                                         r  gameTop/gameLogic/sprite0XReg_reg[4]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X57Y79         FDRE (Prop_fdre_C_Q)         0.141     1.581 r  gameTop/gameLogic/sprite0XReg_reg[4]/Q
+                         net (fo=5, routed)           0.134     1.715    gameTop/graphicEngineVGA/D[3]
+    SLICE_X56Y79         FDRE                                         r  gameTop/graphicEngineVGA/spriteXPositionReg_0_reg[4]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.414     0.414 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.685     1.099    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.128 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.823     1.951    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X56Y79         FDRE                                         r  gameTop/graphicEngineVGA/spriteXPositionReg_0_reg[4]/C
+                         clock pessimism             -0.498     1.453    
+    SLICE_X56Y79         FDRE (Hold_fdre_C_D)         0.085     1.538    gameTop/graphicEngineVGA/spriteXPositionReg_0_reg[4]
+  -------------------------------------------------------------------
+                         required time                         -1.538    
+                         arrival time                           1.715    
+  -------------------------------------------------------------------
+                         slack                                  0.177    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         sys_clk_pin
+Waveform(ns):       { 0.000 5.000 }
+Period(ns):         10.000
+Sources:            { clock }
+
+Check Type        Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location      Pin
+Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.576         10.000      7.424      RAMB18_X1Y34  gameTop/graphicEngineVGA/backBufferMemory/ramsSpWf/RAM_reg/CLKARDCLK
+Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.576         10.000      7.424      RAMB18_X2Y36  gameTop/graphicEngineVGA/backBufferRestoreMemory/ramsSpWf/RAM_reg/CLKARDCLK
+Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.576         10.000      7.424      RAMB18_X1Y36  gameTop/graphicEngineVGA/backBufferShadowMemory/ramsSpWf/RAM_reg/CLKARDCLK
+Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.576         10.000      7.424      RAMB18_X1Y35  gameTop/graphicEngineVGA/backTileMemories_0/ramsSpWf/RAM_reg/CLKARDCLK
+Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.576         10.000      7.424      RAMB18_X1Y30  gameTop/graphicEngineVGA/backTileMemories_1/ramsSpWf/RAM_reg/CLKARDCLK
+Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.576         10.000      7.424      RAMB18_X1Y37  gameTop/graphicEngineVGA/backTileMemories_2/ramsSpWf/RAM_reg/CLKARDCLK
+Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.576         10.000      7.424      RAMB18_X2Y33  gameTop/graphicEngineVGA/backTileMemories_3/ramsSpWf/RAM_reg/CLKARDCLK
+Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.576         10.000      7.424      RAMB18_X1Y31  gameTop/graphicEngineVGA/backTileMemories_31/ramsSpWf/RAM_reg/CLKARDCLK
+Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.576         10.000      7.424      RAMB18_X1Y32  gameTop/graphicEngineVGA/backTileMemories_4/ramsSpWf/RAM_reg/CLKARDCLK
+Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.576         10.000      7.424      RAMB18_X1Y33  gameTop/graphicEngineVGA/backTileMemories_5/ramsSpWf/RAM_reg/CLKARDCLK
+Low Pulse Width   Slow    SRL16E/CLK          n/a            0.980         5.000       4.020      SLICE_X46Y71  gameTop/graphicEngineVGA/io_Hsync_pipeReg_1_reg_srl3/CLK
+Low Pulse Width   Fast    SRL16E/CLK          n/a            0.980         5.000       4.020      SLICE_X46Y71  gameTop/graphicEngineVGA/io_Hsync_pipeReg_1_reg_srl3/CLK
+Low Pulse Width   Slow    SRL16E/CLK          n/a            0.980         5.000       4.020      SLICE_X46Y71  gameTop/graphicEngineVGA/io_Vsync_pipeReg_1_reg_srl3/CLK
+Low Pulse Width   Fast    SRL16E/CLK          n/a            0.980         5.000       4.020      SLICE_X46Y71  gameTop/graphicEngineVGA/io_Vsync_pipeReg_1_reg_srl3/CLK
+Low Pulse Width   Slow    SRL16E/CLK          n/a            0.980         5.000       4.020      SLICE_X46Y77  gameTop/graphicEngineVGA/pixelColourVGA_pipeReg_1_reg_srl2/CLK
+Low Pulse Width   Fast    SRL16E/CLK          n/a            0.980         5.000       4.020      SLICE_X46Y77  gameTop/graphicEngineVGA/pixelColourVGA_pipeReg_1_reg_srl2/CLK
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X59Y84  pipeResetReg_0_reg/C
+Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X59Y84  pipeResetReg_0_reg/C
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X59Y84  pipeResetReg_1_reg/C
+Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X59Y84  pipeResetReg_1_reg/C
+High Pulse Width  Slow    SRL16E/CLK          n/a            0.980         5.000       4.020      SLICE_X46Y71  gameTop/graphicEngineVGA/io_Hsync_pipeReg_1_reg_srl3/CLK
+High Pulse Width  Fast    SRL16E/CLK          n/a            0.980         5.000       4.020      SLICE_X46Y71  gameTop/graphicEngineVGA/io_Hsync_pipeReg_1_reg_srl3/CLK
+High Pulse Width  Slow    SRL16E/CLK          n/a            0.980         5.000       4.020      SLICE_X46Y71  gameTop/graphicEngineVGA/io_Vsync_pipeReg_1_reg_srl3/CLK
+High Pulse Width  Fast    SRL16E/CLK          n/a            0.980         5.000       4.020      SLICE_X46Y71  gameTop/graphicEngineVGA/io_Vsync_pipeReg_1_reg_srl3/CLK
+High Pulse Width  Slow    SRL16E/CLK          n/a            0.980         5.000       4.020      SLICE_X46Y77  gameTop/graphicEngineVGA/pixelColourVGA_pipeReg_1_reg_srl2/CLK
+High Pulse Width  Fast    SRL16E/CLK          n/a            0.980         5.000       4.020      SLICE_X46Y77  gameTop/graphicEngineVGA/pixelColourVGA_pipeReg_1_reg_srl2/CLK
+High Pulse Width  Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X59Y84  pipeResetReg_0_reg/C
+High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X59Y84  pipeResetReg_0_reg/C
+High Pulse Width  Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X59Y84  pipeResetReg_1_reg/C
+High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X59Y84  pipeResetReg_1_reg/C
+
+
+
+--------------------------------------------------------------------------------------
+Path Group:  (none)
+From Clock:  sys_clk_pin
+  To Clock:  
+
+Max Delay            15 Endpoints
+Min Delay            15 Endpoints
+--------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_Hsync_pipeReg_0_reg__0/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_Hsync
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Max at Slow Process Corner
+  Data Path Delay:        8.180ns  (logic 4.146ns (50.680%)  route 4.034ns (49.320%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.541     5.062    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X46Y71         FDRE                                         r  gameTop/graphicEngineVGA/io_Hsync_pipeReg_0_reg__0/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X46Y71         FDRE (Prop_fdre_C_Q)         0.478     5.540 r  gameTop/graphicEngineVGA/io_Hsync_pipeReg_0_reg__0/Q
+                         net (fo=1, routed)           4.034     9.574    io_Hsync_OBUF
+    P19                  OBUF (Prop_obuf_I_O)         3.668    13.242 r  io_Hsync_OBUF_inst/O
+                         net (fo=0)                   0.000    13.242    io_Hsync
+    P19                                                               r  io_Hsync (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaRed_REG_reg[3]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaRed[3]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Max at Slow Process Corner
+  Data Path Delay:        8.009ns  (logic 4.020ns (50.201%)  route 3.988ns (49.799%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.536     5.057    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X42Y76         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaRed_REG_reg[3]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X42Y76         FDRE (Prop_fdre_C_Q)         0.518     5.575 r  gameTop/graphicEngineVGA/io_vgaRed_REG_reg[3]/Q
+                         net (fo=1, routed)           3.988     9.563    io_vgaRed_OBUF[1]
+    N19                  OBUF (Prop_obuf_I_O)         3.502    13.066 r  io_vgaRed_OBUF[3]_inst/O
+                         net (fo=0)                   0.000    13.066    io_vgaRed[3]
+    N19                                                               r  io_vgaRed[3] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[3]_lopt_replica/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaBlue[1]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Max at Slow Process Corner
+  Data Path Delay:        7.889ns  (logic 3.959ns (50.188%)  route 3.930ns (49.812%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.534     5.055    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X43Y75         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[3]_lopt_replica/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X43Y75         FDRE (Prop_fdre_C_Q)         0.456     5.511 r  gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[3]_lopt_replica/Q
+                         net (fo=1, routed)           3.930     9.441    lopt_2
+    L18                  OBUF (Prop_obuf_I_O)         3.503    12.944 r  io_vgaBlue_OBUF[1]_inst/O
+                         net (fo=0)                   0.000    12.944    io_vgaBlue[1]
+    L18                                                               r  io_vgaBlue[1] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_Vsync_pipeReg_0_reg__0/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_Vsync
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Max at Slow Process Corner
+  Data Path Delay:        7.811ns  (logic 4.158ns (53.234%)  route 3.653ns (46.766%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.541     5.062    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X46Y71         FDRE                                         r  gameTop/graphicEngineVGA/io_Vsync_pipeReg_0_reg__0/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X46Y71         FDRE (Prop_fdre_C_Q)         0.478     5.540 r  gameTop/graphicEngineVGA/io_Vsync_pipeReg_0_reg__0/Q
+                         net (fo=1, routed)           3.653     9.193    io_Vsync_OBUF
+    R19                  OBUF (Prop_obuf_I_O)         3.680    12.873 r  io_Vsync_OBUF_inst/O
+                         net (fo=0)                   0.000    12.873    io_Vsync
+    R19                                                               r  io_Vsync (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaGreen_REG_reg[2]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaGreen[2]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Max at Slow Process Corner
+  Data Path Delay:        7.808ns  (logic 4.047ns (51.829%)  route 3.761ns (48.171%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.534     5.055    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X42Y75         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaGreen_REG_reg[2]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X42Y75         FDRE (Prop_fdre_C_Q)         0.518     5.573 r  gameTop/graphicEngineVGA/io_vgaGreen_REG_reg[2]/Q
+                         net (fo=1, routed)           3.761     9.334    io_vgaGreen_OBUF[0]
+    G17                  OBUF (Prop_obuf_I_O)         3.529    12.863 r  io_vgaGreen_OBUF[2]_inst/O
+                         net (fo=0)                   0.000    12.863    io_vgaGreen[2]
+    G17                                                               r  io_vgaGreen[2] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaRed_REG_reg[2]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaRed[2]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Max at Slow Process Corner
+  Data Path Delay:        7.788ns  (logic 4.042ns (51.898%)  route 3.746ns (48.102%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.536     5.057    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X42Y76         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaRed_REG_reg[2]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X42Y76         FDRE (Prop_fdre_C_Q)         0.518     5.575 r  gameTop/graphicEngineVGA/io_vgaRed_REG_reg[2]/Q
+                         net (fo=1, routed)           3.746     9.321    io_vgaRed_OBUF[0]
+    J19                  OBUF (Prop_obuf_I_O)         3.524    12.845 r  io_vgaRed_OBUF[2]_inst/O
+                         net (fo=0)                   0.000    12.845    io_vgaRed[2]
+    J19                                                               r  io_vgaRed[2] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[2]_lopt_replica/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaBlue[0]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Max at Slow Process Corner
+  Data Path Delay:        7.778ns  (logic 3.951ns (50.797%)  route 3.827ns (49.203%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.536     5.057    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X43Y76         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[2]_lopt_replica/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X43Y76         FDRE (Prop_fdre_C_Q)         0.456     5.513 r  gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[2]_lopt_replica/Q
+                         net (fo=1, routed)           3.827     9.340    lopt
+    N18                  OBUF (Prop_obuf_I_O)         3.495    12.835 r  io_vgaBlue_OBUF[0]_inst/O
+                         net (fo=0)                   0.000    12.835    io_vgaBlue[0]
+    N18                                                               r  io_vgaBlue[0] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaGreen_REG_reg[2]_lopt_replica/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaGreen[0]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Max at Slow Process Corner
+  Data Path Delay:        7.765ns  (logic 4.039ns (52.012%)  route 3.726ns (47.988%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.534     5.055    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X42Y75         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaGreen_REG_reg[2]_lopt_replica/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X42Y75         FDRE (Prop_fdre_C_Q)         0.518     5.573 r  gameTop/graphicEngineVGA/io_vgaGreen_REG_reg[2]_lopt_replica/Q
+                         net (fo=1, routed)           3.726     9.299    lopt_4
+    J17                  OBUF (Prop_obuf_I_O)         3.521    12.820 r  io_vgaGreen_OBUF[0]_inst/O
+                         net (fo=0)                   0.000    12.820    io_vgaGreen[0]
+    J17                                                               r  io_vgaGreen[0] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[2]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaBlue[2]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Max at Slow Process Corner
+  Data Path Delay:        7.681ns  (logic 3.975ns (51.746%)  route 3.707ns (48.254%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.536     5.057    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X43Y76         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[2]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X43Y76         FDRE (Prop_fdre_C_Q)         0.456     5.513 r  gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[2]/Q
+                         net (fo=1, routed)           3.707     9.219    io_vgaBlue_OBUF[0]
+    K18                  OBUF (Prop_obuf_I_O)         3.519    12.738 r  io_vgaBlue_OBUF[2]_inst/O
+                         net (fo=0)                   0.000    12.738    io_vgaBlue[2]
+    K18                                                               r  io_vgaBlue[2] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaRed_REG_reg[2]_lopt_replica/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaRed[0]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Max at Slow Process Corner
+  Data Path Delay:        7.590ns  (logic 4.042ns (53.249%)  route 3.548ns (46.751%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.458     1.458 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.967     3.425    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.521 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.536     5.057    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X42Y76         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaRed_REG_reg[2]_lopt_replica/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X42Y76         FDRE (Prop_fdre_C_Q)         0.518     5.575 r  gameTop/graphicEngineVGA/io_vgaRed_REG_reg[2]_lopt_replica/Q
+                         net (fo=1, routed)           3.548     9.123    lopt_8
+    G19                  OBUF (Prop_obuf_I_O)         3.524    12.647 r  io_vgaRed_OBUF[0]_inst/O
+                         net (fo=0)                   0.000    12.647    io_vgaRed[0]
+    G19                                                               r  io_vgaRed[0] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/missingFrameErrorReg_reg/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_missingFrameError
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Min at Fast Process Corner
+  Data Path Delay:        1.779ns  (logic 1.363ns (76.640%)  route 0.416ns (23.360%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.587     1.470    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X59Y83         FDRE                                         r  gameTop/graphicEngineVGA/missingFrameErrorReg_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X59Y83         FDRE (Prop_fdre_C_Q)         0.141     1.611 r  gameTop/graphicEngineVGA/missingFrameErrorReg_reg/Q
+                         net (fo=2, routed)           0.416     2.027    io_missingFrameError_OBUF
+    L1                   OBUF (Prop_obuf_I_O)         1.222     3.249 r  io_missingFrameError_OBUF_inst/O
+                         net (fo=0)                   0.000     3.249    io_missingFrameError
+    L1                                                                r  io_missingFrameError (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[3]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaBlue[3]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Min at Fast Process Corner
+  Data Path Delay:        2.429ns  (logic 1.367ns (56.263%)  route 1.062ns (43.737%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.548     1.431    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X43Y75         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[3]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X43Y75         FDRE (Prop_fdre_C_Q)         0.141     1.572 r  gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[3]/Q
+                         net (fo=1, routed)           1.062     2.635    io_vgaBlue_OBUF[1]
+    J18                  OBUF (Prop_obuf_I_O)         1.226     3.860 r  io_vgaBlue_OBUF[3]_inst/O
+                         net (fo=0)                   0.000     3.860    io_vgaBlue[3]
+    J18                                                               r  io_vgaBlue[3] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaGreen_REG_reg[3]_lopt_replica/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaGreen[1]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Min at Fast Process Corner
+  Data Path Delay:        2.542ns  (logic 1.371ns (53.920%)  route 1.171ns (46.080%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.548     1.431    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X42Y75         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaGreen_REG_reg[3]_lopt_replica/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X42Y75         FDRE (Prop_fdre_C_Q)         0.164     1.595 r  gameTop/graphicEngineVGA/io_vgaGreen_REG_reg[3]_lopt_replica/Q
+                         net (fo=1, routed)           1.171     2.767    lopt_6
+    H17                  OBUF (Prop_obuf_I_O)         1.207     3.973 r  io_vgaGreen_OBUF[1]_inst/O
+                         net (fo=0)                   0.000     3.973    io_vgaGreen[1]
+    H17                                                               r  io_vgaGreen[1] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaRed_REG_reg[2]_lopt_replica/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaRed[0]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Min at Fast Process Corner
+  Data Path Delay:        2.573ns  (logic 1.389ns (53.969%)  route 1.184ns (46.031%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.549     1.432    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X42Y76         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaRed_REG_reg[2]_lopt_replica/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X42Y76         FDRE (Prop_fdre_C_Q)         0.164     1.596 r  gameTop/graphicEngineVGA/io_vgaRed_REG_reg[2]_lopt_replica/Q
+                         net (fo=1, routed)           1.184     2.781    lopt_8
+    G19                  OBUF (Prop_obuf_I_O)         1.225     4.005 r  io_vgaRed_OBUF[0]_inst/O
+                         net (fo=0)                   0.000     4.005    io_vgaRed[0]
+    G19                                                               r  io_vgaRed[0] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaRed_REG_reg[3]_lopt_replica/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaRed[1]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Min at Fast Process Corner
+  Data Path Delay:        2.574ns  (logic 1.384ns (53.783%)  route 1.190ns (46.217%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.549     1.432    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X42Y76         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaRed_REG_reg[3]_lopt_replica/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X42Y76         FDRE (Prop_fdre_C_Q)         0.164     1.596 r  gameTop/graphicEngineVGA/io_vgaRed_REG_reg[3]_lopt_replica/Q
+                         net (fo=1, routed)           1.190     2.786    lopt_10
+    H19                  OBUF (Prop_obuf_I_O)         1.220     4.006 r  io_vgaRed_OBUF[1]_inst/O
+                         net (fo=0)                   0.000     4.006    io_vgaRed[1]
+    H19                                                               r  io_vgaRed[1] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[2]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaBlue[2]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Min at Fast Process Corner
+  Data Path Delay:        2.605ns  (logic 1.361ns (52.231%)  route 1.245ns (47.769%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.549     1.432    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X43Y76         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[2]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X43Y76         FDRE (Prop_fdre_C_Q)         0.141     1.573 r  gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[2]/Q
+                         net (fo=1, routed)           1.245     2.818    io_vgaBlue_OBUF[0]
+    K18                  OBUF (Prop_obuf_I_O)         1.220     4.038 r  io_vgaBlue_OBUF[2]_inst/O
+                         net (fo=0)                   0.000     4.038    io_vgaBlue[2]
+    K18                                                               r  io_vgaBlue[2] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_Vsync_pipeReg_0_reg__0/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_Vsync
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Min at Fast Process Corner
+  Data Path Delay:        2.611ns  (logic 1.406ns (53.857%)  route 1.205ns (46.143%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.552     1.435    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X46Y71         FDRE                                         r  gameTop/graphicEngineVGA/io_Vsync_pipeReg_0_reg__0/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X46Y71         FDRE (Prop_fdre_C_Q)         0.148     1.583 r  gameTop/graphicEngineVGA/io_Vsync_pipeReg_0_reg__0/Q
+                         net (fo=1, routed)           1.205     2.788    io_Vsync_OBUF
+    R19                  OBUF (Prop_obuf_I_O)         1.258     4.047 r  io_Vsync_OBUF_inst/O
+                         net (fo=0)                   0.000     4.047    io_Vsync
+    R19                                                               r  io_Vsync (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaGreen_REG_reg[3]/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaGreen[3]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Min at Fast Process Corner
+  Data Path Delay:        2.617ns  (logic 1.395ns (53.323%)  route 1.221ns (46.677%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.548     1.431    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X42Y75         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaGreen_REG_reg[3]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X42Y75         FDRE (Prop_fdre_C_Q)         0.164     1.595 r  gameTop/graphicEngineVGA/io_vgaGreen_REG_reg[3]/Q
+                         net (fo=1, routed)           1.221     2.817    io_vgaGreen_OBUF[1]
+    D17                  OBUF (Prop_obuf_I_O)         1.231     4.048 r  io_vgaGreen_OBUF[3]_inst/O
+                         net (fo=0)                   0.000     4.048    io_vgaGreen[3]
+    D17                                                               r  io_vgaGreen[3] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaGreen_REG_reg[2]_lopt_replica/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaGreen[0]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Min at Fast Process Corner
+  Data Path Delay:        2.641ns  (logic 1.386ns (52.469%)  route 1.255ns (47.531%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.548     1.431    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X42Y75         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaGreen_REG_reg[2]_lopt_replica/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X42Y75         FDRE (Prop_fdre_C_Q)         0.164     1.595 r  gameTop/graphicEngineVGA/io_vgaGreen_REG_reg[2]_lopt_replica/Q
+                         net (fo=1, routed)           1.255     2.851    lopt_4
+    J17                  OBUF (Prop_obuf_I_O)         1.222     4.073 r  io_vgaGreen_OBUF[0]_inst/O
+                         net (fo=0)                   0.000     4.073    io_vgaGreen[0]
+    J17                                                               r  io_vgaGreen[0] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+Slack:                    inf
+  Source:                 gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[2]_lopt_replica/C
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            io_vgaBlue[0]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Min at Fast Process Corner
+  Data Path Delay:        2.668ns  (logic 1.338ns (50.137%)  route 1.330ns (49.863%))
+  Logic Levels:           1  (OBUF=1)
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.226     0.226 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.631     0.858    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.884 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.549     1.432    gameTop/graphicEngineVGA/clock_IBUF_BUFG
+    SLICE_X43Y76         FDRE                                         r  gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[2]_lopt_replica/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X43Y76         FDRE (Prop_fdre_C_Q)         0.141     1.573 r  gameTop/graphicEngineVGA/io_vgaBlue_REG_reg[2]_lopt_replica/Q
+                         net (fo=1, routed)           1.330     2.903    lopt
+    N18                  OBUF (Prop_obuf_I_O)         1.197     4.100 r  io_vgaBlue_OBUF[0]_inst/O
+                         net (fo=0)                   0.000     4.100    io_vgaBlue[0]
+    N18                                                               r  io_vgaBlue[0] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+
+
+
+
+--------------------------------------------------------------------------------------
+Path Group:  (none)
+From Clock:  
+  To Clock:  sys_clk_pin
+
+Max Delay             5 Endpoints
+Min Delay             5 Endpoints
+--------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack:                    inf
+  Source:                 io_btnR
+                            (input port)
+  Destination:            gameTop/btnRState_pipeReg_2_reg/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             (none)
+  Path Type:              Setup (Max at Slow Process Corner)
+  Data Path Delay:        5.725ns  (logic 1.451ns (25.348%)  route 4.274ns (74.652%))
+  Logic Levels:           1  (IBUF=1)
+  Clock Path Skew:        4.772ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.772ns
+    Source Clock Delay      (SCD):    0.000ns
+    Clock Pessimism Removal (CPR):    0.000ns
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+    T17                                               0.000     0.000 r  io_btnR (IN)
+                         net (fo=0)                   0.000     0.000    io_btnR
+    T17                  IBUF (Prop_ibuf_I_O)         1.451     1.451 r  io_btnR_IBUF_inst/O
+                         net (fo=1, routed)           4.274     5.725    gameTop/io_btnR_IBUF
+    SLICE_X53Y79         FDRE                                         r  gameTop/btnRState_pipeReg_2_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.388     1.388 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.862     3.250    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091     3.341 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.431     4.772    gameTop/clock_IBUF_BUFG
+    SLICE_X53Y79         FDRE                                         r  gameTop/btnRState_pipeReg_2_reg/C
+
+Slack:                    inf
+  Source:                 io_btnD
+                            (input port)
+  Destination:            gameTop/btnDState_pipeReg_2_reg/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             (none)
+  Path Type:              Setup (Max at Slow Process Corner)
+  Data Path Delay:        5.715ns  (logic 1.452ns (25.416%)  route 4.262ns (74.584%))
+  Logic Levels:           1  (IBUF=1)
+  Clock Path Skew:        4.766ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.766ns
+    Source Clock Delay      (SCD):    0.000ns
+    Clock Pessimism Removal (CPR):    0.000ns
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+    U17                                               0.000     0.000 r  io_btnD (IN)
+                         net (fo=0)                   0.000     0.000    io_btnD
+    U17                  IBUF (Prop_ibuf_I_O)         1.452     1.452 r  io_btnD_IBUF_inst/O
+                         net (fo=1, routed)           4.262     5.715    gameTop/io_btnD_IBUF
+    SLICE_X53Y75         FDRE                                         r  gameTop/btnDState_pipeReg_2_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.388     1.388 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.862     3.250    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091     3.341 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.425     4.766    gameTop/clock_IBUF_BUFG
+    SLICE_X53Y75         FDRE                                         r  gameTop/btnDState_pipeReg_2_reg/C
+
+Slack:                    inf
+  Source:                 io_btnL
+                            (input port)
+  Destination:            gameTop/btnLState_pipeReg_2_reg/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             (none)
+  Path Type:              Setup (Max at Slow Process Corner)
+  Data Path Delay:        5.400ns  (logic 1.451ns (26.873%)  route 3.949ns (73.127%))
+  Logic Levels:           1  (IBUF=1)
+  Clock Path Skew:        4.766ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.766ns
+    Source Clock Delay      (SCD):    0.000ns
+    Clock Pessimism Removal (CPR):    0.000ns
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+    W19                                               0.000     0.000 r  io_btnL (IN)
+                         net (fo=0)                   0.000     0.000    io_btnL
+    W19                  IBUF (Prop_ibuf_I_O)         1.451     1.451 r  io_btnL_IBUF_inst/O
+                         net (fo=1, routed)           3.949     5.400    gameTop/io_btnL_IBUF
+    SLICE_X52Y75         FDRE                                         r  gameTop/btnLState_pipeReg_2_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.388     1.388 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.862     3.250    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091     3.341 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.425     4.766    gameTop/clock_IBUF_BUFG
+    SLICE_X52Y75         FDRE                                         r  gameTop/btnLState_pipeReg_2_reg/C
+
+Slack:                    inf
+  Source:                 io_btnU
+                            (input port)
+  Destination:            gameTop/btnUState_pipeReg_2_reg/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             (none)
+  Path Type:              Setup (Max at Slow Process Corner)
+  Data Path Delay:        5.379ns  (logic 1.454ns (27.026%)  route 3.925ns (72.974%))
+  Logic Levels:           1  (IBUF=1)
+  Clock Path Skew:        4.772ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.772ns
+    Source Clock Delay      (SCD):    0.000ns
+    Clock Pessimism Removal (CPR):    0.000ns
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+    T18                                               0.000     0.000 r  io_btnU (IN)
+                         net (fo=0)                   0.000     0.000    io_btnU
+    T18                  IBUF (Prop_ibuf_I_O)         1.454     1.454 r  io_btnU_IBUF_inst/O
+                         net (fo=1, routed)           3.925     5.379    gameTop/io_btnU_IBUF
+    SLICE_X53Y79         FDRE                                         r  gameTop/btnUState_pipeReg_2_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.388     1.388 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.862     3.250    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091     3.341 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.431     4.772    gameTop/clock_IBUF_BUFG
+    SLICE_X53Y79         FDRE                                         r  gameTop/btnUState_pipeReg_2_reg/C
+
+Slack:                    inf
+  Source:                 reset
+                            (input port)
+  Destination:            syncResetInput_REG_reg/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             (none)
+  Path Type:              Setup (Max at Slow Process Corner)
+  Data Path Delay:        3.341ns  (logic 1.456ns (43.582%)  route 1.885ns (56.418%))
+  Logic Levels:           1  (IBUF=1)
+  Clock Path Skew:        4.842ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.842ns
+    Source Clock Delay      (SCD):    0.000ns
+    Clock Pessimism Removal (CPR):    0.000ns
+  Clock Uncertainty:      0.025ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+    R2                                                0.000     0.000 r  reset (IN)
+                         net (fo=0)                   0.000     0.000    reset
+    R2                   IBUF (Prop_ibuf_I_O)         1.456     1.456 r  reset_IBUF_inst/O
+                         net (fo=1, routed)           1.885     3.341    reset_IBUF
+    SLICE_X60Y83         FDRE                                         r  syncResetInput_REG_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         1.388     1.388 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           1.862     3.250    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091     3.341 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         1.501     4.842    clock_IBUF_BUFG
+    SLICE_X60Y83         FDRE                                         r  syncResetInput_REG_reg/C
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack:                    inf
+  Source:                 reset
+                            (input port)
+  Destination:            syncResetInput_REG_reg/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             (none)
+  Path Type:              Hold (Min at Fast Process Corner)
+  Data Path Delay:        0.981ns  (logic 0.224ns (22.853%)  route 0.757ns (77.147%))
+  Logic Levels:           1  (IBUF=1)
+  Clock Path Skew:        1.982ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.982ns
+    Source Clock Delay      (SCD):    0.000ns
+    Clock Pessimism Removal (CPR):    -0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+    R2                                                0.000     0.000 r  reset (IN)
+                         net (fo=0)                   0.000     0.000    reset
+    R2                   IBUF (Prop_ibuf_I_O)         0.224     0.224 r  reset_IBUF_inst/O
+                         net (fo=1, routed)           0.757     0.981    reset_IBUF
+    SLICE_X60Y83         FDRE                                         r  syncResetInput_REG_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.414     0.414 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.685     1.099    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.128 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.855     1.982    clock_IBUF_BUFG
+    SLICE_X60Y83         FDRE                                         r  syncResetInput_REG_reg/C
+
+Slack:                    inf
+  Source:                 io_btnU
+                            (input port)
+  Destination:            gameTop/btnUState_pipeReg_2_reg/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             (none)
+  Path Type:              Hold (Min at Fast Process Corner)
+  Data Path Delay:        2.009ns  (logic 0.222ns (11.042%)  route 1.787ns (88.958%))
+  Logic Levels:           1  (IBUF=1)
+  Clock Path Skew:        1.951ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.951ns
+    Source Clock Delay      (SCD):    0.000ns
+    Clock Pessimism Removal (CPR):    -0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+    T18                                               0.000     0.000 r  io_btnU (IN)
+                         net (fo=0)                   0.000     0.000    io_btnU
+    T18                  IBUF (Prop_ibuf_I_O)         0.222     0.222 r  io_btnU_IBUF_inst/O
+                         net (fo=1, routed)           1.787     2.009    gameTop/io_btnU_IBUF
+    SLICE_X53Y79         FDRE                                         r  gameTop/btnUState_pipeReg_2_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.414     0.414 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.685     1.099    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.128 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.823     1.951    gameTop/clock_IBUF_BUFG
+    SLICE_X53Y79         FDRE                                         r  gameTop/btnUState_pipeReg_2_reg/C
+
+Slack:                    inf
+  Source:                 io_btnL
+                            (input port)
+  Destination:            gameTop/btnLState_pipeReg_2_reg/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             (none)
+  Path Type:              Hold (Min at Fast Process Corner)
+  Data Path Delay:        2.047ns  (logic 0.219ns (10.719%)  route 1.827ns (89.281%))
+  Logic Levels:           1  (IBUF=1)
+  Clock Path Skew:        1.946ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.946ns
+    Source Clock Delay      (SCD):    0.000ns
+    Clock Pessimism Removal (CPR):    -0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+    W19                                               0.000     0.000 r  io_btnL (IN)
+                         net (fo=0)                   0.000     0.000    io_btnL
+    W19                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  io_btnL_IBUF_inst/O
+                         net (fo=1, routed)           1.827     2.047    gameTop/io_btnL_IBUF
+    SLICE_X52Y75         FDRE                                         r  gameTop/btnLState_pipeReg_2_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.414     0.414 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.685     1.099    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.128 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.818     1.946    gameTop/clock_IBUF_BUFG
+    SLICE_X52Y75         FDRE                                         r  gameTop/btnLState_pipeReg_2_reg/C
+
+Slack:                    inf
+  Source:                 io_btnR
+                            (input port)
+  Destination:            gameTop/btnRState_pipeReg_2_reg/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             (none)
+  Path Type:              Hold (Min at Fast Process Corner)
+  Data Path Delay:        2.193ns  (logic 0.219ns (9.998%)  route 1.974ns (90.002%))
+  Logic Levels:           1  (IBUF=1)
+  Clock Path Skew:        1.951ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.951ns
+    Source Clock Delay      (SCD):    0.000ns
+    Clock Pessimism Removal (CPR):    -0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+    T17                                               0.000     0.000 r  io_btnR (IN)
+                         net (fo=0)                   0.000     0.000    io_btnR
+    T17                  IBUF (Prop_ibuf_I_O)         0.219     0.219 r  io_btnR_IBUF_inst/O
+                         net (fo=1, routed)           1.974     2.193    gameTop/io_btnR_IBUF
+    SLICE_X53Y79         FDRE                                         r  gameTop/btnRState_pipeReg_2_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.414     0.414 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.685     1.099    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.128 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.823     1.951    gameTop/clock_IBUF_BUFG
+    SLICE_X53Y79         FDRE                                         r  gameTop/btnRState_pipeReg_2_reg/C
+
+Slack:                    inf
+  Source:                 io_btnD
+                            (input port)
+  Destination:            gameTop/btnDState_pipeReg_2_reg/D
+                            (rising edge-triggered cell FDRE clocked by sys_clk_pin  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             (none)
+  Path Type:              Hold (Min at Fast Process Corner)
+  Data Path Delay:        2.194ns  (logic 0.221ns (10.053%)  route 1.973ns (89.947%))
+  Logic Levels:           1  (IBUF=1)
+  Clock Path Skew:        1.946ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.946ns
+    Source Clock Delay      (SCD):    0.000ns
+    Clock Pessimism Removal (CPR):    -0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+    U17                                               0.000     0.000 r  io_btnD (IN)
+                         net (fo=0)                   0.000     0.000    io_btnD
+    U17                  IBUF (Prop_ibuf_I_O)         0.221     0.221 r  io_btnD_IBUF_inst/O
+                         net (fo=1, routed)           1.973     2.194    gameTop/io_btnD_IBUF
+    SLICE_X53Y75         FDRE                                         r  gameTop/btnDState_pipeReg_2_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk_pin rise edge)
+                                                      0.000     0.000 r  
+    W5                                                0.000     0.000 r  clock (IN)
+                         net (fo=0)                   0.000     0.000    clock
+    W5                   IBUF (Prop_ibuf_I_O)         0.414     0.414 r  clock_IBUF_inst/O
+                         net (fo=1, routed)           0.685     1.099    clock_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.128 r  clock_IBUF_BUFG_inst/O
+                         net (fo=349, routed)         0.818     1.946    gameTop/clock_IBUF_BUFG
+    SLICE_X53Y75         FDRE                                         r  gameTop/btnDState_pipeReg_2_reg/C
+
+
+
+
+
