@@ -27,3 +27,7 @@ usage_statistics_webtalk.*
 project/metals.sbt
 firrtl_black_box_resource_files.f
 Top.anno.json
+
+tile_generator_custom/here.png
+tile_generator_custom/image_data.mem
+
