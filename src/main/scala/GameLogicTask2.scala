@@ -7,6 +7,7 @@
 
 import chisel3._
 import chisel3.util._
+import scala.concurrent.duration.DurationInt
 
 class GameLogicTask2(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val io = IO(new Bundle {
@@ -84,10 +85,92 @@ class GameLogicTask2(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   //Setting frame done to zero
   io.frameUpdateDone := false.B
 
-  /////////////////////////////////////////////////////////////////
-  // Write here your game logic
-  // (you might need to change the initialization values above)
-  /////////////////////////////////////////////////////////////////
+   
+  val idle :: compute1 :: compute2 :: done :: Nil = Enum(4)
+  val stateReg = RegInit(idle)
+
+  //Two registers holding the sprite sprite X and Y with the sprite initial position
+  val sprite0XReg = RegInit(32.S(11.W))
+  val sprite0YReg = RegInit((360-32).S(10.W))
+  val sprite1XReg = RegInit(600.S(11.W))
+  val sprite1YReg = RegInit((360-32).S(10.W))
+  val sprite2XReg = RegInit(32.S(11.W))
+  val sprite2YReg = RegInit((360-32).S(10.W))
+
+  //A registers holding the sprite horizontal flip
+  val sprite0FlipHorizontalReg = RegInit(false.B)
+  val sprite1FlipHorizontalReg = RegInit(false.B)
+  val sprite2FlipHorizontalReg = RegInit(false.B)
+
+  //Making sprite 0 visible
+  io.spriteVisible(0) := true.B
+  //Making sprite 1 visible
+  io.spriteVisible(1) := true.B
+  //Making sprite 2 visible
+  io.spriteVisible(2) := true.B
+
+  //Connecting resiters to the graphic engine
+  io.spriteXPosition(0) := sprite0XReg
+  io.spriteYPosition(0) := sprite0YReg
+  io.spriteXPosition(1) := sprite1XReg
+  io.spriteYPosition(1) := sprite1YReg
+  io.spriteXPosition(2) := sprite2XReg
+  io.spriteYPosition(2) := sprite2YReg
+
+
+  io.spriteFlipHorizontal(0) := sprite0FlipHorizontalReg
+
+  val countReg = RegInit(0.S(9.W))
+
+
+  //FSMD switch
+  switch(stateReg) {
+    is(idle) {
+      when(io.newFrame) {
+        stateReg := compute1
+      }
+    }
+
+    is(compute1) {
+      when(io.btnD){
+        when(sprite0YReg < (480 - 32 - 24).S) {
+          sprite0YReg := sprite0YReg + 2.S
+        }
+      } .elsewhen(io.btnU){
+        when(sprite0YReg > (96).S) {
+          sprite0YReg := sprite0YReg - 2.S
+        }
+      }
+      when(io.btnR) {
+        when(sprite0XReg < (640 - 32 - 32).S) {
+          sprite0XReg := sprite0XReg + 2.S
+          sprite0FlipHorizontalReg := false.B
+        }
+      } .elsewhen(io.btnL){
+        when(sprite0XReg > 32.S) {
+          sprite0XReg := sprite0XReg - 2.S
+          sprite0FlipHorizontalReg := true.B
+        }
+      }
+      stateReg := compute2
+    }
+
+    is(compute2) {
+      countReg := countReg + 1.S
+      sprite1YReg := Mux(countReg > 0.S, sprite1YReg + 1.S, sprite1YReg - 1.S)
+      stateReg := done
+    }
+
+    is(done) {
+      io.frameUpdateDone := true.B
+      stateReg := idle
+    }
+  }
+
+
+
+
+
 
 
 }
