@@ -51,8 +51,8 @@ class GameTop extends Module {
   //val gameLogic = Module(new GameLogicTask3(SPRITE_NUMBER, BACK_TILE_NUMBER))
   //val gameLogic = Module(new GameLogicTask4(SPRITE_NUMBER, BACK_TILE_NUMBER))
   //val gameLogic = Module(new GameLogicTask5(SPRITE_NUMBER, BACK_TILE_NUMBER))
-  val gameLogic = Module(new GameLogicTask6(SPRITE_NUMBER, BACK_TILE_NUMBER))
-  //val gameLogic = Module(new GameLogicTask7(SPRITE_NUMBER, BACK_TILE_NUMBER))
+  //val gameLogic = Module(new GameLogicTask6(SPRITE_NUMBER, BACK_TILE_NUMBER))
+  val gameLogic = Module(new GameLogicTask7(SPRITE_NUMBER, BACK_TILE_NUMBER))
   //val gameLogic = Module(new GameLogicTask8(SPRITE_NUMBER, BACK_TILE_NUMBER))
 
   //Debouncing
