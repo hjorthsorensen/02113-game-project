@@ -123,8 +123,6 @@ class GameLogicTask2(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val countReg = RegInit(0.S(9.W))
 
 
-
-
   //FSMD switch
   switch(stateReg) {
     is(idle) {
