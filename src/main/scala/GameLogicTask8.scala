@@ -100,6 +100,18 @@ class GameLogicTask8(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.viewBoxX := viewBoxXReg
   io.viewBoxY := viewBoxYReg
 
+  val sprite0XReg = RegInit(32.S(11.W))
+  val sprite0YReg = RegInit((360-32).S(10.W))
+
+  io.spriteXPosition(0) := sprite0XReg
+  io.spriteYPosition(0) := sprite0YReg
+  io.spriteVisible(0) := true.B
+  
+  val sprite0FlipHorizontalReg = RegInit(false.B)
+  io.spriteFlipHorizontal(0) := sprite0FlipHorizontalReg
+
+
+
   //FSMD switch
   switch(stateReg) {
     is(idle) {
