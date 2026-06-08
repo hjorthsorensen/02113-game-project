@@ -92,7 +92,7 @@ class GameLogicTask3(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val sprite0XReg = RegInit(32.S(11.W))
   val sprite0YReg = RegInit((360-32).S(10.W))
   val sprite1XReg = RegInit(600.S(11.W))
-  val sprite1YReg = RegInit((360-32).S(10.W))
+  val sprite1YReg = RegInit((360-180).S(10.W))
   val sprite2XReg = RegInit(32.S(11.W))
   val sprite2YReg = RegInit((360-32).S(10.W))
 
@@ -124,9 +124,12 @@ class GameLogicTask3(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
 
   io.spriteFlipHorizontal(0) := sprite0FlipHorizontalReg
+  io.spriteFlipHorizontal(1) := sprite1FlipHorizontalReg
+  io.spriteFlipHorizontal(2) := sprite2FlipHorizontalReg
+  io.spriteFlipHorizontal(3) := sprite0FlipHorizontalReg
 
   val countReg = RegInit(0.S(9.W))
-  val animationCounterReg = RegInit(0.S(5.W))
+  val animationCounterReg = RegInit(0.U(5.W))
 
 
   //FSMD switch
@@ -164,14 +167,14 @@ class GameLogicTask3(SpriteNumber: Int, BackTileNumber: Int) extends Module {
     is(compute2) {
       countReg := countReg + 1.S
       sprite1YReg := Mux(countReg > 0.S, sprite1YReg + 1.S, sprite1YReg - 1.S)
-      stateReg := done
-      when(animationCounterReg === 0.S) {
+      when(animationCounterReg === 0.U) {
         spritePlayerAnimationVisibilityReg := !spritePlayerAnimationVisibilityReg
       }
+      stateReg := done
     }
 
     is(done) {
-      animationCounterReg := animationCounterReg + 1.S
+      animationCounterReg := animationCounterReg + 1.U
       io.frameUpdateDone := true.B
       stateReg := idle
     }
