@@ -20,19 +20,17 @@ class ScoreFSM extends Module {
     // Outputs
     val onePointLED = Output(Bool())
     val twoPointsLED = Output(Bool())
+    val customerOneScored = Output(Bool())
+    val customerTwoScored = Output(Bool())
     val score = Output(UInt(8.W))
   })
 
-  val wakeUpCall = Module(new GameLogic)
-  wakeUpCall.io.work := io.wakeUp
 
-  val beerMovementFSM = Module(new BeerMovement)
-  beerMovementFSM.io.beerXPos := io.beerPositionX
-  beerMovementFSM.io.beerYPos := io.beerPositionY
-  beerMovementFSM.io.beerValid := io.beerValid
-
+  // Registers
   val scoreReg = RegInit(0.U(8.W))
   val scoreDone = RegInit(false.B)
+  val customerOneScored = RegInit(false.B)
+  val customerTwoScored = RegInit(false.B)
 
   // State definitions
   val idle :: waitingForBeer :: done :: Nil = Enum(3)
@@ -55,6 +53,7 @@ class ScoreFSM extends Module {
           }.elsewhen(distanceX >= -64.S && distanceX <= 64.S) {
             scoreReg := scoreReg + 1.U
           }
+          customerOneScored := true.B
           stateReg := done
         }
         when(io.customerTwoPositionY === io.beerPositionY) {
@@ -65,6 +64,7 @@ class ScoreFSM extends Module {
           }.elsewhen(distanceX >= -64.S && distanceX <= 64.S) {
             scoreReg := scoreReg + 1.U
           }
+          customerTwoScored := true.B
           stateReg := done
         }
 
@@ -80,5 +80,7 @@ class ScoreFSM extends Module {
   io.score := scoreReg
   io.onePointLED := scoreReg === 1.U
   io.twoPointsLED := scoreReg === 2.U
+  io.customerOneScored := customerOneScored
+  io.customerTwoScored := customerTwoScored
 
 }
