@@ -83,7 +83,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   playerMovementFSM.io.beerReady := beerMovement.io.beerReady
   io.spriteXPosition(8) := beerMovement.io.beerXPos
   io.spriteYPosition(8) := beerMovement.io.beerYPos
-  io.spriteVisible(8) := true.B
+  io.spriteVisible(8) := beerMovement.io.beerVisible
   
   val scoreFSM = Module(new ScoreFSM())
   scoreFSM.io.beerPositionX := beerMovement.io.beerXPos
