@@ -22,9 +22,9 @@ class ScoreFSM extends Module {
     val twoPointsLED = Output(Bool())
     val customerOneScored = Output(Bool())
     val customerTwoScored = Output(Bool())
+    val done = Output(Bool())
     val score = Output(UInt(8.W))
   })
-
 
   // Registers
   val scoreReg = RegInit(0.U(8.W))
@@ -82,5 +82,6 @@ class ScoreFSM extends Module {
   io.twoPointsLED := scoreReg === 2.U
   io.customerOneScored := customerOneScored
   io.customerTwoScored := customerTwoScored
+  io.done := scoreDone
 
 }
