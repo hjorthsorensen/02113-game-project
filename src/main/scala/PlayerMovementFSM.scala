@@ -94,11 +94,11 @@ class PlayerMovementFSM() extends Module {
       }
 
       when(io.btnR) {
-        animFrameReg := 1.U
-      } .elsewhen(io.btnL){
-        animFrameReg := 2.U
-      } .elsewhen(io.btnC) {
         animFrameReg := 3.U
+      } .elsewhen(io.btnL){
+        animFrameReg := 1.U //this is currently the idle2 animation
+      } .elsewhen(io.btnC) {
+        animFrameReg := 2.U
       } .otherwise {
         animFrameReg := 0.U
       }
