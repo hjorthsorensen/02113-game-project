@@ -46,11 +46,11 @@ class BeerMovement extends Module{
                 when(!inCalc && doneCalc && (fpsReg === 120.U)){
                     beerVisibleReg := false.B
                     beerReadyReg := true.B
-                    inCalc := false.B
-                }
-                // when(inCalc && doneCalc){
                     
-                // }
+                }
+                when(inCalc && doneCalc){
+                   inCalc := false.B
+                }
                 when(!inCalc && (io.speed =/= 0.S)){
                     fpsReg := 0.U
                     beerVisibleReg := true.B
