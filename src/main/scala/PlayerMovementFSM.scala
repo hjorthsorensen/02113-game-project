@@ -41,7 +41,7 @@ class PlayerMovementFSM() extends Module {
 
   val beerSpeedReg = RegInit(0.S(8.W))
   val throwStrength = RegInit(0.S(8.W)) //-16 to 15
-  val frameCount = RegInit(0.U(3.W))
+  val frameCount = RegInit(0.U(2.W))
 
   val animFrameReg = RegInit(0.U(2.W))
 
