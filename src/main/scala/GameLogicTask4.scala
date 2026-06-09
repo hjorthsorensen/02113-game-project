@@ -148,7 +148,7 @@ class GameLogicTask4(SpriteNumber: Int, BackTileNumber: Int) extends Module {
         }
       }
 
-      when(cnt > 30.U){
+      when(cntReg > 30.U){
         imgReg := imgReg + 1.U
         io.backBufferWriteEnable := true.B
       }
