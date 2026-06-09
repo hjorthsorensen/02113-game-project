@@ -73,7 +73,7 @@ class SpawnCustomer extends Module {
           customer2XReg := 300.S
           customer2YReg := 220.S
           customer2Visible := true.B
-
+        }
           is(2.U) {
             customer1XReg := 150.S
             customer1YReg := 220.S
@@ -84,7 +84,7 @@ class SpawnCustomer extends Module {
           is(3.U) {
             stateReg := done
           }
-        }
+        
       }
       stateReg := done
 
