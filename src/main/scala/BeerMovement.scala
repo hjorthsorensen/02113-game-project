@@ -32,30 +32,34 @@ class BeerMovement extends Module{
     val inCalc = RegInit(false.B)
 
     io.done := false.B
-    io.beerReady := true.B
+    val beerReadyReg = RegInit(true.B)
+    io.beerReady := beerReadyReg
     io.beerValid := false.B
+    
 
     switch(stateReg){
         is(idle){
             when(io.work){
-                // when(inCalc && doneCalc){
-                //     inCalc := false.B
-                // }
-                // when(!inCalc && (io.speed =/= 0.S)){
-                //     inCalc := true.B
-                //     remainSpeed := io.speed
-                //     beerXReg := 200.S
-                // }
+                when(inCalc && doneCalc){
+                    inCalc := false.B
+                    beerReadyReg := true.B
+                }
+                when(!inCalc && (io.speed =/= 0.S)){
+                    beerReadyReg := false.B
+                    inCalc := true.B
+                    remainSpeed := io.speed
+                    beerXReg := 500.S
+                }
                 stateReg := busy
             }
             
         }
         is(busy){
-            // when(!doneCalc && inCalc){
-            //     remainSpeed := remainSpeed - 1.S
-            //     beerXReg := 200.S
-            // }
-            // io.beerReady := false.B
+            when(!doneCalc && inCalc){
+                remainSpeed := remainSpeed - 1.S
+                beerXReg := 200.S
+            }
+            io.beerReady := false.B
             beerXReg := beerXReg - remainSpeed
             stateReg := doneMovement
         }            
@@ -63,9 +67,9 @@ class BeerMovement extends Module{
         is(doneMovement){
             stateReg := idle
             io.done := true.B
-            // when(doneCalc){
-            //     io.beerValid := true.B
-            // }
+            when(doneCalc && inCalc){
+                io.beerValid := true.B
+            }
         }
     }
 }
