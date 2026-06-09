@@ -3,11 +3,11 @@ import chisel3.util._
 
 class BeerMovement extends Module{
     val io = IO(new Bundle {
-        val speed = Input(UInt())
+        val speed = Input(UInt(8.W))
         val work = Input(Bool())
 
-        val beerXPos = Output(SInt())
-        val beerYPos = Output(SInt())
+        val beerXPos = Output(SInt(11.W))
+        val beerYPos = Output(SInt(10.W))
 
         val beerValid = Output(Bool())
         val beerReady = Output(Bool())
@@ -20,7 +20,7 @@ class BeerMovement extends Module{
     val remainSpeed = RegInit(0.U(8.W))
 
     val beerXReg = RegInit(0.S(11.W))
-    val beerYReg = RegInit(0.S(11.W))
+    val beerYReg = RegInit(0.S(10.W))
 
     io.beerXPos := beerXReg
     io.beerYPos := beerYReg
