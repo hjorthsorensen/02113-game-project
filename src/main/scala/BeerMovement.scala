@@ -4,6 +4,8 @@ import chisel3.util._
 class BeerMovement extends Module{
     val io = IO(new Bundle {
         val speed = Input(SInt(8.W))
+
+
         val wake = Input(Bool())
 
         val beerXPos = Output(SInt(11.W))
@@ -14,7 +16,7 @@ class BeerMovement extends Module{
         val done = Output(Bool())
 
     })
-    val idle :: busy :: doneCalculation :: doneMovement :: Nil = Enum(3)
+    val idle :: busy :: doneMovement :: Nil = Enum(3)
     val stateReg = RegInit(idle)
 
     val remainSpeed = RegInit(0.S(8.W))
@@ -36,29 +38,31 @@ class BeerMovement extends Module{
     switch(stateReg){
         is(idle){
             when(io.wake){
-                inCalc := true.B
+                when(inCalc && doneCalc){
+                    inCalc := false.B
+                }
                 when(!inCalc){
+                    inCalc := true.B
                     remainSpeed := io.speed
                 }
                 stateReg := busy
             }
         }
         is(busy){
+            when(!doneCalc && inCalc){
+                remainSpeed := remainSpeed - 1.S
+                beerXReg := beerXReg - remainSpeed
+            }
             io.beerReady := false.B
-            remainSpeed := remainSpeed - 1.S
-            beerXReg := beerXReg - remainSpeed
-            
-            
-            stateReg := doneCalculation
+            stateReg := doneMovement
         }            
-        is(doneCalculation){
-            io.done := true.B
-            
-        }
+        
         is(doneMovement){
             stateReg := idle
-            io.beerValid := true.B
             io.done := true.B
+            when(doneCalc){
+                io.beerValid := true.B
+            }
         }
     }
 }
