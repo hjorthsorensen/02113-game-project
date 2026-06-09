@@ -26,22 +26,24 @@ class SpawnCustomer extends Module {
   val customer1IdleVisible = RegInit(false.B)
   val customer1DrinkingVisible = RegInit(false.B)
   val customer1Spawned = RegInit(false.B)
-  val customer1SpawnDelay = RegInit(0.U(8.W))
   val customer1AnimCycle = RegInit(0.U(7.W))
+  val customer1AnimDir = RegInit(true.B)
 
   val customer2XReg = RegInit(0.S(11.W))
   val customer2YReg = RegInit(0.S(10.W))
   val customer2IdleVisible = RegInit(false.B)
   val customer2DrinkingVisible = RegInit(false.B)
   val customer2Spawned = RegInit(false.B)
-  val customer2SpawnDelay = RegInit(0.U(8.W))
   val customer2AnimCycle = RegInit(0.U(7.W))
+  val customer2AnimDir = RegInit(true.B)
 
   val customer1FlippedReg = RegInit(false.B)
   val customer2FlippedReg = RegInit(false.B)
 
   val customerToSpawn = RegInit(0.U(2.W))
   val customerToDespawn = RegInit(0.U(2.W))
+  val customerSpawnDelay = RegInit(0.U(8.W))
+
   // reg to decide what customer to spawn
 
   // io connections
@@ -78,15 +80,19 @@ class SpawnCustomer extends Module {
     is(spawn) {
 
       // if customer not spawned, and customer delay is 0, spawn customer.
-      when(!customer1Spawned && (customer1SpawnDelay === 0.U)) {
+      when(!customer1Spawned && (customerSpawnDelay === 0.U)) {
         customer1XReg := 150.S
         customer1YReg := 220.S
         customer1IdleVisible := true.B
+        customer1Spawned := true.B
+        customerSpawnDelay := 60.U
       }
-      when(!customer2Spawned && (customer2SpawnDelay === 0.U)) {
+      when(!customer2Spawned && (customerSpawnDelay === 0.U)) {
         customer2XReg := 300.S
         customer2YReg := 220.S
         customer2IdleVisible := true.B
+        customer2Spawned := true.B
+        customerSpawnDelay := 60.U
       }
 
       stateReg := despawn
@@ -98,43 +104,59 @@ class SpawnCustomer extends Module {
         customer1YReg := 0.S
         customer1IdleVisible := false.B
         customer1DrinkingVisible := false.B
+        customer1Spawned := false.B
       }.elsewhen(io.customer2Scored) {
         customer2XReg := 0.S
         customer2YReg := 0.S
         customer2IdleVisible := false.B
         customer2DrinkingVisible := false.B
+        customer2Spawned := false.B
       }
 
       stateReg := animate
     }
     is(animate) {
       when(customer1Spawned) {
-        when(customer1AnimCycle === 60.U){
-            customer1AnimCycle := 0.U
+        when(customer1AnimCycle > 59.U) {
+          customer1AnimCycle := 0.U
+          when(customer1AnimDir) {
+            customer1YReg := customer1YReg - 2.S
+          }.otherwise{
             customer1YReg := customer1YReg + 2.S
+          }
+            customer1AnimDir := !customer1AnimDir
         }
       }
 
       when(customer2Spawned) {
-        when(customer2AnimCycle === 60.U){
-            customer2AnimCycle := 0.U
-            customer2YReg := customer2YReg + 2.S
+        when(customer2AnimCycle === 60.U) {
+          customer2AnimCycle := 0.U
+          when(customer2AnimDir){
+          customer2YReg := customer2YReg - 2.S
+
+          }.otherwise{
+          customer2YReg := customer2YReg + 2.S
+
+          }
+          customer2AnimDir := !customer2AnimDir
         }
       }
-    stateReg := delays
+      stateReg := delays
     }
     is(delays) {
+      when(customer1Spawned) {
         customer1AnimCycle := customer1AnimCycle + 1.U
-        customer2AnimCycle := customer2AnimCycle + 1.U
-      when(!(customer1SpawnDelay === 0.U)) {
-        customer1SpawnDelay := customer1SpawnDelay - 1.U
       }
-      when(!(customer2SpawnDelay === 0.U)) {
-        customer2SpawnDelay := customer2SpawnDelay - 1.U
+      when(customer2Spawned) {
+        customer2AnimCycle := customer2AnimCycle + 1.U
+      }
+
+      when(!(customerSpawnDelay === 0.U)) {
+        customerSpawnDelay := customerSpawnDelay - 1.U
       }
       stateReg := done
     }
-    
+
     is(done) {
       io.done := true.B
       stateReg := idle
