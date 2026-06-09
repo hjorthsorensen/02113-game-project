@@ -19,10 +19,10 @@ class BeerMovement extends Module{
     val idle :: busy :: doneMovement :: Nil = Enum(3)
     val stateReg = RegInit(idle)
 
-    val remainSpeed = RegInit(0.S(8.W))
+    val remainSpeed = RegInit(2.S(8.W))
 
-    val beerXReg = RegInit(0.S(11.W))
-    val beerYReg = RegInit(0.S(10.W))
+    val beerXReg = RegInit(400.S(11.W))
+    val beerYReg = RegInit(200.S(10.W))
     
 
     io.beerXPos := beerXReg
@@ -32,37 +32,40 @@ class BeerMovement extends Module{
     val inCalc = RegInit(false.B)
 
     io.done := false.B
-    io.beerReady := false.B
+    io.beerReady := true.B
     io.beerValid := false.B
 
     switch(stateReg){
         is(idle){
             when(io.work){
-                when(inCalc && doneCalc){
-                    inCalc := false.B
-                }
-                when(!inCalc){
-                    inCalc := true.B
-                    remainSpeed := io.speed
-                }
+                // when(inCalc && doneCalc){
+                //     inCalc := false.B
+                // }
+                // when(!inCalc && (io.speed =/= 0.S)){
+                //     inCalc := true.B
+                //     remainSpeed := io.speed
+                //     beerXReg := 200.S
+                // }
                 stateReg := busy
             }
+            
         }
         is(busy){
-            when(!doneCalc && inCalc){
-                remainSpeed := remainSpeed - 1.S
-                beerXReg := beerXReg - remainSpeed
-            }
-            io.beerReady := false.B
+            // when(!doneCalc && inCalc){
+            //     remainSpeed := remainSpeed - 1.S
+            //     beerXReg := 200.S
+            // }
+            // io.beerReady := false.B
+            beerXReg := beerXReg - remainSpeed
             stateReg := doneMovement
         }            
         
         is(doneMovement){
             stateReg := idle
             io.done := true.B
-            when(doneCalc){
-                io.beerValid := true.B
-            }
+            // when(doneCalc){
+            //     io.beerValid := true.B
+            // }
         }
     }
 }
