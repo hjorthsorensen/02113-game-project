@@ -57,17 +57,17 @@ class SpawnCustomer() extends Module {
     is(spawn) {
       switch(customerToSpawn) {
         is(0.U) {
-          customer1XReg := 320.S
+          customer1XReg := 150.S
           customer1YReg := 220.S
           customer1Visible := true.B
         }
         is(1.U) {
-          customer2XReg := 420.S
+          customer2XReg := 300.S
           customer2YReg := 220.S
           customer2Visible := true.B
 
           is(2.U) {
-            customer1XReg := 320.S
+            customer1XReg := 150.S
             customer1YReg := 220.S
             customer1Visible := true.B
             stateReg := done
