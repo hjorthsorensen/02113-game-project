@@ -76,7 +76,7 @@ class PlayerMovementFSM() extends Module {
       // 2. Handle the launch logic when the button is released (or beer stops being ready)
       // We check if we have accumulated strength to discharge
       when (!io.btnC && frameCount === 0.U) {
-        io.beerSpeed  := throwStrength // Launch at full accumulated strength!
+        beerSpeedReg  := throwStrength // Launch at full accumulated strength!
         throwStrength := 0.S           // Reset strength for the next throw
       }
 

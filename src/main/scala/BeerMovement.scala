@@ -5,7 +5,6 @@ class BeerMovement extends Module{
     val io = IO(new Bundle {
         val speed = Input(SInt(8.W))
 
-
         val work = Input(Bool())
 
         val beerXPos = Output(SInt(11.W))
@@ -19,7 +18,7 @@ class BeerMovement extends Module{
     val idle :: busy :: doneMovement :: Nil = Enum(3)
     val stateReg = RegInit(idle)
 
-    val remainSpeed = RegInit(2.S(8.W))
+    val remainSpeed = RegInit(0.S(8.W))
 
     val beerXReg = RegInit(400.S(11.W))
     val beerYReg = RegInit(200.S(10.W))
@@ -57,14 +56,13 @@ class BeerMovement extends Module{
         is(busy){
             when(!doneCalc && inCalc){
                 remainSpeed := remainSpeed - 1.S
-                beerXReg := 200.S
+                beerXReg := beerXReg - remainSpeed
             }
-            io.beerReady := false.B
-            beerXReg := beerXReg - remainSpeed
             stateReg := doneMovement
         }            
         
         is(doneMovement){
+
             stateReg := idle
             io.done := true.B
             when(doneCalc && inCalc){
