@@ -37,6 +37,7 @@ class PlayerMovementFSM() extends Module {
   val stateReg = RegInit(idle)
   
   val sprite0YReg = RegInit(180.S(10.W))
+  val sprite0XReg = RegInit(500.S(11.W))
   val sprite0FlipHorizontalReg = RegInit(false.B)
 
   val beerSpeedReg = RegInit(0.S(8.W))
@@ -46,7 +47,7 @@ class PlayerMovementFSM() extends Module {
   val animFrameReg = RegInit(0.U(2.W))
 
   //Setting all sprite control outputs to zero
-  io.spriteXPosition := 500.S
+  io.spriteXPosition := sprite0XReg
   io.spriteYPosition := sprite0YReg
   io.spriteVisible := true.B
   io.spriteFlipHorizontal := sprite0FlipHorizontalReg
@@ -70,6 +71,7 @@ class PlayerMovementFSM() extends Module {
         when (io.beerReady && frameCount === 0.U) {
           // Keep charging up to the max cap of 15
           throwStrength := Mux(throwStrength < 15.S, throwStrength + 1.S, throwStrength)
+          sprite0XReg := Mux(sprite0XReg < 515.S, sprite0XReg + 1.S, sprite0XReg)
         }
       }
 
@@ -78,6 +80,7 @@ class PlayerMovementFSM() extends Module {
       when (!io.btnC && frameCount === 0.U) {
         beerSpeedReg  := throwStrength // Launch at full accumulated strength!
         throwStrength := 0.S           // Reset strength for the next throw
+        sprite0XReg := 500.S
       }
 
       when(io.btnD){
