@@ -9,9 +9,9 @@ class SpawnCustomer extends Module {
     val customer2Scored = Input(Bool())
     val done = Output(Bool())
     val customer1PosX = Output(SInt(11.W))
-    val customer1PosY = Output(SInt(11.W))
+    val customer1PosY = Output(SInt(10.W))
     val customer2PosX = Output(SInt(11.W))
-    val customer2PosY = Output(SInt(11.W))
+    val customer2PosY = Output(SInt(10.W))
     val customer1Visible = Output(Bool())
     val customer2Visible = Output(Bool())
     val customer1Flipped = Output(Bool())
@@ -44,8 +44,8 @@ class SpawnCustomer extends Module {
   io.customer2Visible := customer2Visible
   io.customer1Flipped := customer1FlippedReg
   io.customer2Flipped := customer2FlippedReg
-  customerToDespawn := Cat(io.customer1Scored, io.customer2Scored)
-  customerToSpawn := Cat(io.customer1Visible,io.customer2Visible)
+  customerToDespawn := Cat(io.customer2Scored,io.customer1Scored)
+  customerToSpawn := Cat(io.customer2Visible,io.customer1Visible)
   
   // statemachine
   val idle :: spawn :: despawn :: done :: Nil = Enum(4)
@@ -59,7 +59,6 @@ class SpawnCustomer extends Module {
       }.elsewhen(!(customerToDespawn === 0.U)) {
         stateReg := despawn
       }
-      stateReg := done
     }
 
     is(spawn) {
@@ -78,15 +77,12 @@ class SpawnCustomer extends Module {
             customer1XReg := 150.S
             customer1YReg := 220.S
             customer1Visible := true.B
-            stateReg := done
           }
-          //if both already spawned, just go to done
+          //if both already spawned, do nothing... for now
           is(3.U) {
-            stateReg := done
           }
-        
       }
-      stateReg := done
+        stateReg := done
 
     }
     is(despawn) {
