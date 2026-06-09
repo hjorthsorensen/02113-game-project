@@ -60,7 +60,7 @@ class PlayerMovementFSM() extends Module {
   val sprite0FlipHorizontalReg = RegInit(false.B)
 
   val throwStrength = RegInit(0.S(8.W)) //-16 to 15
-
+  val frameCount = RegInit(0.U(3.W))
   //Making sprite 0 visible
   io.spriteVisible := true.B
 
@@ -78,15 +78,17 @@ class PlayerMovementFSM() extends Module {
 
     is(compute1) {
 
-      when(io.beerReady) {
-        when (io.btnC) {
-          throwStrength := Mux(throwStrength < 15.S, throwStrength + 1.S, throwStrength)
-        } .elsewhen (throwStrength > 0.S) {
+      when (frameCount === 0.U) {
+        when (io.beerReady) {
+          when (io.btnC) {
+            throwStrength := Mux(throwStrength < 15.S, throwStrength + 1.S, throwStrength)
+          } .elsewhen (throwStrength > 0.S) {
+            io.beerSpeed := throwStrength
+          }
+        } .otherwise {
+          throwStrength := 0.S
           io.beerSpeed := throwStrength
         }
-      } .otherwise {
-        throwStrength := 0.S
-        io.beerSpeed := throwStrength
       }
 
       when(io.btnD){
@@ -110,6 +112,7 @@ class PlayerMovementFSM() extends Module {
     }
 
     is(done) {
+      frameCount := frameCount + 1.U
       io.done := true.B
       stateReg := idle
     }
