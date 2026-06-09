@@ -76,8 +76,27 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val beerSpeed = WireDefault(0.S(8.W))
 
   val playerMovementFSM = Module(new PlayerMovementFSM())
-
+  val beerMovement = Module(new BeerMovement())
   beerSpeed := playerMovementFSM.io.beerSpeed
+  beerMovement.io.speed := beerSpeed
+  playerMovementFSM.io.beerReady := beerMovement.io.beerReady
+  
+  val scoreFSM = Module(new ScoreFSM())
+  scoreFSM.io.beerPositionX := beerMovement.io.beerXPos
+  scoreFSM.io.beerPositionY := beerMovement.io.beerYPos
+  scoreFSM.io.beerValid := beerMovement.io.beerValid
+
+  val customerOnePositionX = RegInit(0.S(11.W))
+  val customerOnePositionY = RegInit(0.S(10.W))
+  val customerTwoPositionX = RegInit(0.S(11.W))
+  val customerTwoPositionY = RegInit(0.S(10.W))
+
+  scoreFSM.io.customerOnePositionX := customerOnePositionX
+  scoreFSM.io.customerOnePositionY := customerOnePositionY
+  scoreFSM.io.customerTwoPositionX := customerTwoPositionX
+  scoreFSM.io.customerTwoPositionY := customerTwoPositionY
+
+  
 
   playerMovementFSM.io.btnC := io.btnC
   playerMovementFSM.io.btnU := io.btnU
@@ -136,9 +155,30 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
   when(io.newFrame) {
     playerMovementFSM.io.work := true.B
+    beerMovement.io.work := true.B
+    scoreFSM.io.work := true.B
+
+    playerDoneReg := false.B
+    beerDoneReg := false.B
+    scoreFSMDoneReg := false.B
+
+  }
+  val playerDoneReg = RegInit(false.B)
+  val beerDoneReg = RegInit(false.B)
+  val scoreFSMDoneReg = RegInit(false.B)
+
+  when(playerMovementFSM.io.done){
+    playerDoneReg := true.B
+  }
+  when(beerMovement.io.done){
+    beerDoneReg := true.B
+  }
+  when(scoreFSM.io.done){
+    scoreFSMDoneReg := true.B
   }
 
-  when(playerMovementFSM.io.done) {
+
+  when(playerDoneReg && beerDoneReg && scoreFSMDoneReg) {
     io.frameUpdateDone := true.B
   }
 
