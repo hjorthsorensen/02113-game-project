@@ -37,7 +37,8 @@ class PlayerMovementFSM() extends Module {
   io.spriteVisible := true.B
   io.spriteFlipHorizontal := false.B
   io.spriteFlipVertical := false.B
-
+  io.spriteAnimationFrame := 0.U
+  io.beerSpeed := 0.S
   //Setting frame done to zero
   io.done := false.B
 
