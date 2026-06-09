@@ -43,8 +43,8 @@ class ScoreFSM extends Module {
       }
     }
     is(waitingForBeer) {
+      stateReg := done
       when(io.beerValid) {
-        stateReg := done
         // Check if the beer is at the same Y position as either customer
         when(io.customerOnePositionY === io.beerPositionY) {
           val distanceX = io.customerOnePositionX - io.beerPositionX
@@ -68,6 +68,7 @@ class ScoreFSM extends Module {
           customerTwoScoredReg := true.B
         }
       }
+
     }
     is(done) {
       stateReg := idle
