@@ -23,6 +23,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
     //Leds
     val led = Output(Vec(8, Bool()))
 
+    // Signals
+    val work = Output(Bool())
+  
     //GraphicEngineVGA
     //Sprite control input
     val spriteXPosition = Output(Vec(SpriteNumber, SInt(11.W))) //-1024 to 1023
