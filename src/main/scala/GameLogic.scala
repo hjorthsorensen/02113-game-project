@@ -98,6 +98,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val spawnCustomer = Module(new SpawnCustomer())
   spawnCustomer.io.customer1Scored := scoreFSM.io.customerOneScored
   spawnCustomer.io.customer2Scored := scoreFSM.io.customerTwoScored
+  spawnCustomer.io.work := false.B
 
 
   // val customerOnePositionX = RegInit(0.S(11.W))
