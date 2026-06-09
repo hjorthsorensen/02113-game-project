@@ -95,15 +95,20 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.led(1) := scoreFSM.io.customerTwoScored
 
 
-  val customerOnePositionX = RegInit(0.S(11.W))
-  val customerOnePositionY = RegInit(0.S(10.W))
-  val customerTwoPositionX = RegInit(0.S(11.W))
-  val customerTwoPositionY = RegInit(0.S(10.W))
+  val spawnCustomer = Module(new SpawnCustomer())
+  spawnCustomer.io.customer1Scored := scoreFSM.io.customerOneScored
+  spawnCustomer.io.customer2Scored := scoreFSM.io.customerTwoScored
 
-  scoreFSM.io.customerOnePositionX := customerOnePositionX
-  scoreFSM.io.customerOnePositionY := customerOnePositionY
-  scoreFSM.io.customerTwoPositionX := customerTwoPositionX
-  scoreFSM.io.customerTwoPositionY := customerTwoPositionY
+
+  // val customerOnePositionX = RegInit(0.S(11.W))
+  // val customerOnePositionY = RegInit(0.S(10.W))
+  // val customerTwoPositionX = RegInit(0.S(11.W))
+  // val customerTwoPositionY = RegInit(0.S(10.W))
+
+  scoreFSM.io.customerOnePositionX := spawnCustomer.io.customer1PosX
+  scoreFSM.io.customerOnePositionY := spawnCustomer.io.customer1PosY
+  scoreFSM.io.customerTwoPositionX := spawnCustomer.io.customer2PosX
+  scoreFSM.io.customerTwoPositionY := spawnCustomer.io.customer2PosY
 
   
 
@@ -119,16 +124,23 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.spriteXPosition(1) := playerMovementFSM.io.spriteXPosition
   io.spriteXPosition(2) := playerMovementFSM.io.spriteXPosition
   io.spriteXPosition(3) := playerMovementFSM.io.spriteXPosition
-
+  io.spriteXPosition(4) := spawnCustomer.io.customer1PosX
+  io.spriteXPosition(5) := spawnCustomer.io.customer2PosX
+  
   io.spriteYPosition(0) := playerMovementFSM.io.spriteYPosition
   io.spriteYPosition(1) := playerMovementFSM.io.spriteYPosition
   io.spriteYPosition(2) := playerMovementFSM.io.spriteYPosition
   io.spriteYPosition(3) := playerMovementFSM.io.spriteYPosition
+  io.spriteYPosition(4) := spawnCustomer.io.customer1PosY
+  io.spriteYPosition(5) := spawnCustomer.io.customer2PosY
+
 
   io.spriteFlipHorizontal(0) := playerMovementFSM.io.spriteFlipHorizontal
   io.spriteFlipHorizontal(1) := playerMovementFSM.io.spriteFlipHorizontal
   io.spriteFlipHorizontal(2) := playerMovementFSM.io.spriteFlipHorizontal
   io.spriteFlipHorizontal(3) := playerMovementFSM.io.spriteFlipHorizontal
+  io.spriteFlipHorizontal(4) := spawnCustomer.io.customer1Flipped
+  io.spriteFlipHorizontal(5) := spawnCustomer.io.customer2Flipped
 
   io.spriteFlipVertical(0) := playerMovementFSM.io.spriteFlipVertical
   io.spriteFlipVertical(1) := playerMovementFSM.io.spriteFlipVertical
@@ -166,16 +178,18 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val playerDoneReg = RegInit(false.B)
   val beerDoneReg = RegInit(false.B)
   val scoreFSMDoneReg = RegInit(false.B)
+  val spawnCustomerReg = RegInit(false.B)
 
   when(io.newFrame) {
     playerMovementFSM.io.work := true.B
     beerMovement.io.work := true.B
     scoreFSM.io.work := true.B
+    spawnCustomer.io.work := true.B
 
     playerDoneReg := false.B
     beerDoneReg := false.B
     scoreFSMDoneReg := false.B
-
+    spawnCustomerReg := false.B
   }
   
 
@@ -188,9 +202,12 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   when(scoreFSM.io.done){
     scoreFSMDoneReg := true.B
   }
+  when(spawnCustomer.io.done){
+    spawnCustomerReg := true.B
+  }
 
 
-  when(playerDoneReg && beerDoneReg && scoreFSMDoneReg) {
+  when(playerDoneReg && beerDoneReg && scoreFSMDoneReg && spawnCustomerReg) {
     io.frameUpdateDone := true.B
   }
 

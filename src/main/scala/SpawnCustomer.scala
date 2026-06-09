@@ -1,10 +1,10 @@
 import chisel3._
 import chisel3.util._
 
-class SpawnCustomer() extends Module {
+class SpawnCustomer extends Module {
   val io = IO(new Bundle {
     val work = Input(Bool())
-    val beerDone = Input(Bool())
+    // val beerDone = Input(Bool())
     val customer1Scored = Input(Bool())
     val customer2Scored = Input(Bool())
     val done = Output(Bool())
@@ -14,6 +14,8 @@ class SpawnCustomer() extends Module {
     val customer2PosY = Output(SInt(11.W))
     val customer1Visible = Output(Bool())
     val customer2Visible = Output(Bool())
+    val customer1Flipped = Output(Bool())
+    val customer2Flipped = Output(Bool())
   })
 
   // customers default spawn is (0,0); position is picked in spawn state
@@ -25,6 +27,9 @@ class SpawnCustomer() extends Module {
   val customer2YReg = RegInit(0.S(10.W))
   val customer2Visible = RegInit(false.B)
 
+  val customer1FlippedReg = RegInit(false.B)
+  val customer2FlippedReg = RegInit(false.B)
+  
   val customerToSpawn = RegInit(0.U(2.W))
   val customerToDespawn = RegInit(0.U(2.W))
   // reg to decide what customer to spawn
@@ -37,8 +42,11 @@ class SpawnCustomer() extends Module {
   io.customer2PosY := customer2YReg
   io.customer1Visible := customer1Visible
   io.customer2Visible := customer2Visible
+  io.customer1Flipped := customer1FlippedReg
+  io.customer2Flipped := customer2FlippedReg
   customerToDespawn := Cat(io.customer1Scored, io.customer2Scored)
   customerToSpawn := Cat(io.customer1Visible,io.customer2Visible)
+  
   // statemachine
   val idle :: spawn :: despawn :: done :: Nil = Enum(4)
   val stateReg = RegInit(idle)
@@ -48,7 +56,7 @@ class SpawnCustomer() extends Module {
     is(idle) {
       when(io.work) {
         stateReg := spawn
-      }.elsewhen(io.beerDone) {
+      }.elsewhen(!(customerToDespawn === 0.U)) {
         stateReg := despawn
       }
       stateReg := done
