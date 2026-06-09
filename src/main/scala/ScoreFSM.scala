@@ -28,9 +28,8 @@ class ScoreFSM extends Module {
 
   // Registers
   val scoreReg = RegInit(0.U(8.W))
-  val scoreDone = RegInit(false.B)
-  val customerOneScored = RegInit(false.B)
-  val customerTwoScored = RegInit(false.B)
+  val customerOneScoredReg = RegInit(false.B)
+  val customerTwoScoredReg = RegInit(false.B)
 
   // State definitions
   val idle :: waitingForBeer :: done :: Nil = Enum(3)
@@ -45,7 +44,8 @@ class ScoreFSM extends Module {
     }
     is(waitingForBeer) {
       when(io.beerValid) {
-        
+        stateReg := done
+        // Check if the beer is at the same Y position as either customer
         when(io.customerOnePositionY === io.beerPositionY) {
           val distanceX = io.customerOnePositionX - io.beerPositionX
           // Score Calculations | Withing 32 units = 2 points, withing 64 units = 1 points, otherwise 0.
@@ -54,9 +54,9 @@ class ScoreFSM extends Module {
           }.elsewhen(distanceX >= -64.S && distanceX <= 64.S) {
             scoreReg := scoreReg + 1.U
           }
-          customerOneScored := true.B
+          customerOneScoredReg := true.B
         }
-        
+
         when(io.customerTwoPositionY === io.beerPositionY) {
           val distanceX = io.customerTwoPositionX - io.beerPositionX
           // Score Calculations | Withing 32 units = 2 points, withing 64 units = 1 points, otherwise 0.
@@ -65,23 +65,20 @@ class ScoreFSM extends Module {
           }.elsewhen(distanceX >= -64.S && distanceX <= 64.S) {
             scoreReg := scoreReg + 1.U
           }
-          customerTwoScored := true.B
+          customerTwoScoredReg := true.B
         }
       }
-      stateReg := done
     }
-      is(done) {
-        scoreDone := true.B
-        stateReg := idle
-      }
+    is(done) {
+      stateReg := idle
     }
+  }
 
   // Output the score
   io.score := scoreReg
   io.onePointLED := scoreReg === 1.U
   io.twoPointsLED := scoreReg === 2.U
-  io.customerOneScored := customerOneScored
-  io.customerTwoScored := customerTwoScored
-  io.done := scoreDone
-
+  io.customerOneScored := customerOneScoredReg
+  io.customerTwoScored := customerTwoScoredReg
+  io.done := stateReg === done
 }
