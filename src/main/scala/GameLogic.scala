@@ -119,7 +119,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.spriteXPosition(2) := playerMovementFSM.io.spriteXPosition
   io.spriteXPosition(3) := playerMovementFSM.io.spriteXPosition
   io.spriteXPosition(4) := spawnCustomer.io.customer1PosX
-  io.spriteXPosition(5) := spawnCustomer.io.customer2PosX
+  io.spriteXPosition(5) := spawnCustomer.io.customer1PosX
+  io.spriteXPosition(6) := spawnCustomer.io.customer2PosX
+  io.spriteXPosition(7) := spawnCustomer.io.customer2PosX
   io.spriteXPosition(8) := beerMovement.io.beerXPos
 
 
@@ -128,7 +130,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.spriteYPosition(2) := playerMovementFSM.io.spriteYPosition
   io.spriteYPosition(3) := playerMovementFSM.io.spriteYPosition
   io.spriteYPosition(4) := spawnCustomer.io.customer1PosY
-  io.spriteYPosition(5) := spawnCustomer.io.customer2PosY
+  io.spriteYPosition(5) := spawnCustomer.io.customer1PosY
+  io.spriteYPosition(6) := spawnCustomer.io.customer2PosY
+  io.spriteYPosition(7) := spawnCustomer.io.customer2PosY
   io.spriteYPosition(8) := beerMovement.io.beerYPos
 
 
@@ -144,8 +148,10 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.spriteFlipVertical(2) := playerMovementFSM.io.spriteFlipVertical
   io.spriteFlipVertical(3) := playerMovementFSM.io.spriteFlipVertical
 
-  io.spriteVisible(4) := spawnCustomer.io.customer1Visible
-  io.spriteVisible(5) := spawnCustomer.io.customer2Visible
+  io.spriteVisible(4) := spawnCustomer.io.customer1IdleVisible
+  io.spriteVisible(5) := spawnCustomer.io.customer1DrinkingVisible
+  io.spriteVisible(6) := spawnCustomer.io.customer2IdleVisible
+  io.spriteVisible(7) := spawnCustomer.io.customer2DrinkingVisible
   io.spriteVisible(8) := beerMovement.io.beerVisible
 
 
