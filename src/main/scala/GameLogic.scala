@@ -79,6 +79,8 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
   beerSpeed := playerMovementFSM.io.beerSpeed
 
+  playerMovementFSM.io.work := false.B
+
   playerMovementFSM.io.btnC := io.btnC
   playerMovementFSM.io.btnU := io.btnU
   playerMovementFSM.io.btnL := io.btnL
