@@ -15,7 +15,7 @@ class PlayerMovementFSM() extends Module {
     val btnR = Input(Bool())
     val btnD = Input(Bool())
 
-    val beerSpeed = Output(UInt(8.W))
+    val beerSpeed = Output(SInt(8.W))
 
     //GraphicEngineVGA
     //Sprite control input
@@ -39,7 +39,7 @@ class PlayerMovementFSM() extends Module {
   io.spriteFlipVertical := false.B
 
   //Setting frame done to zero
-  io.frameUpdateDone := false.B
+  io.done := false.B
 
   /////////////////////////////////////////////////////////////////
   // Write here your game logic
