@@ -8,7 +8,7 @@ import chisel3.util._
 class ScoreFSM extends Module {
   val io = IO(new Bundle {
     // Inputs
-    val wakeUp = Input(Bool())
+    val work = Input(Bool())
     val customerOnePositionX = Input(SInt(11.W))
     val customerOnePositionY = Input(SInt(10.W))
     val customerTwoPositionX = Input(SInt(11.W))
