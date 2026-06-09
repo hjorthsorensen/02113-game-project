@@ -67,14 +67,13 @@ class ScoreFSM extends Module {
           customerTwoScored := true.B
           stateReg := done
         }
-
       }
+    }
       is(done) {
         scoreDone := true.B
         stateReg := idle
       }
     }
-  }
 
   // Output the score
   io.score := scoreReg
