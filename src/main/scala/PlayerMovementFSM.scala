@@ -78,11 +78,12 @@ class PlayerMovementFSM() extends Module {
 
     is(compute1) {
 
-      when (io.btnC && frameCount === 0.U) {
-        when (io.beerReady) {
+      when (io.btnC) {
+        when (io.beerReady && frameCount === 0.U) {
           // Keep charging up to the max cap of 15
           throwStrength := Mux(throwStrength < 15.S, throwStrength + 1.S, throwStrength)
         }
+        io.spriteAnimationFrame := 3.U
       }
 
       // 2. Handle the launch logic when the button is released (or beer stops being ready)
@@ -106,9 +107,9 @@ class PlayerMovementFSM() extends Module {
       }
 
       when(io.btnR) {
-        io.spriteAnimationFrame := 1
+        io.spriteAnimationFrame := 1.U
       } .elsewhen(io.btnL){
-        io.spriteAnimationFrame := 2
+        io.spriteAnimationFrame := 2.U
       }
 
 
