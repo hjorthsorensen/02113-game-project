@@ -23,9 +23,6 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
     //Leds
     val led = Output(Vec(8, Bool()))
 
-    // Signals
-    val work = Output(Bool())
-  
     //GraphicEngineVGA
     //Sprite control input
     val spriteXPosition = Output(Vec(SpriteNumber, SInt(11.W))) //-1024 to 1023
@@ -52,22 +49,6 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // It can be done by the single expression below...
   io.led := Seq.fill(8)(false.B)
 
-  // Or one by one...
-  //io.led(0) := false.B
-  //io.led(0) := false.B
-  //io.led(1) := false.B
-  //io.led(2) := false.B
-  //io.led(3) := false.B
-  //io.led(4) := false.B
-  //io.led(5) := false.B
-  //io.led(6) := false.B
-  //io.led(7) := false.B
-
-  // Or with a for loop.
-  //for (i <- 0 until 8) {
-  //  io.led(i) := false.B
-  //}
-
   //Setting all sprite control outputs to zero
   io.spriteXPosition := Seq.fill(SpriteNumber)(0.S)
   io.spriteYPosition := Seq.fill(SpriteNumber)(0.S)
@@ -92,38 +73,74 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // (you might need to change the initialization values above)
   /////////////////////////////////////////////////////////////////
 
-  def risingEdge(signal: Bool): Bool = signal && !RegNext(signal)
-  def fallingEdge(signal: Bool):Bool = !signal && RegNext(signal)
+  val beerSpeed = WireDefault(0.S(8.W))
 
-  val holding = RegInit(false.B)
-  val throwing = RegInit(false.B)
-  
+  val playerMovementFSM = Module(new PlayerMovementFSM())
 
-  val idle :: busy :: done :: Nil = Enum(3)
-  val stateReg = RegInit(idle)
+  beerSpeed := playerMovementFSM.io.beerSpeed
 
-  //FSMD switch
-  switch(stateReg) {
-    is(idle) {
-      when(io.newFrame) {
-        stateReg := busy
-      }
+  playerMovementFSM.io.btnC := io.btnC
+  playerMovementFSM.io.btnU := io.btnU
+  playerMovementFSM.io.btnL := io.btnL
+  playerMovementFSM.io.btnR := io.btnR
+  playerMovementFSM.io.btnD := io.btnD
+
+  io.spriteXPosition(0) := playerMovementFSM.io.spriteXPosition
+  io.spriteXPosition(1) := playerMovementFSM.io.spriteXPosition
+  io.spriteXPosition(2) := playerMovementFSM.io.spriteXPosition
+  io.spriteXPosition(3) := playerMovementFSM.io.spriteXPosition
+
+  io.spriteYPosition(0) := playerMovementFSM.io.spriteYPosition
+  io.spriteYPosition(1) := playerMovementFSM.io.spriteYPosition
+  io.spriteYPosition(2) := playerMovementFSM.io.spriteYPosition
+  io.spriteYPosition(3) := playerMovementFSM.io.spriteYPosition
+
+  io.spriteFlipHorizontal(0) := playerMovementFSM.io.spriteFlipHorizontal
+  io.spriteFlipHorizontal(1) := playerMovementFSM.io.spriteFlipHorizontal
+  io.spriteFlipHorizontal(2) := playerMovementFSM.io.spriteFlipHorizontal
+  io.spriteFlipHorizontal(3) := playerMovementFSM.io.spriteFlipHorizontal
+
+  io.spriteFlipVertical(0) := playerMovementFSM.io.spriteFlipVertical
+  io.spriteFlipVertical(1) := playerMovementFSM.io.spriteFlipVertical
+  io.spriteFlipVertical(2) := playerMovementFSM.io.spriteFlipVertical
+  io.spriteFlipVertical(3) := playerMovementFSM.io.spriteFlipVertical
+
+  switch(playerMovementFSM.io.spriteAnimationFrame) {
+    is (0.U) {
+      io.spriteVisible(0) := true.B
+      io.spriteVisible(1) := false.B
+      io.spriteVisible(2) := false.B
+      io.spriteVisible(3) := false.B
     }
-    is(busy) {
-
+    is (1.U) {
+      io.spriteVisible(1) := true.B
+      io.spriteVisible(0) := false.B
+      io.spriteVisible(2) := false.B
+      io.spriteVisible(3) := false.B
+    }
+    is (2.U) {
+      io.spriteVisible(2) := true.B
+      io.spriteVisible(0) := false.B
+      io.spriteVisible(1) := false.B
+      io.spriteVisible(3) := false.B
 
     }
-    is(done) {
-
+    is (3.U) {
+      io.spriteVisible(3) := true.B
+      io.spriteVisible(0) := false.B
+      io.spriteVisible(1) := false.B
+      io.spriteVisible(2) := false.B
 
     }
   }
 
+  when(io.newFrame) {
+    playerMovementFSM.io.work := true.B
+  }
 
-
-  // Just forwarding the newFrame into the frameUpdateDone with a 2 clock cycle delay
-  // frameUpdateDone will need to be driven by your game logic FSMs
-  io.frameUpdateDone := RegNext(RegNext(io.newFrame))
+  when(playerMovementFSM.io.done) {
+    io.frameUpdateDone := true.B
+  }
 
 }
 
