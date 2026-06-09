@@ -77,6 +77,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
   val playerMovementFSM = Module(new PlayerMovementFSM())
   val beerMovement = Module(new BeerMovement())
+  beerMovement.io.work := false.B
   beerSpeed := playerMovementFSM.io.beerSpeed
   beerMovement.io.speed := beerSpeed
   playerMovementFSM.io.beerReady := beerMovement.io.beerReady
@@ -85,6 +86,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   scoreFSM.io.beerPositionX := beerMovement.io.beerXPos
   scoreFSM.io.beerPositionY := beerMovement.io.beerYPos
   scoreFSM.io.beerValid := beerMovement.io.beerValid
+  scoreFSM.io.work := false.B
 
   val customerOnePositionX = RegInit(0.S(11.W))
   val customerOnePositionY = RegInit(0.S(10.W))
@@ -154,6 +156,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
     }
   }
+  val playerDoneReg = RegInit(false.B)
+  val beerDoneReg = RegInit(false.B)
+  val scoreFSMDoneReg = RegInit(false.B)
 
   when(io.newFrame) {
     playerMovementFSM.io.work := true.B
@@ -165,9 +170,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
     scoreFSMDoneReg := false.B
 
   }
-  val playerDoneReg = RegInit(false.B)
-  val beerDoneReg = RegInit(false.B)
-  val scoreFSMDoneReg = RegInit(false.B)
+  
 
   when(playerMovementFSM.io.done){
     playerDoneReg := true.B
