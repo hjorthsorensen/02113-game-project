@@ -29,6 +29,7 @@ class PlayerMovementFSM() extends Module {
     val work = Input(Bool())
     val done = Output(Bool())
     val beerReady = Input(Bool())
+    // val beerValid = Output(Bool())
   })
 
   // REGISTERS
@@ -70,12 +71,11 @@ class PlayerMovementFSM() extends Module {
           // Keep charging up to the max cap of 15
           throwStrength := Mux(throwStrength < 15.S, throwStrength + 1.S, throwStrength)
         }
-        animFrameReg := 3.U
       }
 
       // 2. Handle the launch logic when the button is released (or beer stops being ready)
       // We check if we have accumulated strength to discharge
-      when (!io.btnC) {
+      when (!io.btnC && frameCount === 0.U) {
         io.beerSpeed  := throwStrength // Launch at full accumulated strength!
         throwStrength := 0.S           // Reset strength for the next throw
       }
@@ -94,6 +94,10 @@ class PlayerMovementFSM() extends Module {
         animFrameReg := 1.U
       } .elsewhen(io.btnL){
         animFrameReg := 2.U
+      } .elesewhen(io.btnC) {
+        animFrameReg := 3.U
+      } .otherwise {
+        animFrameReg := 0.U
       }
 
       stateReg := done
