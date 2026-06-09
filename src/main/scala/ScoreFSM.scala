@@ -39,7 +39,7 @@ class ScoreFSM extends Module {
   // FSM
   switch(stateReg) {
     is(idle) {
-      when(io.wakeUp) {
+      when(io.work) {
         stateReg := waitingForBeer
       }
     }

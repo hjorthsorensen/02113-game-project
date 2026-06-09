@@ -6,7 +6,7 @@ class BeerMovement extends Module{
         val speed = Input(SInt(8.W))
 
 
-        val wake = Input(Bool())
+        val work = Input(Bool())
 
         val beerXPos = Output(SInt(11.W))
         val beerYPos = Output(SInt(10.W))
@@ -37,7 +37,7 @@ class BeerMovement extends Module{
 
     switch(stateReg){
         is(idle){
-            when(io.wake){
+            when(io.work){
                 when(inCalc && doneCalc){
                     inCalc := false.B
                 }
