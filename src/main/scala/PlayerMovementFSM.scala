@@ -18,7 +18,6 @@ class PlayerMovementFSM() extends Module {
     val beerSpeed = Output(SInt(8.W))
 
     //GraphicEngineVGA
-    //Sprite control input
     val spriteXPosition = Output(SInt(11.W)) //-1024 to 1023
     val spriteYPosition = Output(SInt(10.W)) //-512 to 511
     val spriteAnimationFrame = Output(UInt(2.W))
@@ -29,40 +28,34 @@ class PlayerMovementFSM() extends Module {
     //Status
     val work = Input(Bool())
     val done = Output(Bool())
+    val beerReady = Input(Bool())
+    // val beerValid = Output(Bool())
   })
 
-  //Setting all sprite control outputs to zero
-  io.spriteXPosition := 500.S
-  io.spriteYPosition := 180.S
-  io.spriteVisible := true.B
-  io.spriteFlipHorizontal := false.B
-  io.spriteFlipVertical := false.B
-  io.spriteAnimationFrame := 0.U
-  io.beerSpeed := 0.S
-  //Setting frame done to zero
-  io.done := false.B
-
-  /////////////////////////////////////////////////////////////////
-  // Write here your game logic
-  // (you might need to change the initialization values above)
-  /////////////////////////////////////////////////////////////////
-
+  // REGISTERS
   val idle :: compute1 :: done :: Nil = Enum(3)
   val stateReg = RegInit(idle)
-
-  //Two registers holding the sprite sprite X and Y with the sprite initial position
-  // val sprite0XReg = RegInit(32.S(11.W))
+  
   val sprite0YReg = RegInit(180.S(10.W))
-
-  //A registers holding the sprite horizontal flip
+  val sprite0XReg = RegInit(500.S(11.W))
   val sprite0FlipHorizontalReg = RegInit(false.B)
 
-  //Making sprite 0 visible
-  io.spriteVisible := true.B
+  val beerSpeedReg = RegInit(0.S(8.W))
+  val throwStrength = RegInit(0.S(8.W)) //-16 to 15
+  val frameCount = RegInit(0.U(4.W))
 
-  //Connecting resiters to the graphic engine
+  val animFrameReg = RegInit(0.U(2.W))
+
+  //Setting all sprite control outputs to zero
+  io.spriteXPosition := sprite0XReg
   io.spriteYPosition := sprite0YReg
+  io.spriteVisible := true.B
   io.spriteFlipHorizontal := sprite0FlipHorizontalReg
+  io.spriteFlipVertical := false.B
+  io.spriteAnimationFrame := animFrameReg
+  io.beerSpeed := beerSpeedReg
+
+  io.done := false.B
 
   //FSMD switch
   switch(stateReg) {
@@ -73,6 +66,23 @@ class PlayerMovementFSM() extends Module {
     }
 
     is(compute1) {
+
+      when (io.btnC) {
+        when (io.beerReady && (frameCount === 0.U || frameCount === 3.U || frameCount === 6.U )) {
+          // Keep charging up to the max cap of 15
+          throwStrength := Mux(throwStrength < 30.S, throwStrength + 1.S, throwStrength)
+          sprite0XReg := Mux(sprite0XReg < 515.S, sprite0XReg + 1.S, sprite0XReg)
+        }
+      }
+
+      // 2. Handle the launch logic when the button is released (or beer stops being ready)
+      // We check if we have accumulated strength to discharge
+      when (!io.btnC && frameCount === 0.U) {
+        beerSpeedReg  := throwStrength // Launch at full accumulated strength!
+        throwStrength := 0.S           // Reset strength for the next throw
+        sprite0XReg := 500.S
+      }
+
       when(io.btnD){
         when(sprite0YReg < (480 - 32 - 24).S) {
           sprite0YReg := sprite0YReg + 2.S
@@ -82,15 +92,22 @@ class PlayerMovementFSM() extends Module {
           sprite0YReg := sprite0YReg - 2.S
         }
       }
+
       when(io.btnR) {
-        sprite0FlipHorizontalReg := false.B
+        animFrameReg := 1.U
       } .elsewhen(io.btnL){
-        sprite0FlipHorizontalReg := true.B
+        animFrameReg := 2.U
+      } .elsewhen(io.btnC) {
+        animFrameReg := 3.U
+      } .otherwise {
+        animFrameReg := 0.U
       }
+
       stateReg := done
     }
 
     is(done) {
+      frameCount := frameCount + 1.U
       io.done := true.B
       stateReg := idle
     }

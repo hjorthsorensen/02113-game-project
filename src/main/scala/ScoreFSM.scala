@@ -8,7 +8,7 @@ import chisel3.util._
 class ScoreFSM extends Module {
   val io = IO(new Bundle {
     // Inputs
-    val wakeUp = Input(Bool())
+    val work = Input(Bool())
     val customerOnePositionX = Input(SInt(11.W))
     val customerOnePositionY = Input(SInt(10.W))
     val customerTwoPositionX = Input(SInt(11.W))
@@ -22,15 +22,14 @@ class ScoreFSM extends Module {
     val twoPointsLED = Output(Bool())
     val customerOneScored = Output(Bool())
     val customerTwoScored = Output(Bool())
+    val done = Output(Bool())
     val score = Output(UInt(8.W))
   })
 
-
   // Registers
   val scoreReg = RegInit(0.U(8.W))
-  val scoreDone = RegInit(false.B)
-  val customerOneScored = RegInit(false.B)
-  val customerTwoScored = RegInit(false.B)
+  val customerOneScoredReg = RegInit(false.B)
+  val customerTwoScoredReg = RegInit(false.B)
 
   // State definitions
   val idle :: waitingForBeer :: done :: Nil = Enum(3)
@@ -39,12 +38,14 @@ class ScoreFSM extends Module {
   // FSM
   switch(stateReg) {
     is(idle) {
-      when(io.wakeUp) {
+      when(io.work) {
         stateReg := waitingForBeer
       }
     }
     is(waitingForBeer) {
+      stateReg := done
       when(io.beerValid) {
+        // Check if the beer is at the same Y position as either customer
         when(io.customerOnePositionY === io.beerPositionY) {
           val distanceX = io.customerOnePositionX - io.beerPositionX
           // Score Calculations | Withing 32 units = 2 points, withing 64 units = 1 points, otherwise 0.
@@ -53,9 +54,9 @@ class ScoreFSM extends Module {
           }.elsewhen(distanceX >= -64.S && distanceX <= 64.S) {
             scoreReg := scoreReg + 1.U
           }
-          customerOneScored := true.B
-          stateReg := done
+          customerOneScoredReg := true.B
         }
+
         when(io.customerTwoPositionY === io.beerPositionY) {
           val distanceX = io.customerTwoPositionX - io.beerPositionX
           // Score Calculations | Withing 32 units = 2 points, withing 64 units = 1 points, otherwise 0.
@@ -64,15 +65,13 @@ class ScoreFSM extends Module {
           }.elsewhen(distanceX >= -64.S && distanceX <= 64.S) {
             scoreReg := scoreReg + 1.U
           }
-          customerTwoScored := true.B
-          stateReg := done
+          customerTwoScoredReg := true.B
         }
+      }
 
-      }
-      is(done) {
-        scoreDone := true.B
-        stateReg := idle
-      }
+    }
+    is(done) {
+      stateReg := idle
     }
   }
 
@@ -80,7 +79,7 @@ class ScoreFSM extends Module {
   io.score := scoreReg
   io.onePointLED := scoreReg === 1.U
   io.twoPointsLED := scoreReg === 2.U
-  io.customerOneScored := customerOneScored
-  io.customerTwoScored := customerTwoScored
-
+  io.customerOneScored := customerOneScoredReg
+  io.customerTwoScored := customerTwoScoredReg
+  io.done := stateReg === done
 }

@@ -73,11 +73,38 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // (you might need to change the initialization values above)
   /////////////////////////////////////////////////////////////////
 
-  val beerSpeed = WireDefault(0.S(8.W))
+  
 
   val playerMovementFSM = Module(new PlayerMovementFSM())
+  val beerMovement = Module(new BeerMovement())
+  beerMovement.io.work := false.B
+  beerMovement.io.speed := playerMovementFSM.io.beerSpeed
+  
+  playerMovementFSM.io.beerReady := beerMovement.io.beerReady
+  io.spriteXPosition(8) := beerMovement.io.beerXPos
+  io.spriteYPosition(8) := beerMovement.io.beerYPos
+  io.spriteVisible(8) := beerMovement.io.beerVisible
+  
+  val scoreFSM = Module(new ScoreFSM())
+  scoreFSM.io.beerPositionX := beerMovement.io.beerXPos
+  scoreFSM.io.beerPositionY := beerMovement.io.beerYPos
+  scoreFSM.io.beerValid := beerMovement.io.beerValid
+  scoreFSM.io.work := false.B
+  io.led(0) := scoreFSM.io.customerOneScored
+  io.led(1) := scoreFSM.io.customerTwoScored
 
-  beerSpeed := playerMovementFSM.io.beerSpeed
+
+  val customerOnePositionX = RegInit(0.S(11.W))
+  val customerOnePositionY = RegInit(0.S(10.W))
+  val customerTwoPositionX = RegInit(0.S(11.W))
+  val customerTwoPositionY = RegInit(0.S(10.W))
+
+  scoreFSM.io.customerOnePositionX := customerOnePositionX
+  scoreFSM.io.customerOnePositionY := customerOnePositionY
+  scoreFSM.io.customerTwoPositionX := customerTwoPositionX
+  scoreFSM.io.customerTwoPositionY := customerTwoPositionY
+
+  
 
   playerMovementFSM.io.work := false.B
 
@@ -135,12 +162,34 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
     }
   }
+  val playerDoneReg = RegInit(false.B)
+  val beerDoneReg = RegInit(false.B)
+  val scoreFSMDoneReg = RegInit(false.B)
 
   when(io.newFrame) {
     playerMovementFSM.io.work := true.B
+    beerMovement.io.work := true.B
+    scoreFSM.io.work := true.B
+
+    playerDoneReg := false.B
+    beerDoneReg := false.B
+    scoreFSMDoneReg := false.B
+
+  }
+  
+
+  when(playerMovementFSM.io.done){
+    playerDoneReg := true.B
+  }
+  when(beerMovement.io.done){
+    beerDoneReg := true.B
+  }
+  when(scoreFSM.io.done){
+    scoreFSMDoneReg := true.B
   }
 
-  when(playerMovementFSM.io.done) {
+
+  when(playerDoneReg && beerDoneReg && scoreFSMDoneReg) {
     io.frameUpdateDone := true.B
   }
 
