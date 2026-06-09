@@ -29,6 +29,8 @@ class PlayerMovementFSM() extends Module {
     //Status
     val work = Input(Bool())
     val done = Output(Bool())
+
+    val beerReady = Input(Bool())
   })
 
   //Setting all sprite control outputs to zero
@@ -37,7 +39,8 @@ class PlayerMovementFSM() extends Module {
   io.spriteVisible := true.B
   io.spriteFlipHorizontal := false.B
   io.spriteFlipVertical := false.B
-
+  io.spriteAnimationFrame := 0.U
+  io.beerSpeed := 0.S
   //Setting frame done to zero
   io.done := false.B
 
@@ -56,6 +59,8 @@ class PlayerMovementFSM() extends Module {
   //A registers holding the sprite horizontal flip
   val sprite0FlipHorizontalReg = RegInit(false.B)
 
+  val throwStrength = RegInit(0.S(8.W)) //-16 to 15
+
   //Making sprite 0 visible
   io.spriteVisible := true.B
 
@@ -72,6 +77,18 @@ class PlayerMovementFSM() extends Module {
     }
 
     is(compute1) {
+
+      when(io.beerReady) {
+        when (io.btnC) {
+          throwStrength := Mux(throwStrength < 15.S, throwStrength + 1.S, throwStrength)
+        } .elsewhen (throwStrength > 0.S) {
+          io.beerSpeed := throwStrength
+        }
+      } .otherwise {
+        throwStrength := 0.S
+        io.beerSpeed := throwStrength
+      }
+
       when(io.btnD){
         when(sprite0YReg < (480 - 32 - 24).S) {
           sprite0YReg := sprite0YReg + 2.S
@@ -81,11 +98,14 @@ class PlayerMovementFSM() extends Module {
           sprite0YReg := sprite0YReg - 2.S
         }
       }
+
       when(io.btnR) {
         sprite0FlipHorizontalReg := false.B
       } .elsewhen(io.btnL){
         sprite0FlipHorizontalReg := true.B
       }
+
+
       stateReg := done
     }
 

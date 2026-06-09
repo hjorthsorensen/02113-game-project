@@ -98,6 +98,8 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
   
 
+  playerMovementFSM.io.work := false.B
+
   playerMovementFSM.io.btnC := io.btnC
   playerMovementFSM.io.btnU := io.btnU
   playerMovementFSM.io.btnL := io.btnL
