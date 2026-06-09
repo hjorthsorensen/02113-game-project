@@ -49,22 +49,6 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // It can be done by the single expression below...
   io.led := Seq.fill(8)(false.B)
 
-  // Or one by one...
-  //io.led(0) := false.B
-  //io.led(0) := false.B
-  //io.led(1) := false.B
-  //io.led(2) := false.B
-  //io.led(3) := false.B
-  //io.led(4) := false.B
-  //io.led(5) := false.B
-  //io.led(6) := false.B
-  //io.led(7) := false.B
-
-  // Or with a for loop.
-  //for (i <- 0 until 8) {
-  //  io.led(i) := false.B
-  //}
-
   //Setting all sprite control outputs to zero
   io.spriteXPosition := Seq.fill(SpriteNumber)(0.S)
   io.spriteYPosition := Seq.fill(SpriteNumber)(0.S)
@@ -89,38 +73,75 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // (you might need to change the initialization values above)
   /////////////////////////////////////////////////////////////////
 
-  def risingEdge(signal: Bool): Bool = signal && !RegNext(signal)
-  def fallingEdge(signal: Bool):Bool = !signal && RegNext(signal)
+  val beerSpeed = 0.U(8.W)
 
-  val holding = RegInit(false.B)
-  val throwing = RegInit(false.B)
-  
+  val gameLogic = Module(new PlayerMovementFSM())
 
-  val idle :: busy :: done :: Nil = Enum(3)
-  val stateReg = RegInit(idle)
+  beerSpeed := gameLogic.io.beerSpeed
 
-  //FSMD switch
-  switch(stateReg) {
-    is(idle) {
-      when(io.newFrame) {
-        stateReg := busy
-      }
+  gameLogic.io.btnC := io.btnC
+  gameLogic.io.btnU := io.btnU
+  gameLogic.io.btnL := io.btnL
+  gameLogic.io.btnR := io.btnR
+  gameLogic.io.btnD := io.btnD
+
+  io.spriteXPosition(0) := gameLogic.io.spriteXPosition
+  io.spriteXPosition(1) := gameLogic.io.spriteXPosition
+  io.spriteXPosition(2) := gameLogic.io.spriteXPosition
+  io.spriteXPosition(3) := gameLogic.io.spriteXPosition
+
+  io.spriteYPosition(0) := gameLogic.io.spriteYPosition
+  io.spriteYPosition(1) := gameLogic.io.spriteYPosition
+  io.spriteYPosition(2) := gameLogic.io.spriteYPosition
+  io.spriteYPosition(3) := gameLogic.io.spriteYPosition
+
+  io.spriteFlipHorizontal(0) := gameLogic.io.spriteFlipHorizontal
+  io.spriteFlipHorizontal(1) := gameLogic.io.spriteFlipHorizontal
+  io.spriteFlipHorizontal(2) := gameLogic.io.spriteFlipHorizontal
+  io.spriteFlipHorizontal(3) := gameLogic.io.spriteFlipHorizontal
+
+  io.spriteFlipVertical(0) := gameLogic.io.spriteFlipVertical
+  io.spriteFlipVertical(1) := gameLogic.io.spriteFlipVertical
+  io.spriteFlipVertical(2) := gameLogic.io.spriteFlipVertical
+  io.spriteFlipVertical(3) := gameLogic.io.spriteFlipVertical
+
+  switch(gameLogic.io.spriteAnimationFrame) {
+    is (0.U) {
+      io.spriteVisible(0) := true.B
+      io.spriteVisible(1) := false.B
+      io.spriteVisible(2) := false.B
+      io.spriteVisible(3) := false.B
     }
-    is(busy) {
-
+    is (1.U) {
+      io.spriteVisible(1) := true.B
+      io.spriteVisible(0) := false.B
+      io.spriteVisible(2) := false.B
+      io.spriteVisible(3) := false.B
+    }
+    is (2.U) {
+      io.spriteVisible(2) := true.B
+      io.spriteVisible(0) := false.B
+      io.spriteVisible(1) := false.B
+      io.spriteVisible(3) := false.B
 
     }
-    is(done) {
-
+    is (3.U) {
+      io.spriteVisible(3) := true.B
+      io.spriteVisible(0) := false.B
+      io.spriteVisible(1) := false.B
+      io.spriteVisible(2) := false.B
 
     }
   }
 
+  when(io.newFrame) {
+    gameLogic.io.work := true.B
+  }
 
+  when(gameLogic.io.done) {
+    io.frameUpdateDone := true.B
 
-  // Just forwarding the newFrame into the frameUpdateDone with a 2 clock cycle delay
-  // frameUpdateDone will need to be driven by your game logic FSMs
-  io.frameUpdateDone := RegNext(RegNext(io.newFrame))
+  }
 
 }
 
