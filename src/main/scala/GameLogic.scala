@@ -90,6 +90,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   scoreFSM.io.beerPositionY := beerMovement.io.beerYPos
   scoreFSM.io.beerValid := beerMovement.io.beerValid
   scoreFSM.io.work := false.B
+  io.led(0) := scoreFSM.io.customerOneScored
+  io.led(1) := scoreFSM.io.customerTwoScored
+
 
   val customerOnePositionX = RegInit(0.S(11.W))
   val customerOnePositionY = RegInit(0.S(10.W))
