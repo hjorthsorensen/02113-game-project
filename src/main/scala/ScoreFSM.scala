@@ -45,6 +45,7 @@ class ScoreFSM extends Module {
     }
     is(waitingForBeer) {
       when(io.beerValid) {
+        
         when(io.customerOnePositionY === io.beerPositionY) {
           val distanceX = io.customerOnePositionX - io.beerPositionX
           // Score Calculations | Withing 32 units = 2 points, withing 64 units = 1 points, otherwise 0.
@@ -54,8 +55,8 @@ class ScoreFSM extends Module {
             scoreReg := scoreReg + 1.U
           }
           customerOneScored := true.B
-          stateReg := done
         }
+        
         when(io.customerTwoPositionY === io.beerPositionY) {
           val distanceX = io.customerTwoPositionX - io.beerPositionX
           // Score Calculations | Withing 32 units = 2 points, withing 64 units = 1 points, otherwise 0.
@@ -65,9 +66,9 @@ class ScoreFSM extends Module {
             scoreReg := scoreReg + 1.U
           }
           customerTwoScored := true.B
-          stateReg := done
         }
       }
+      stateReg := done
     }
       is(done) {
         scoreDone := true.B
