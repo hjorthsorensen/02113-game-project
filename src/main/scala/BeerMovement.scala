@@ -33,11 +33,12 @@ class BeerMovement extends Module{
     val beerVisibleReg = RegInit(false.B)
     
     val beerReadyReg = RegInit(true.B)
+    val beerValidReg = RegInit(false.B)
 
 
     //.io connections and default outputs
     io.done := false.B
-    io.beerValid := false.B
+    io.beerValid := beerValidReg
 
     io.beerReady := beerReadyReg
     io.beerVisible := beerVisibleReg
@@ -55,6 +56,7 @@ class BeerMovement extends Module{
                 when(!inCalc && doneCalc && (fpsReg === 120.U)){
                     beerVisibleReg := false.B
                     beerReadyReg := true.B   
+                    beerValidReg := false.B
                 }
                 //When the beer is stationary, we are now not in calculation, and the beer is ready for the next throw
                 when(inCalc && doneCalc){
@@ -92,7 +94,7 @@ class BeerMovement extends Module{
             //Only send the beer valid signal for one cycle when the movement is done and we are still in calculation 
             //(to avoid multiple score increments for the same beer)
             when(doneCalc && inCalc){
-                io.beerValid := true.B
+                beerValidReg := true.B
             }
         }
     }
