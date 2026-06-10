@@ -47,7 +47,7 @@ class SpawnCustomer extends Module {
   val customerToSpawn = RegInit(0.U(2.W))
   val customerToDespawn = RegInit(0.U(2.W))
   val customerSpawnDelay = RegInit(0.U(8.W))
-  val customerDrinkingDelay = RegInit(0.U(4.W))
+  val customerDrinkingDelay = RegInit(0.U(8.W))
   val customerDrinkingAnimCycle = RegInit(0.U(2.W))
   // reg to decide what customer to spawn
 
@@ -94,15 +94,15 @@ class SpawnCustomer extends Module {
 
       // if customer not spawned, and customer delay is 0, spawn customer.
       when(!customer1Spawned && (customerSpawnDelay === 0.U)) {
-        customer1XReg := 150.S
+        customer1XReg := 300.S
         customer1YReg := 192.S
         customer1IdleVisible := true.B
         customer1Spawned := true.B
         customerSpawnDelay := 60.U
       }
       when(!customer2Spawned && (customerSpawnDelay === 0.U)) {
-        customer2XReg := 300.S
-        customer2YReg := 192.S+64.S
+        customer2XReg := 200.S
+        customer2YReg := 192.S
         customer2IdleVisible := true.B
         customer2Spawned := true.B
         customerSpawnDelay := 60.U
@@ -116,33 +116,93 @@ class SpawnCustomer extends Module {
         customer1DrinkingVisible := true.B
         customer1IdleVisible := false.B
         //change to drinking sprite
-        when(!(customerDrinkingDelay === 15.U) && customerDrinkingAnimCycle === 0.U){
+        when(!(customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 0.U){
             customerDrinkingDelay := customerDrinkingDelay + 1.U
         }
-        .elsewhen(customerDrinkingDelay === 15.U && customerDrinkingAnimCycle === 0.U){
+        .elsewhen(customerDrinkingDelay === 45.U && customerDrinkingAnimCycle === 0.U){
+            //going back to idle, and waiting for 4 frames
         customer1DrinkingVisible := false.B
         customer1IdleVisible := true.B
         customerDrinkingAnimCycle := 1.U
-        customerDrinkingDelay := 0.U
+        customerDrinkingDelay := 20.U
         }
-        //going to 
-        // when()
+        when(!(customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 1.U){
+            customerDrinkingDelay := customerDrinkingDelay + 1.U 
+        }
+        .elsewhen((customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 1.U){
+            customer1DrinkingVisible := true.B
+            customer1IdleVisible := false.B
+            customerDrinkingAnimCycle := 2.U
+            customerDrinkingDelay := 0.U
+        }
+        when(!(customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 2.U){
+            customerDrinkingDelay := customerDrinkingDelay + 1.U
+        }
+        .elsewhen(customerDrinkingDelay === 45.U && customerDrinkingAnimCycle === 2.U){
+            customer1DrinkingVisible := false.B
+            customer1IdleVisible := true.B
+            customerDrinkingAnimCycle := 3.U
+            customerDrinkingDelay := 20.U
+        }
+        when(!(customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 3.U){
+            customerDrinkingDelay := customerDrinkingDelay + 1.U
+        }
+        .elsewhen(customerDrinkingDelay === 45.U && customerDrinkingAnimCycle === 3.U){
+            customer1XReg := 0.S
+            customer1YReg := 0.S
+            customer1IdleVisible := false.B
+            customer1DrinkingVisible := false.B
+            customer1Spawned := false.B
+            customer1ScoreDone := true.B
+        }
 
 
 
-        customer1XReg := 0.S
-        customer1YReg := 0.S
-        customer1IdleVisible := false.B
-        customer1DrinkingVisible := false.B
-        customer1Spawned := false.B
 
 
       }.elsewhen(io.customer2Scored) {
-        customer2XReg := 0.S
-        customer2YReg := 0.S
+        customer2DrinkingVisible := true.B
         customer2IdleVisible := false.B
+        //change to drinking sprite
+        when(!(customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 0.U){
+            customerDrinkingDelay := customerDrinkingDelay + 1.U
+        }
+        .elsewhen(customerDrinkingDelay === 45.U && customerDrinkingAnimCycle === 0.U){
+            //going back to idle, and waiting for 4 frames
         customer2DrinkingVisible := false.B
-        customer2Spawned := false.B
+        customer2IdleVisible := true.B
+        customerDrinkingAnimCycle := 1.U
+        customerDrinkingDelay := 20.U
+        }
+        when(!(customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 1.U){
+            customerDrinkingDelay := customerDrinkingDelay + 1.U 
+        }
+        .elsewhen((customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 1.U){
+            customer2DrinkingVisible := true.B
+            customer2IdleVisible := false.B
+            customerDrinkingAnimCycle := 2.U
+            customerDrinkingDelay := 0.U
+        }
+        when(!(customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 2.U){
+            customerDrinkingDelay := customerDrinkingDelay + 1.U
+        }
+        .elsewhen(customerDrinkingDelay === 45.U && customerDrinkingAnimCycle === 2.U){
+            customer2DrinkingVisible := false.B
+            customer2IdleVisible := true.B
+            customerDrinkingAnimCycle := 3.U
+            customerDrinkingDelay := 20.U
+        }
+        when(!(customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 3.U){
+            customerDrinkingDelay := customerDrinkingDelay + 1.U
+        }
+        .elsewhen(customerDrinkingDelay === 45.U && customerDrinkingAnimCycle === 3.U){
+            customer2XReg := 0.S
+            customer2YReg := 0.S
+            customer2IdleVisible := false.B
+            customer2DrinkingVisible := false.B
+            customer2Spawned := false.B
+            customer2ScoreDone := true.B
+        } 
       }
 
 
