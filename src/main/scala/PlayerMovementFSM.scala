@@ -88,12 +88,12 @@ class PlayerMovementFSM() extends Module {
 
       when(io.btnD){
         btnDownPressed := true.B
-        when(sprite0YReg < (480 - 32 - 24).S && !btnDownPressed) {
+        when(sprite0YReg < (480 - 64 - 24).S && !btnDownPressed) {
           sprite0YReg := sprite0YReg + 64.S
         }
       } .elsewhen(io.btnU){
         btnUpPressed := true.B
-        when(sprite0YReg > (96).S && !btnUpPressed) {
+        when(sprite0YReg > (96 + 64).S && !btnUpPressed) {
           sprite0YReg := sprite0YReg - 64.S
         }
       } .otherwise {
