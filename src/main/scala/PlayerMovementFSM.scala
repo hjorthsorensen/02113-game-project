@@ -111,7 +111,7 @@ class PlayerMovementFSM() extends Module {
         }
       } .elsewhen(io.btnL){
         animFrameReg := 1.U
-      } .elsewhen(io.btnC) {
+      } .elsewhen(io.btnC && beerReady) {
         animFrameReg := 2.U
       } .otherwise {
         animFrameReg := 0.U
