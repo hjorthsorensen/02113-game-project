@@ -217,7 +217,7 @@ class SpawnCustomer extends Module {
             customerBegunScoring := 0.U
             customerDrinkingAnimCycle := 0.U
             customerDrinkingDelay := 0.U
-            customerSpawnDelay := 60.U
+            customerSpawnDelay := 300.U
 
         } 
       }
