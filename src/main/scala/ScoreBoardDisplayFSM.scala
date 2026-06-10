@@ -13,7 +13,7 @@ class ScoreBoardDisplayFSM extends Module{
         // val scoreTileAmount = Output(UInt(4.W))
         val writeAdress = Output(UInt(10.W))
         val writeTileID = Output(UInt(5.W))
-        val writeEnable = Output(Bool())
+        val scoreWriteEnable = Output(Bool())
         
         
         val done = Output(Bool())
@@ -29,12 +29,15 @@ class ScoreBoardDisplayFSM extends Module{
     val scoreMiddleDigit = io.score / 10.U   
     val scoreLeftDigit = io.score / 100.U 
     val scoreIDReg = RegInit(0.U(2.W))
+    val scoreWriteDoneReg = RegInit(false.B)
+    scoreWriteDoneReg := io.scoreWriteDone
 
-
-    io.writeEnable := false.B
+    io.scoreWriteEnable := false.B
     io.done := false.B
     io.writeAdress := 0.U
     io.writeTileID := 0.U
+
+    
 
 
     switch(stateReg){
@@ -44,10 +47,31 @@ class ScoreBoardDisplayFSM extends Module{
             }
         }
         is(busy){
-            io.writeEnable := true.B
-            when()
+            io.scoreWriteEnable := true.B
+            when(scoreIDReg === 0.U){
+                when(scoreWriteDoneReg){
+                    scoreIDReg := scoreIDReg + 1.U
+                }
+                io.writeAdress := 16.U
+                io.writeTileID := scoreRightDigit + 16.U
+            }.elsewhen(scoreIDReg === 1.U){
+                when(scoreWriteDoneReg){
+                    scoreIDReg := scoreIDReg + 1.U
+                }
+                io.writeAdress := 15.U
+                io.writeTileID := scoreMiddleDigit + 16.U
+            }.elsewhen(scoreIDReg === 2.U){
+                when(scoreWriteDoneReg){
+                    scoreIDReg := scoreIDReg + 1.U
+                    stateReg := done
+                }
+                io.writeAdress := 14.U
+                io.writeTileID := scoreLeftDigit + 16.U
+            }
         }
-        is(done){}
+        is(done){
+
+        }
     }
     
 }
