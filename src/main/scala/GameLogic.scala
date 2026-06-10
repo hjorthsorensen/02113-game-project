@@ -178,11 +178,11 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
       io.spriteVisible(11) := false.B
     }
     is(1.U) {
-      io.spriteVisible(3) := true.B
+      io.spriteVisible(11) := true.B
       io.spriteVisible(0) := false.B
       io.spriteVisible(1) := false.B
       io.spriteVisible(2) := false.B
-      io.spriteVisible(11) := false.B
+      io.spriteVisible(3) := false.B
     }
     is(2.U) {
       io.spriteVisible(2) := true.B
@@ -193,9 +193,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
     }
     is(3.U) {
-      io.spriteVisible(11) := true.B
+      io.spriteVisible(3) := true.B
       io.spriteVisible(0) := false.B
-      io.spriteVisible(3) := false.B
+      io.spriteVisible(11) := false.B
       io.spriteVisible(2) := false.B
       io.spriteVisible(1) := false.B
 

@@ -37,6 +37,7 @@ class PlayerMovementFSM() extends Module {
   val stateReg = RegInit(idle)
   
   val spriteYReg = RegInit(160.S(10.W))
+  val spriteYRegOld = RegInit(160.S(10.W))
   val spriteXReg = RegInit(500.S(11.W))
   val sprite0FlipHorizontalReg = RegInit(false.B)
 
@@ -50,6 +51,7 @@ class PlayerMovementFSM() extends Module {
   val btnDownPressed = RegInit(false.B)
 
   val beerReady = RegInit(false.B)
+  val spriteAnimationY = RegInit(false.B)
 
   //Setting all sprite control outputs to zero
   io.spriteXPosition := spriteXReg
@@ -78,7 +80,12 @@ class PlayerMovementFSM() extends Module {
           throwStrength := Mux(throwStrength < 30.S, throwStrength + 1.S, throwStrength)
           spriteXReg := Mux(spriteXReg < 530.S, spriteXReg + 1.S, spriteXReg)
         }
-        
+
+        when (!spriteAnimationY) {
+          spriteAnimationY := true.B
+          spriteYRegOld := spriteYReg
+        }
+
         spriteYReg := Mux(frameCount === 0.U || frameCount === 2.U, spriteYReg + (throwStrength >> 2), spriteYReg - (throwStrength >> 2))
       }
 
@@ -91,6 +98,10 @@ class PlayerMovementFSM() extends Module {
         when (!(throwStrength === 0.S)) {
           beerReady := false.B
         }
+
+        spriteAnimationY := false.B
+        spriteYReg := spriteYRegOld
+
       }
 
       when(io.btnD){
