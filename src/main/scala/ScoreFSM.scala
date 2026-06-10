@@ -16,6 +16,8 @@ class ScoreFSM extends Module {
     val beerPositionX = Input(SInt(11.W))
     val beerPositionY = Input(SInt(10.W))
     val beerValid = Input(Bool())
+    val customerOneScoredInp = Input(Bool())
+    val customerTwoScoredInp = Input(Bool())
 
     // Outputs
     val customerOneScored = Output(Bool())
@@ -40,18 +42,18 @@ class ScoreFSM extends Module {
   distanceY2 := io.beerPositionY - io.customerTwoPositionY
 
   // State definitions
-  val idle :: waitingForBeer :: done :: Nil = Enum(3)
-  val stateReg = RegInit(idle)
+  val idleState :: waitingForBeerState :: customerStatusState :: doneState :: Nil = Enum(4)
+  val stateReg = RegInit(idleState)
 
   // FSM
   switch(stateReg) {
-    is(idle) {
+    is(idleState) {
       when(io.work) {
-        stateReg := waitingForBeer
+        stateReg := waitingForBeerState
       }
     }
-    is(waitingForBeer) {
-      stateReg := done
+    is(waitingForBeerState) {
+      stateReg := customerStatusState
       when(io.beerValid) {
         // Check if the beer is at the same Y position as either customer
         when(distanceY1 >= 0.S && distanceY1 < 40.S) {
@@ -79,18 +81,27 @@ class ScoreFSM extends Module {
           }.elsewhen(distanceX2 >= -64.S && distanceX2 <= 64.S) {
             scoreReg := scoreReg + 1.U
             customerTwoScoredReg := true.B
-          } 
+          }
         }
       }
     }
-    is(done) {
-      stateReg := idle
+    is(customerStatusState) { // Put them down for one cycle so the GameLogic FSM can read the score and update the customers
+      when(io.customerOneScoredInp) {
+        customerOneScoredReg := false.B
+      }
+      when(io.customerTwoScoredInp) {
+        customerTwoScoredReg := false.B
+      }
+      stateReg := doneState
+    }
+    is(doneState) {
+      stateReg := idleState
     }
   }
 
   // Output the score
   io.score := scoreReg
-  io.done := stateReg === done
+  io.done := stateReg === doneState
   io.customerOneScored := customerOneScoredReg
   io.customerTwoScored := customerTwoScoredReg
 
