@@ -124,6 +124,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.spriteXPosition(1) := playerMovementFSM.io.spriteXPosition
   io.spriteXPosition(2) := playerMovementFSM.io.spriteXPosition
   io.spriteXPosition(3) := playerMovementFSM.io.spriteXPosition
+  io.spriteXPosition(11) := playerMovementFSM.io.spriteXPosition
   io.spriteXPosition(4) := spawnCustomer.io.customer1PosX
   io.spriteXPosition(5) := spawnCustomer.io.customer1PosX
   io.spriteXPosition(6) := spawnCustomer.io.customer2PosX
@@ -135,6 +136,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.spriteYPosition(1) := playerMovementFSM.io.spriteYPosition
   io.spriteYPosition(2) := playerMovementFSM.io.spriteYPosition
   io.spriteYPosition(3) := playerMovementFSM.io.spriteYPosition
+  io.spriteYPosition(11) := playerMovementFSM.io.spriteYPosition
   io.spriteYPosition(4) := spawnCustomer.io.customer1PosY
   io.spriteYPosition(5) := spawnCustomer.io.customer1PosY
   io.spriteYPosition(6) := spawnCustomer.io.customer2PosY
@@ -146,6 +148,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.spriteFlipHorizontal(1) := playerMovementFSM.io.spriteFlipHorizontal
   io.spriteFlipHorizontal(2) := playerMovementFSM.io.spriteFlipHorizontal
   io.spriteFlipHorizontal(3) := playerMovementFSM.io.spriteFlipHorizontal
+  io.spriteFlipHorizontal(11) := playerMovementFSM.io.spriteFlipHorizontal
   io.spriteFlipHorizontal(4) := spawnCustomer.io.customer1Flipped
   io.spriteFlipHorizontal(5) := spawnCustomer.io.customer2Flipped
 
@@ -153,6 +156,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.spriteFlipVertical(1) := playerMovementFSM.io.spriteFlipVertical
   io.spriteFlipVertical(2) := playerMovementFSM.io.spriteFlipVertical
   io.spriteFlipVertical(3) := playerMovementFSM.io.spriteFlipVertical
+  io.spriteFlipVertical(11) := playerMovementFSM.io.spriteFlipVertical
 
   io.spriteVisible(4) := spawnCustomer.io.customer1IdleVisible
   io.spriteVisible(5) := spawnCustomer.io.customer1DrinkingVisible
@@ -167,21 +171,21 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   switch(playerMovementFSM.io.spriteAnimationFrame) {
     is(0.U) {
       io.spriteVisible(0) := true.B
-      io.spriteVisible(1) := false.B
-      io.spriteVisible(2) := false.B
       io.spriteVisible(11) := false.B
+      io.spriteVisible(2) := false.B
+      io.spriteVisible(3) := false.B
     }
     is(1.U) {
-      io.spriteVisible(1) := true.B
+      io.spriteVisible(11) := true.B
       io.spriteVisible(0) := false.B
       io.spriteVisible(2) := false.B
-      io.spriteVisible(11) := false.B
+      io.spriteVisible(3) := false.B
     }
     is(2.U) {
       io.spriteVisible(2) := true.B
       io.spriteVisible(0) := false.B
-      io.spriteVisible(1) := false.B
       io.spriteVisible(11) := false.B
+      io.spriteVisible(3) := false.B
 
     }
     is(3.U) {

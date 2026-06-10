@@ -42,7 +42,7 @@ class PlayerMovementFSM() extends Module {
 
   val beerSpeedReg = RegInit(0.S(8.W))
   val throwStrength = RegInit(0.S(8.W)) //-16 to 15
-  val frameCount = RegInit(0.U(1.W))
+  val frameCount = RegInit(0.U(4.W))
 
   val animFrameReg = RegInit(0.U(2.W))
 
@@ -73,12 +73,12 @@ class PlayerMovementFSM() extends Module {
     is(compute1) {
 
       when (io.btnC && io.beerReady && beerReady) {
-        when (frameCount === 0.U) {
+        when (frameCount === 0.U || frameCount === 2.U || frameCount === 4.U || frameCount === 8.U) {
           // Keep charging up to the max cap of 15
           throwStrength := Mux(throwStrength < 30.S, throwStrength + 1.S, throwStrength)
           spriteXReg := Mux(spriteXReg < 530.S, spriteXReg + 1.S, spriteXReg)
         }
-        spriteYReg := Mux(frameCount === 0, spriteYReg + throwStrength, spriteYReg - throwStrength)
+        spriteYReg := Mux(frameCount === 0.U, spriteYReg + (throwStrength >> 2), spriteYReg - (throwStrength >> 2))
       }
 
       // 2. Handle the launch logic when the button is released (or beer stops being ready)
