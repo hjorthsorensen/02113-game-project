@@ -24,7 +24,8 @@ class ScoreFSM extends Module {
 
   // Registers
   val scoreReg = RegInit(0.U(8.W))
-
+  val distanceX = WireDefault(0.S(11.W))
+  distanceX := io.customerOnePositionX - io.beerPositionX
   // State definitions
   val idle :: waitingForBeer :: done :: Nil = Enum(3)
   val stateReg = RegInit(idle)
@@ -41,9 +42,9 @@ class ScoreFSM extends Module {
       when(io.beerValid) {
         // Check if the beer is at the same Y position as either customer
         when((io.beerPositionX - io.customerOnePositionX) > 0 && (io.beerPositionX - io.customerOnePositionX) < 40.S) {
-          val distanceX = io.customerOnePositionX - io.beerPositionX
+
           // Score Calculations | Withing 32 units = 2 points, withing 64 units = 1 points, otherwise 0.
-          when(distanceX = 0.S) {
+          when(distanceX === 0.S) {
             scoreReg := scoreReg + 5.U
           }.elsewhen(distanceX >= -32.S && distanceX <= 32.S) {
             scoreReg := scoreReg + 2.U
@@ -56,7 +57,7 @@ class ScoreFSM extends Module {
         when((io.beerPositionX - io.customerTwoPositionX) > 0 && (io.beerPositionX - io.customerTwoPositionX) < 40.S) {
           val distanceX = io.customerTwoPositionX - io.beerPositionX
           // Score Calculations | Withing 32 units = 2 points, withing 64 units = 1 points, otherwise 0.
-          when(distanceX = 0.S) {
+          when(distanceX === 0.S) {
             scoreReg := scoreReg + 5.U
           }.elsewhen(distanceX >= -32.S && distanceX <= 32.S) {
             scoreReg := scoreReg + 2.U

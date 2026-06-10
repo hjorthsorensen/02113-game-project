@@ -82,14 +82,14 @@ class SpawnCustomer extends Module {
       // if customer not spawned, and customer delay is 0, spawn customer.
       when(!customer1Spawned && (customerSpawnDelay === 0.U)) {
         customer1XReg := 150.S
-        customer1YReg := 160.S
+        customer1YReg := 192.S
         customer1IdleVisible := true.B
         customer1Spawned := true.B
         customerSpawnDelay := 60.U
       }
       when(!customer2Spawned && (customerSpawnDelay === 0.U)) {
         customer2XReg := 300.S
-        customer2YReg := 160.S+96.S
+        customer2YReg := 192.S+32.S
         customer2IdleVisible := true.B
         customer2Spawned := true.B
         customerSpawnDelay := 60.U
