@@ -79,10 +79,9 @@ class ScoreFSM extends Module {
           }.elsewhen(distanceX2 >= -64.S && distanceX2 <= 64.S) {
             scoreReg := scoreReg + 1.U
             customerTwoScoredReg := true.B
-          }
+          } 
         }
       }
-
     }
     is(done) {
       stateReg := idle
