@@ -178,11 +178,11 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
       io.spriteVisible(11) := false.B
     }
     is(1.U) {
-      io.spriteVisible(3) := true.B
+      io.spriteVisible(11) := true.B
       io.spriteVisible(0) := false.B
       io.spriteVisible(1) := false.B
       io.spriteVisible(2) := false.B
-      io.spriteVisible(11) := false.B
+      io.spriteVisible(3) := false.B
     }
     is(2.U) {
       io.spriteVisible(2) := true.B
@@ -193,9 +193,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
     }
     is(3.U) {
-      io.spriteVisible(11) := true.B
+      io.spriteVisible(3) := true.B
       io.spriteVisible(0) := false.B
-      io.spriteVisible(3) := false.B
+      io.spriteVisible(11) := false.B
       io.spriteVisible(2) := false.B
       io.spriteVisible(1) := false.B
 
@@ -221,7 +221,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   //Default .io connections for background handler
   backgroundHandler.io.work := false.B
   backgroundHandler.io.inputAdress := 0.U
-  backgroundHandler.io.inputTileID := 0.U
+  backgroundHandler.io.inputTileID := 26.U
 
   //Conditionally assigns write address and tileID to the backgroundHandler
   when(scoreBoardFSM.io.writingScore) {
