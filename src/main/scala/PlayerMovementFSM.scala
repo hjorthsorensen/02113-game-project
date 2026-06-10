@@ -36,7 +36,7 @@ class PlayerMovementFSM() extends Module {
   val idle :: compute1 :: done :: Nil = Enum(3)
   val stateReg = RegInit(idle)
   
-  val sprite0YReg = RegInit(180.S(10.W))
+  val sprite0YReg = RegInit(160.S(10.W))
   val sprite0XReg = RegInit(500.S(11.W))
   val sprite0FlipHorizontalReg = RegInit(false.B)
 
@@ -48,6 +48,8 @@ class PlayerMovementFSM() extends Module {
 
   val btnUpPressed = RegInit(false.B)
   val btnDownPressed = RegInit(false.B)
+
+  val beerReady = RegInit(false.B)
 
   //Setting all sprite control outputs to zero
   io.spriteXPosition := sprite0XReg
@@ -84,16 +86,17 @@ class PlayerMovementFSM() extends Module {
         beerSpeedReg  := throwStrength // Launch at full accumulated strength!
         throwStrength := 0.S           // Reset strength for the next throw
         sprite0XReg := 500.S
+        beerReady := false.B
       }
 
       when(io.btnD){
         btnDownPressed := true.B
-        when(sprite0YReg < (480 - 32 - 24).S && btnDownPressed) {
+        when(sprite0YReg < (480 - 64 - 24).S && !btnDownPressed) {
           sprite0YReg := sprite0YReg + 64.S
         }
       } .elsewhen(io.btnU){
         btnUpPressed := true.B
-        when(sprite0YReg > (96).S && btnUpPressed) {
+        when(sprite0YReg > (96 + 64).S && !btnUpPressed) {
           sprite0YReg := sprite0YReg - 64.S
         }
       } .otherwise {
@@ -102,7 +105,10 @@ class PlayerMovementFSM() extends Module {
       }
 
       when(io.btnR) {
-        animFrameReg := 3.U
+        when (sprite0YReg < (96 + 33).S) {
+          animFrameReg := 3.U
+          beerReady := true.B
+        }
       } .elsewhen(io.btnL){
         animFrameReg := 1.U
       } .elsewhen(io.btnC) {
