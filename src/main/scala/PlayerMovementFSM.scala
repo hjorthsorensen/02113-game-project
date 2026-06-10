@@ -105,7 +105,7 @@ class PlayerMovementFSM() extends Module {
       }
 
       when(io.btnR) {
-        when (sprite0YReg < (96 + 33).S) {
+        when (sprite0YReg < (96).S) {
           animFrameReg := 3.U
           beerReady := true.B
         }
