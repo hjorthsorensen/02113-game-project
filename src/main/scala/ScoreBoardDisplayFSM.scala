@@ -24,7 +24,7 @@ class ScoreBoardDisplayFSM extends Module{
     // val tileReg = RegInit(tile1)
 
     val scoreRightDigit = io.score % 10.U
-    val scoreMiddleDigit = io.score / 10.U   
+    val scoreMiddleDigit = (io.score / 10.U) % 10.U
     val scoreLeftDigit = io.score / 100.U 
     val scoreIDReg = RegInit(0.U(2.W))
     // val scoreWriteDoneReg = RegInit(false.B)

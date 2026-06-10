@@ -53,10 +53,13 @@ class BeerMovement extends Module{
         is(idle){
             when(io.work){
                 //When the beer has been thrown and the movement is done, make the beer invisible and set it ready for the next throw
-                when(!inCalc && doneCalc && (fpsReg === 120.U)){
+                when(!inCalc && doneCalc && (fpsReg === 90.U)){
                     beerVisibleReg := false.B
                     beerReadyReg := true.B   
                     beerValidReg := false.B
+                }
+                when(!inCalc && doneCalc && (beerXReg <=64.S)){
+                    beerYReg := beerYReg + 1.S
                 }
                 //When the beer is stationary, we are now not in calculation, and the beer is ready for the next throw
                 when(inCalc && doneCalc){
