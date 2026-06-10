@@ -116,14 +116,17 @@ class SpawnCustomer extends Module {
         customer1DrinkingVisible := true.B
         customer1IdleVisible := false.B
         //change to drinking sprite
-        when(!(customerDrinkingDelay === 16.U) && customerDrinkingAnimCycle === 0.U){
+        when(!(customerDrinkingDelay === 15.U) && customerDrinkingAnimCycle === 0.U){
             customerDrinkingDelay := customerDrinkingDelay + 1.U
-        }.elsewhen(customerDrinkingDelay === 0.U && customerDrinkingAnimCycle === 0.U){
+        }
+        .elsewhen(customerDrinkingDelay === 15.U && customerDrinkingAnimCycle === 0.U){
         customer1DrinkingVisible := false.B
         customer1IdleVisible := true.B
         customerDrinkingAnimCycle := 1.U
-        // customerDrinkingDelay := 
+        customerDrinkingDelay := 0.U
         }
+        //going to 
+        // when()
 
 
 

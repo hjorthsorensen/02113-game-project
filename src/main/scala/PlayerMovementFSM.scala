@@ -78,7 +78,7 @@ class PlayerMovementFSM() extends Module {
           throwStrength := Mux(throwStrength < 30.S, throwStrength + 1.S, throwStrength)
           spriteXReg := Mux(spriteXReg < 530.S, spriteXReg + 1.S, spriteXReg)
         }
-        spriteYReg := Mux(frameCount === 0, spriteYReg + throwStrength, spriteYReg - throwStrength)
+        spriteYReg := Mux(frameCount === 0.U, spriteYReg + throwStrength, spriteYReg - throwStrength)
       }
 
       // 2. Handle the launch logic when the button is released (or beer stops being ready)
