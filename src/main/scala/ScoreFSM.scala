@@ -26,17 +26,13 @@ class ScoreFSM extends Module {
 
   // Registers
   val scoreReg = RegInit(0.U(8.W))
-<<<<<<< HEAD
   val customerOneScored = RegInit(false.B)
   val customerTwoScored = RegInit(false.B)
 
-=======
-  val distanceX = WireDefault(0.S(11.W))
-  distanceX := io.customerOnePositionX - io.beerPositionX
->>>>>>> be6d8cb2a45b4e36b7b5df85c9c04cf1ded86f8f
   // State definitions
   val idle :: waitingForBeer :: done :: Nil = Enum(3)
   val stateReg = RegInit(idle)
+  
 
   // FSM
   switch(stateReg) {
@@ -49,21 +45,10 @@ class ScoreFSM extends Module {
       stateReg := done
       when(io.beerValid) {
         // Check if the beer is at the same Y position as either customer
-<<<<<<< HEAD
-<<<<<<< HEAD
         when((io.beerPositionX - io.customerOnePositionX) > 0.S && (io.beerPositionX - io.customerOnePositionX) < 40.S) {
           val distanceX = io.customerOnePositionX - io.beerPositionX
           // Score Calculations | Pixel pefect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
           when(distanceX = 0.S) {
-=======
-        when((io.beerPositionX - io.customerOnePositionX) > 0 && (io.beerPositionX - io.customerOnePositionX) < 40.S) {
-=======
-        when((io.beerPositionX - io.customerOnePositionX) > 0.S && (io.beerPositionX - io.customerOnePositionX) < 40.S) {
->>>>>>> 40bfe17bf020ec9c6f13155860be1a74f77189ee
-
-          // Score Calculations | Withing 32 units = 2 points, withing 64 units = 1 points, otherwise 0.
-          when(distanceX === 0.S) {
->>>>>>> be6d8cb2a45b4e36b7b5df85c9c04cf1ded86f8f
             scoreReg := scoreReg + 5.U
             customerOneScored := true.B
           }.elsewhen(distanceX >= -32.S && distanceX <= 32.S) {
@@ -78,13 +63,8 @@ class ScoreFSM extends Module {
 
         when((io.beerPositionX - io.customerTwoPositionX) > 0.S && (io.beerPositionX - io.customerTwoPositionX) < 40.S) {
           val distanceX = io.customerTwoPositionX - io.beerPositionX
-<<<<<<< HEAD
           // Score Calculations | Pixel pefect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
           when(distanceX = 0.S) {
-=======
-          // Score Calculations | Withing 32 units = 2 points, withing 64 units = 1 points, otherwise 0.
-          when(distanceX === 0.S) {
->>>>>>> be6d8cb2a45b4e36b7b5df85c9c04cf1ded86f8f
             scoreReg := scoreReg + 5.U
             customerTwoScored := true.B
           }.elsewhen(distanceX >= -32.S && distanceX <= 32.S) {
