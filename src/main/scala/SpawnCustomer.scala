@@ -18,6 +18,8 @@ class SpawnCustomer extends Module {
     val customer2DrinkingVisible = Output(Bool())
     val customer1Flipped = Output(Bool())
     val customer2Flipped = Output(Bool())
+    val customer1ScoredDone = Output(Bool())
+    val customer2ScoredDone = Output(Bool())
   })
 
   // customers default spawn is (0,0); position is picked in spawn state
@@ -100,6 +102,10 @@ class SpawnCustomer extends Module {
     }
     is(despawn) {
       when(io.customer1Scored) {
+        customer1DrinkingVisible := true.B
+        customer1IdleVisible := false.B
+
+
         customer1XReg := 0.S
         customer1YReg := 0.S
         customer1IdleVisible := false.B
