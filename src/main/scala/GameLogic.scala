@@ -96,10 +96,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
   spawnCustomer.io.work := false.B
 
-  // val customerOnePositionX = RegInit(0.S(11.W))
-  // val customerOnePositionY = RegInit(0.S(10.W))
-  // val customerTwoPositionX = RegInit(0.S(11.W))
-  // val customerTwoPositionY = RegInit(0.S(10.W))
+  
 
   scoreFSM.io.customerOnePositionX := spawnCustomer.io.customer1PosX
   scoreFSM.io.customerOnePositionY := spawnCustomer.io.customer1PosY
@@ -156,7 +153,6 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
 
 
-
   switch(playerMovementFSM.io.spriteAnimationFrame) {
     is(0.U) {
       io.spriteVisible(0) := true.B
@@ -185,21 +181,55 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
     }
   }
+  /////////////////////////////////////////////////////////////////////////
+  /////BACKGROUND LOGIC
+  /////////////////////////////////////////////////////////////////////////
+
+  val scoreBoardFSM = Module(new ScoreBoardDisplayFSM())
+  val backgroundHandler = Module(new BackgroundHandler())
+  io.backBufferWriteAddress := backgroundHandler.io.writeAdress
+  io.backBufferWriteData := backgroundHandler.io.writeTileID
+  io.backBufferWriteEnable := backgroundHandler.io.writeEnable
+
+
+  scoreBoardFSM.io.score := scoreFSM.io.score
+  scoreBoardFSM.io.work := backgroundHandler.io.scoreWork
+
+  backgroundHandler.io.work := false.B
+  backgroundHandler.io.scoreDone := scoreBoardFSM.io.done
+  backgroundHandler.io.inputAdress := 0.U
+  backgroundHandler.io.inputTileID := 0.U
+
+  when(scoreBoardFSM.io.writingScore) {
+    backgroundHandler.io.inputAdress := scoreBoardFSM.io.writeAdress
+    backgroundHandler.io.inputTileID := scoreBoardFSM.io.writeTileID
+  }//add .elsewhen if you want to write other things to the background as well
+
+
+  
+
+  /////////////////////////////////////////////////////////////////////////
+  /////DONE SIGNAL AND FSMD FOR FRAME UPDATE
+  /////////////////////////////////////////////////////////////////////////
+
   val playerDoneReg = RegInit(false.B)
   val beerDoneReg = RegInit(false.B)
   val scoreFSMDoneReg = RegInit(false.B)
   val spawnCustomerReg = RegInit(false.B)
+  val backgroundDoneReg = RegInit(false.B)
 
   when(io.newFrame) {
     playerMovementFSM.io.work := true.B
     beerMovement.io.work := true.B
     scoreFSM.io.work := true.B
     spawnCustomer.io.work := true.B
+    backgroundHandler.io.work := true.B
 
     playerDoneReg := false.B
     beerDoneReg := false.B
     scoreFSMDoneReg := false.B
     spawnCustomerReg := false.B
+    backgroundDoneReg := false.B
   }
 
   when(playerMovementFSM.io.done) {
@@ -214,8 +244,12 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   when(spawnCustomer.io.done) {
     spawnCustomerReg := true.B
   }
+  
+  when(backgroundHandler.io.done) {
+    backgroundDoneReg := true.B
+  }
 
-  when(playerDoneReg && beerDoneReg && scoreFSMDoneReg && spawnCustomerReg) {
+  when(playerDoneReg && beerDoneReg && scoreFSMDoneReg && spawnCustomerReg && backgroundDoneReg) {
     io.frameUpdateDone := true.B
   }
 
