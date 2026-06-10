@@ -50,12 +50,16 @@ class ScoreFSM extends Module {
       when(io.beerValid) {
         // Check if the beer is at the same Y position as either customer
 <<<<<<< HEAD
+<<<<<<< HEAD
         when((io.beerPositionX - io.customerOnePositionX) > 0.S && (io.beerPositionX - io.customerOnePositionX) < 40.S) {
           val distanceX = io.customerOnePositionX - io.beerPositionX
           // Score Calculations | Pixel pefect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
           when(distanceX = 0.S) {
 =======
         when((io.beerPositionX - io.customerOnePositionX) > 0 && (io.beerPositionX - io.customerOnePositionX) < 40.S) {
+=======
+        when((io.beerPositionX - io.customerOnePositionX) > 0.S && (io.beerPositionX - io.customerOnePositionX) < 40.S) {
+>>>>>>> 40bfe17bf020ec9c6f13155860be1a74f77189ee
 
           // Score Calculations | Withing 32 units = 2 points, withing 64 units = 1 points, otherwise 0.
           when(distanceX === 0.S) {
