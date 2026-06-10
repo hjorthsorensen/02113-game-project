@@ -4,7 +4,7 @@ import chisel3.util._
 class ScoreBoardDisplayFSM extends Module{
     val io = IO(new Bundle {
         //Inputs
-        val score = Input(UInt(8.W))
+        val score = Input(UInt(16.W))
         val work = Input(Bool())
         
         
@@ -25,7 +25,8 @@ class ScoreBoardDisplayFSM extends Module{
 
     val scoreRightDigit = io.score % 10.U
     val scoreMiddleDigit = (io.score / 10.U) % 10.U
-    val scoreLeftDigit = io.score / 100.U 
+    val scoreLeftDigit = (io.score / 100.U) % 10.U
+    val scoreLeftLeftDigit = (io.score / 1000.U) % 10.U
     val scoreIDReg = RegInit(0.U(2.W))
     // val scoreWriteDoneReg = RegInit(false.B)
     // scoreWriteDoneReg :=
@@ -49,16 +50,20 @@ class ScoreBoardDisplayFSM extends Module{
             io.writingScore := true.B
             when(scoreIDReg === 0.U){
                 scoreIDReg := scoreIDReg + 1.U
-                io.writeAdress := 16.U
+                io.writeAdress := 17.U
                 io.writeTileID := scoreRightDigit + 16.U
             }.elsewhen(scoreIDReg === 1.U){
                 scoreIDReg := scoreIDReg + 1.U
-                io.writeAdress := 15.U
+                io.writeAdress := 16.U
                 io.writeTileID := scoreMiddleDigit + 16.U
             }.elsewhen(scoreIDReg === 2.U){
+                scoreIDReg := scoreIDReg + 1.U
+                io.writeAdress := 15.U
+                io.writeTileID := scoreLeftDigit + 16.U
+            }.elsewhen(scoreIDReg === 3.U){
                 stateReg := done
                 io.writeAdress := 14.U
-                io.writeTileID := scoreLeftDigit + 16.U
+                io.writeTileID := scoreLeftLeftDigit + 16.U
             }
         }
         is(done){

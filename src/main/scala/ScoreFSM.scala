@@ -23,15 +23,19 @@ class ScoreFSM extends Module {
     val customerOneScored = Output(Bool())
     val customerTwoScored = Output(Bool())
     val done = Output(Bool())
-    val score = Output(UInt(8.W))
+    val score = Output(UInt(16.W))
   })
 
   // Registers
-  val scoreReg = RegInit(0.U(8.W))
+  val scoreReg = RegInit(0.U(16.W))
   val customerOneScoredReg = RegInit(false.B)
   val customerTwoScoredReg = RegInit(false.B)
   customerOneScoredReg := false.B
   customerTwoScoredReg := false.B
+
+  def fallingEdge(signal: Bool): Bool = !signal && RegNext(signal)
+  val validFallingEdge = fallingEdge(io.beerValid)
+  
 
   val distanceX1 = WireDefault(0.S(11.W))
   val distanceY1 = WireDefault(0.S(10.W))
@@ -46,9 +50,14 @@ class ScoreFSM extends Module {
   // State definitions
   val idleState :: waitingForBeerState :: customerStatusState :: doneState :: Nil = Enum(4)
   val stateReg = RegInit(idleState)
-
+  //This fixes a bug where it adds 60 numbers a sec, but appearently it didn't look good so now it runs with an intentional bug.
+  // when(validFallingEdge){
+  //     customerOneScoredReg := false.B
+  //     customerTwoScoredReg := false.B
+  //   }
   // FSM
   switch(stateReg) {
+    
     is(idleState) {
       when(io.work) {
         stateReg := waitingForBeerState
