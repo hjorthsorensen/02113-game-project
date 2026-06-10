@@ -1,27 +1,63 @@
+import chisel3._
+import chisel3.util._
+
 class BackgroundHandler extends Module{
     val io = IO(new Bundle {
         //Inputs
         
         val work = Input(Bool())
-        val scoreWriteEnable = Input(Bool())
+        val scoreDone = Input(Bool())
+        val inputAdress = Input(UInt(10.W))
+        val inputTileID = Input(UInt(5.W))
         
         
 
         //Outputs for background
-        val scoreAdress = Output(UInt(10.W))
-        val scoreTileID = Output(UInt(5.W))
+        val writeAdress = Output(UInt(10.W))
+        val writeTileID = Output(UInt(5.W))
         val writeEnable = Output(Bool())
 
         val scoreWriteDone = Output(Bool())
-        
-        
+        val scoreWork = Output(Bool())
         val done = Output(Bool())
 
     })
 
-    val scoreTileAmountReg = RegInit(0.U(4.W))
-    val scoreWriteDoneReg = RegInit(false.B)
     
-    val idle :: busy :: doneMovement :: Nil = Enum(3)
+    
+    val idle :: scoreBoard :: otherBackgroundThing :: done :: Nil = Enum(4)
     val stateReg = RegInit(idle)
+
+
+    io.writeAdress := io.inputAdress
+    io.writeTileID := io.inputTileID
+
+    io.writeEnable := false.B
+    io.scoreWork := false.B
+    io.done := false.B
+
+    switch(stateReg){
+        is(idle){
+            when(io.work){
+                stateReg := scoreBoard
+                io.scoreWork := true.B
+            }
+        }
+        is(scoreBoard){
+            io.writeEnable := true.B
+            
+            when(io.scoreDone){
+                stateReg := otherBackgroundThing
+            }
+        }
+        is(otherBackgroundThing){
+            // Placeholder for any additional background updates needed after the scoreboard is done.
+            // For now, it just transitions to the done state immediately.
+            stateReg := done
+        }
+        is(done){
+            io.done := true.B
+        
+        }
+    }
 }
