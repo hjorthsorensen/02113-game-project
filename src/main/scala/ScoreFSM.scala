@@ -18,12 +18,16 @@ class ScoreFSM extends Module {
     val beerValid = Input(Bool())
 
     // Outputs
+    val customerOneScored = Output(Bool())
+    val customerTwoScored = Output(Bool())
     val done = Output(Bool())
     val score = Output(UInt(8.W))
   })
 
   // Registers
   val scoreReg = RegInit(0.U(8.W))
+  val customerOneScored = RegInit(false.B)
+  val customerTwoScored = RegInit(false.B)
 
   // State definitions
   val idle :: waitingForBeer :: done :: Nil = Enum(3)
@@ -40,28 +44,34 @@ class ScoreFSM extends Module {
       stateReg := done
       when(io.beerValid) {
         // Check if the beer is at the same Y position as either customer
-        when((io.beerPositionX - io.customerOnePositionX) > 0 && (io.beerPositionX - io.customerOnePositionX) < 40.S) {
+        when((io.beerPositionX - io.customerOnePositionX) > 0.S && (io.beerPositionX - io.customerOnePositionX) < 40.S) {
           val distanceX = io.customerOnePositionX - io.beerPositionX
-          // Score Calculations | Withing 32 units = 2 points, withing 64 units = 1 points, otherwise 0.
+          // Score Calculations | Pixel pefect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
           when(distanceX = 0.S) {
             scoreReg := scoreReg + 5.U
+            customerOneScored := true.B
           }.elsewhen(distanceX >= -32.S && distanceX <= 32.S) {
             scoreReg := scoreReg + 2.U
+            customerOneScored := true.B
           }.elsewhen(distanceX >= -64.S && distanceX <= 64.S) {
             scoreReg := scoreReg + 1.U
+            customerOneScored := true.B
           }
-          scoreReg := scoreReg
+          scoreReg := scoreReg  
         }
 
-        when((io.beerPositionX - io.customerTwoPositionX) > 0 && (io.beerPositionX - io.customerTwoPositionX) < 40.S) {
+        when((io.beerPositionX - io.customerTwoPositionX) > 0.S && (io.beerPositionX - io.customerTwoPositionX) < 40.S) {
           val distanceX = io.customerTwoPositionX - io.beerPositionX
-          // Score Calculations | Withing 32 units = 2 points, withing 64 units = 1 points, otherwise 0.
+          // Score Calculations | Pixel pefect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
           when(distanceX = 0.S) {
             scoreReg := scoreReg + 5.U
+            customerTwoScored := true.B
           }.elsewhen(distanceX >= -32.S && distanceX <= 32.S) {
             scoreReg := scoreReg + 2.U
+            customerTwoScored := true.B
           }.elsewhen(distanceX >= -64.S && distanceX <= 64.S) {
             scoreReg := scoreReg + 1.U
+            customerTwoScored := true.B
           }
           scoreReg := scoreReg
         }
