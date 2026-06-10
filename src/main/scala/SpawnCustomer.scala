@@ -30,6 +30,7 @@ class SpawnCustomer extends Module {
   val customer1Spawned = RegInit(false.B)
   val customer1AnimCycle = RegInit(0.U(7.W))
   val customer1AnimDir = RegInit(true.B)
+  val customer1ScoreDone = RegInit(false.B)
 
   val customer2XReg = RegInit(0.S(11.W))
   val customer2YReg = RegInit(0.S(10.W))
@@ -38,6 +39,7 @@ class SpawnCustomer extends Module {
   val customer2Spawned = RegInit(false.B)
   val customer2AnimCycle = RegInit(0.U(7.W))
   val customer2AnimDir = RegInit(true.B)
+  val customer2ScoreDone = RegInit(false.B)
 
   val customer1FlippedReg = RegInit(false.B)
   val customer2FlippedReg = RegInit(false.B)
@@ -45,7 +47,8 @@ class SpawnCustomer extends Module {
   val customerToSpawn = RegInit(0.U(2.W))
   val customerToDespawn = RegInit(0.U(2.W))
   val customerSpawnDelay = RegInit(0.U(8.W))
-
+  val customerDrinkingDelay = RegInit(0.U(4.W))
+  val customerDrinkingAnimCycle = RegInit(0.U(2.W))
   // reg to decide what customer to spawn
 
   // io connections
@@ -59,10 +62,18 @@ class SpawnCustomer extends Module {
   io.customer2IdleVisible := customer2IdleVisible
   io.customer2DrinkingVisible := customer2DrinkingVisible
 
+  io.customer1ScoredDone := customer1ScoreDone
+  io.customer2ScoredDone := customer2ScoreDone
+
+  customer1ScoreDone := false.B
+  customer2ScoreDone := false.B
+  
   io.customer1Flipped := customer1FlippedReg
   io.customer2Flipped := customer2FlippedReg
-//   customerToDespawn := Cat(io.customer2Scored,io.customer1Scored)
-//   customerToSpawn := Cat(io.customer2IdleVisible,io.customer1IdleVisible)
+
+
+
+
 
   // statemachine
   val idle :: spawn :: despawn :: delays :: animate :: done :: Nil = Enum(6)
@@ -104,6 +115,16 @@ class SpawnCustomer extends Module {
       when(io.customer1Scored) {
         customer1DrinkingVisible := true.B
         customer1IdleVisible := false.B
+        //change to drinking sprite
+        when(!(customerDrinkingDelay === 16.U) && customerDrinkingAnimCycle === 0.U){
+            customerDrinkingDelay := customerDrinkingDelay + 1.U
+        }.elsewhen(customerDrinkingDelay === 0.U && customerDrinkingAnimCycle === 0.U){
+        customer1DrinkingVisible := false.B
+        customer1IdleVisible := true.B
+        customerDrinkingAnimCycle := 1.U
+        // customerDrinkingDelay := 
+        }
+
 
 
         customer1XReg := 0.S
@@ -111,6 +132,8 @@ class SpawnCustomer extends Module {
         customer1IdleVisible := false.B
         customer1DrinkingVisible := false.B
         customer1Spawned := false.B
+
+
       }.elsewhen(io.customer2Scored) {
         customer2XReg := 0.S
         customer2YReg := 0.S
@@ -119,6 +142,10 @@ class SpawnCustomer extends Module {
         customer2Spawned := false.B
       }
 
+
+
+
+        //set io.customer1ScoreDone & io.customer2ScoreDone true, when done with animation.
       stateReg := animate
     }
     is(animate) {
