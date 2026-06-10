@@ -73,7 +73,7 @@ class PlayerMovementFSM() extends Module {
     is(compute1) {
 
       when (io.btnC) {
-        when (io.beerReady && frameCount === 0.U) {
+        when (io.beerReady && (frameCount === 0.U) && beerReady) {
           // Keep charging up to the max cap of 15
           throwStrength := Mux(throwStrength < 30.S, throwStrength + 1.S, throwStrength)
           sprite0XReg := Mux(sprite0XReg < 530.S, sprite0XReg + 1.S, sprite0XReg)
@@ -86,7 +86,9 @@ class PlayerMovementFSM() extends Module {
         beerSpeedReg  := throwStrength // Launch at full accumulated strength!
         throwStrength := 0.S           // Reset strength for the next throw
         sprite0XReg := 500.S
-        beerReady := false.B
+        when (throwStrength !== 0.S) {
+          beerReady := false.B
+        }
       }
 
       when(io.btnD){
@@ -105,13 +107,13 @@ class PlayerMovementFSM() extends Module {
       }
 
       when(io.btnR) {
-        when (sprite0YReg < (96 + 33).S) {
+        when (sprite0YReg < (96 + 64 + 33).S) {
           animFrameReg := 3.U
           beerReady := true.B
         }
       } .elsewhen(io.btnL){
         animFrameReg := 1.U
-      } .elsewhen(io.btnC) {
+      } .elsewhen(io.btnC && beerReady) {
         animFrameReg := 2.U
       } .otherwise {
         animFrameReg := 0.U

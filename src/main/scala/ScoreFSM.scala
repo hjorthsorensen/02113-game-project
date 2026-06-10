@@ -34,7 +34,6 @@ class ScoreFSM extends Module {
   val distanceX2 = WireDefault(0.S(11.W))
   val distanceY2 = WireDefault(0.S(10.W))
 
-
   distanceX1 := io.beerPositionX - io.customerOnePositionX
   distanceY1 := io.beerPositionY - io.customerOnePositionY
   distanceX2 := io.beerPositionX - io.customerTwoPositionX
@@ -67,11 +66,9 @@ class ScoreFSM extends Module {
             scoreReg := scoreReg + 1.U
             customerOneScoredReg := true.B
           }
-          scoreReg := scoreReg
         }
 
-        when(distanceY2 >= 0.S && distanceY2 < 40.S
-        ) {
+        when(distanceY2 >= 0.S && distanceY2 < 40.S) {
           // Score Calculations | Pixel perfect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
           when(distanceX2 === 0.S) {
             scoreReg := scoreReg + 5.U
@@ -82,11 +79,9 @@ class ScoreFSM extends Module {
           }.elsewhen(distanceX2 >= -64.S && distanceX2 <= 64.S) {
             scoreReg := scoreReg + 1.U
             customerTwoScoredReg := true.B
-          }
-          scoreReg := scoreReg
+          } 
         }
       }
-
     }
     is(done) {
       stateReg := idle
