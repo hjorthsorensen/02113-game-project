@@ -46,7 +46,7 @@ class SpawnCustomer extends Module {
 
   val customerToSpawn = RegInit(0.U(2.W))
   val customerToDespawn = RegInit(0.U(2.W))
-  val customerSpawnDelay = RegInit(0.U(8.W))
+  val customerSpawnDelay = RegInit(0.U(9.W))
   val customerDrinkingDelay = RegInit(0.U(8.W))
   val customerDrinkingAnimCycle = RegInit(0.U(2.W))
   val customerBegunScoring = RegInit(0.U(2.W))
@@ -106,7 +106,7 @@ class SpawnCustomer extends Module {
         customer2YReg := 192.S
         customer2IdleVisible := true.B
         customer2Spawned := true.B
-        customerSpawnDelay := 60.U
+        customerSpawnDelay := 300.U
       }
 
       stateReg := despawn
@@ -164,6 +164,8 @@ class SpawnCustomer extends Module {
             customerBegunScoring := 0.U
             customerDrinkingAnimCycle := 0.U
             customerDrinkingDelay := 0.U
+            customerSpawnDelay := 300.U
+
         }
 
 
@@ -215,6 +217,7 @@ class SpawnCustomer extends Module {
             customerBegunScoring := 0.U
             customerDrinkingAnimCycle := 0.U
             customerDrinkingDelay := 0.U
+            customerSpawnDelay := 60.U
 
         } 
       }
