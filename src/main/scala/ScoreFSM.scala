@@ -28,11 +28,17 @@ class ScoreFSM extends Module {
   val scoreReg = RegInit(0.U(8.W))
   val customerOneScoredReg = RegInit(false.B)
   val customerTwoScoredReg = RegInit(false.B)
-  val distanceX = WireDefault(0.S(11.W))
-  val distanceY = WireDefault(0.S(10.W))
 
-  distanceX := io.beerPositionX - io.customerOnePositionX
-  distanceY := io.beerPositionY - io.customerOnePositionY
+  val distanceX1 = WireDefault(0.S(11.W))
+  val distanceY1 = WireDefault(0.S(10.W))
+  val distanceX2 = WireDefault(0.S(11.W))
+  val distanceY2 = WireDefault(0.S(10.W))
+
+
+  distanceX1 := io.beerPositionX - io.customerOnePositionX
+  distanceY1 := io.beerPositionY - io.customerOnePositionY
+  distanceX2 := io.beerPositionX - io.customerTwoPositionX
+  distanceY2 := io.beerPositionY - io.customerTwoPositionY
 
   // State definitions
   val idle :: waitingForBeer :: done :: Nil = Enum(3)
@@ -49,35 +55,31 @@ class ScoreFSM extends Module {
       stateReg := done
       when(io.beerValid) {
         // Check if the beer is at the same Y position as either customer
-        when(
-          (io.beerPositionX - io.customerOnePositionX) > 0.S && (io.beerPositionX - io.customerOnePositionX) < 40.S
-        ) {
+        when(distanceY1 >= 0.S && distanceY1 < 40.S) {
           // Score Calculations | Pixel pefect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
-          when(distanceX === 0.S) {
+          when(distanceX1 === 0.S) {
             scoreReg := scoreReg + 5.U
             customerOneScoredReg := true.B
-          }.elsewhen(distanceX >= -32.S && distanceX <= 32.S) {
+          }.elsewhen(distanceX1 >= -32.S && distanceX1 <= 32.S) {
             scoreReg := scoreReg + 2.U
             customerOneScoredReg := true.B
-          }.elsewhen(distanceX >= -64.S && distanceX <= 64.S) {
+          }.elsewhen(distanceX1 >= -64.S && distanceX1 <= 64.S) {
             scoreReg := scoreReg + 1.U
             customerOneScoredReg := true.B
           }
           scoreReg := scoreReg
         }
 
-        when(
-          (io.beerPositionX - io.customerTwoPositionX) > 0.S && (io.beerPositionX - io.customerTwoPositionX) < 40.S
+        when(distanceY2 >= 0.S && distanceY2 < 40.S
         ) {
-          val distanceX = io.customerTwoPositionX - io.beerPositionX
           // Score Calculations | Pixel pefect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
-          when(distanceX === 0.S) {
+          when(distanceX2 === 0.S) {
             scoreReg := scoreReg + 5.U
             customerTwoScoredReg := true.B
-          }.elsewhen(distanceX >= -32.S && distanceX <= 32.S) {
+          }.elsewhen(distanceX2 >= -32.S && distanceX2 <= 32.S) {
             scoreReg := scoreReg + 2.U
             customerTwoScoredReg := true.B
-          }.elsewhen(distanceX >= -64.S && distanceX <= 64.S) {
+          }.elsewhen(distanceX2 >= -64.S && distanceX2 <= 64.S) {
             scoreReg := scoreReg + 1.U
             customerTwoScoredReg := true.B
           }
