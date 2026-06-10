@@ -62,8 +62,8 @@ class SpawnCustomer extends Module {
   io.customer2IdleVisible := customer2IdleVisible
   io.customer2DrinkingVisible := customer2DrinkingVisible
 
-  io.customer1ScoredDone := customer1ScoreDone
-  io.customer2ScoredDone := customer2ScoreDone
+  io.customer1ScoreDone := customer1ScoreDone
+  io.customer2ScoreDone := customer2ScoreDone
 
   customer1ScoreDone := false.B
   customer2ScoreDone := false.B
