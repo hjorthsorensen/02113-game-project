@@ -56,7 +56,7 @@ class ScoreFSM extends Module {
       when(io.beerValid) {
         // Check if the beer is at the same Y position as either customer
         when(distanceY1 >= 0.S && distanceY1 < 40.S) {
-          // Score Calculations | Pixel pefect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
+          // Score Calculations | Pixel perfect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
           when(distanceX1 === 0.S) {
             scoreReg := scoreReg + 5.U
             customerOneScoredReg := true.B
@@ -72,7 +72,7 @@ class ScoreFSM extends Module {
 
         when(distanceY2 >= 0.S && distanceY2 < 40.S
         ) {
-          // Score Calculations | Pixel pefect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
+          // Score Calculations | Pixel perfect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
           when(distanceX2 === 0.S) {
             scoreReg := scoreReg + 5.U
             customerTwoScoredReg := true.B
