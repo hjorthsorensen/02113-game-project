@@ -71,7 +71,7 @@ class PlayerMovementFSM() extends Module {
     is(compute1) {
 
       when (io.btnC) {
-        when (io.beerReady && (frameCount === 0.U || frameCount === 3.U || frameCount === 6.U )) {
+        when (io.beerReady && (frameCount === 0.U || frameCount === 4.U)) {
           // Keep charging up to the max cap of 15
           throwStrength := Mux(throwStrength < 30.S, throwStrength + 2.S, throwStrength)
           sprite0XReg := Mux(sprite0XReg < 515.S, sprite0XReg + 1.S, sprite0XReg)
