@@ -71,7 +71,8 @@ class ScoreFSM extends Module {
             customerOneScoredReg := true.B
           }
         }
-
+      }
+      when(io.beerValid && !customerTwoScoredReg){
         when(distanceY2 >= 0.S && distanceY2 < 40.S) {
           // Score Calculations | Pixel perfect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
           when(distanceX2 === 0.S) {

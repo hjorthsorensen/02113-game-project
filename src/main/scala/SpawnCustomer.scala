@@ -131,7 +131,7 @@ class SpawnCustomer extends Module {
         customer1DrinkingVisible := false.B
         customer1IdleVisible := true.B
         customerDrinkingAnimCycle := 1.U
-        customerDrinkingDelay := 10.U
+        customerDrinkingDelay := 0.U
         }
         when(!(customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 1.U){
             customerDrinkingDelay := customerDrinkingDelay + 1.U 
@@ -149,7 +149,7 @@ class SpawnCustomer extends Module {
             customer1DrinkingVisible := false.B
             customer1IdleVisible := true.B
             customerDrinkingAnimCycle := 3.U
-            customerDrinkingDelay := 10.U
+            customerDrinkingDelay := 0.U
         }
         when(!(customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 3.U){
             customerDrinkingDelay := customerDrinkingDelay + 1.U
@@ -161,6 +161,9 @@ class SpawnCustomer extends Module {
             customer1DrinkingVisible := false.B
             customer1Spawned := false.B
             customer1ScoreDone := true.B
+            customerBegunScoring := 0.U
+            customerDrinkingAnimCycle := 0.U
+            customerDrinkingDelay := 0.U
         }
 
 
@@ -179,7 +182,7 @@ class SpawnCustomer extends Module {
         customer2DrinkingVisible := false.B
         customer2IdleVisible := true.B
         customerDrinkingAnimCycle := 1.U
-        customerDrinkingDelay := 20.U
+        customerDrinkingDelay := 0.U
         }
         when(!(customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 1.U){
             customerDrinkingDelay := customerDrinkingDelay + 1.U 
@@ -197,7 +200,7 @@ class SpawnCustomer extends Module {
             customer2DrinkingVisible := false.B
             customer2IdleVisible := true.B
             customerDrinkingAnimCycle := 3.U
-            customerDrinkingDelay := 20.U
+            customerDrinkingDelay := 0.U
         }
         when(!(customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 3.U){
             customerDrinkingDelay := customerDrinkingDelay + 1.U
@@ -209,6 +212,10 @@ class SpawnCustomer extends Module {
             customer2DrinkingVisible := false.B
             customer2Spawned := false.B
             customer2ScoreDone := true.B
+            customerBegunScoring := 0.U
+            customerDrinkingAnimCycle := 0.U
+            customerDrinkingDelay := 0.U
+
         } 
       }
 
