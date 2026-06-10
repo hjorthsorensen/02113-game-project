@@ -86,7 +86,7 @@ class PlayerMovementFSM() extends Module {
         beerSpeedReg  := throwStrength // Launch at full accumulated strength!
         throwStrength := 0.S           // Reset strength for the next throw
         sprite0XReg := 500.S
-        when (throwStrength !== 0.S) {
+        when (!(throwStrength === 0.S)) {
           beerReady := false.B
         }
       }
