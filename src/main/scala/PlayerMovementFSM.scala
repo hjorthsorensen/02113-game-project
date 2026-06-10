@@ -98,9 +98,11 @@ class PlayerMovementFSM() extends Module {
         when (!(throwStrength === 0.S)) {
           beerReady := false.B
         }
+        when (spriteAnimationY){
+          spriteAnimationY := false.B
+          spriteYReg := spriteYRegOld
 
-        spriteAnimationY := false.B
-        spriteYReg := spriteYRegOld
+        }
 
       }
 
