@@ -30,6 +30,8 @@ class ScoreFSM extends Module {
   val scoreReg = RegInit(0.U(8.W))
   val customerOneScoredReg = RegInit(false.B)
   val customerTwoScoredReg = RegInit(false.B)
+  customerOneScoredReg := false.B
+  customerTwoScoredReg := false.B
 
   val distanceX1 = WireDefault(0.S(11.W))
   val distanceY1 = WireDefault(0.S(10.W))
@@ -53,7 +55,7 @@ class ScoreFSM extends Module {
       }
     }
     is(waitingForBeerState) {
-      stateReg := customerStatusState
+      stateReg := doneState
       when(io.beerValid && !customerOneScoredReg && !customerTwoScoredReg) {
         // Check if the beer is at the same Y position as either customer
         when(distanceY1 >= 0.S && distanceY1 < 40.S) {
@@ -85,17 +87,15 @@ class ScoreFSM extends Module {
         }
       }
     }
-    is(
-      customerStatusState
-    ) { // Put them down for one cycle so the GameLogic FSM can read the score and update the customers
-      when(io.customerOneScoredInp) {
-        customerOneScoredReg := false.B
-      }
-      when(io.customerTwoScoredInp) {
-        customerTwoScoredReg := false.B
-      }
-      stateReg := doneState
-    }
+    // is(customerStatusState) { // Put them down for one cycle so the GameLogic FSM can read the score and update the customers
+    //   when(io.customerOneScoredInp) {
+    //     customerOneScoredReg := false.B
+    //   }
+    //   when(io.customerTwoScoredInp) {
+    //     customerTwoScoredReg := false.B
+    //   }
+    //   stateReg := doneState
+    // }
     is(doneState) {
       stateReg := idleState
     }
