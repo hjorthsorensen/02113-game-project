@@ -54,7 +54,7 @@ class ScoreFSM extends Module {
     }
     is(waitingForBeerState) {
       stateReg := customerStatusState
-      when(io.beerValid) {
+      when(io.beerValid && !customerOneScoredReg && !customerTwoScoredReg) {
         // Check if the beer is at the same Y position as either customer
         when(distanceY1 >= 0.S && distanceY1 < 40.S) {
           // Score Calculations | Pixel perfect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
@@ -85,7 +85,9 @@ class ScoreFSM extends Module {
         }
       }
     }
-    is(customerStatusState) { // Put them down for one cycle so the GameLogic FSM can read the score and update the customers
+    is(
+      customerStatusState
+    ) { // Put them down for one cycle so the GameLogic FSM can read the score and update the customers
       when(io.customerOneScoredInp) {
         customerOneScoredReg := false.B
       }
