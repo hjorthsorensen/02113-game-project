@@ -46,6 +46,9 @@ class PlayerMovementFSM() extends Module {
 
   val animFrameReg = RegInit(0.U(2.W))
 
+  val btnUpPressed = RegInit(false.B)
+  val btnDownPressed = RegInit(false.B)
+
   //Setting all sprite control outputs to zero
   io.spriteXPosition := sprite0XReg
   io.spriteYPosition := sprite0YReg
@@ -84,19 +87,24 @@ class PlayerMovementFSM() extends Module {
       }
 
       when(io.btnD){
+        btnUpPressed := true.B
         when(sprite0YReg < (480 - 32 - 24).S) {
-          sprite0YReg := sprite0YReg + 2.S
+          sprite0YReg := sprite0YReg + 64.S
         }
       } .elsewhen(io.btnU){
+        btnDownPressed := true.B
         when(sprite0YReg > (96).S) {
-          sprite0YReg := sprite0YReg - 2.S
+          sprite0YReg := sprite0YReg - 64.S
         }
+      } .otherwise {
+        btnUpPressed := false.B
+        btnDownPressed := false.B
       }
 
       when(io.btnR) {
         animFrameReg := 3.U
       } .elsewhen(io.btnL){
-        animFrameReg := 1.U //this is currently the idle2 animation
+        animFrameReg := 1.U
       } .elsewhen(io.btnC) {
         animFrameReg := 2.U
       } .otherwise {
@@ -112,9 +120,6 @@ class PlayerMovementFSM() extends Module {
       stateReg := idle
     }
   }
-
-  // Just forwarding the newFrame into the frameUpdateDone with a 2 clock cycle delay
-  // frameUpdateDone will need to be driven by your game logic FSMs
 }
 
 //////////////////////////////////////////////////////////////////////////////
