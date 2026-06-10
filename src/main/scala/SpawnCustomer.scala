@@ -89,7 +89,7 @@ class SpawnCustomer extends Module {
       }
       when(!customer2Spawned && (customerSpawnDelay === 0.U)) {
         customer2XReg := 300.S
-        customer2YReg := 192.S+32.S
+        customer2YReg := 192.S+64.S
         customer2IdleVisible := true.B
         customer2Spawned := true.B
         customerSpawnDelay := 60.U
@@ -120,9 +120,9 @@ class SpawnCustomer extends Module {
         when(customer1AnimCycle > 59.U) {
           customer1AnimCycle := 0.U
           when(customer1AnimDir) {
-            customer1YReg := customer1YReg - 2.S
-          }.otherwise{
             customer1YReg := customer1YReg + 2.S
+          }.otherwise{
+            customer1YReg := customer1YReg - 2.S
           }
             customer1AnimDir := !customer1AnimDir
         }
@@ -132,10 +132,10 @@ class SpawnCustomer extends Module {
         when(customer2AnimCycle === 60.U) {
           customer2AnimCycle := 0.U
           when(customer2AnimDir){
-          customer2YReg := customer2YReg - 2.S
+          customer2YReg := customer2YReg + 2.S
 
           }.otherwise{
-          customer2YReg := customer2YReg + 2.S
+          customer2YReg := customer2YReg - 2.S
 
           }
           customer2AnimDir := !customer2AnimDir
