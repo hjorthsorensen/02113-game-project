@@ -161,6 +161,7 @@ class SpawnCustomer extends Module {
             customer1DrinkingVisible := false.B
             customer1Spawned := false.B
             customer1ScoreDone := true.B
+            customerBegunScoring := 0.U
         }
 
 
@@ -209,6 +210,8 @@ class SpawnCustomer extends Module {
             customer2DrinkingVisible := false.B
             customer2Spawned := false.B
             customer2ScoreDone := true.B
+            customerBegunScoring := 0.U
+
         } 
       }
 
