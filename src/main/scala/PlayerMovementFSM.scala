@@ -36,13 +36,13 @@ class PlayerMovementFSM() extends Module {
   val idle :: compute1 :: done :: Nil = Enum(3)
   val stateReg = RegInit(idle)
   
-  val sprite0YReg = RegInit(160.S(10.W))
-  val sprite0XReg = RegInit(500.S(11.W))
+  val spriteYReg = RegInit(160.S(10.W))
+  val spriteXReg = RegInit(500.S(11.W))
   val sprite0FlipHorizontalReg = RegInit(false.B)
 
   val beerSpeedReg = RegInit(0.S(8.W))
   val throwStrength = RegInit(0.S(8.W)) //-16 to 15
-  val frameCount = RegInit(0.U(2.W))
+  val frameCount = RegInit(0.U(1.W))
 
   val animFrameReg = RegInit(0.U(2.W))
 
@@ -52,8 +52,8 @@ class PlayerMovementFSM() extends Module {
   val beerReady = RegInit(false.B)
 
   //Setting all sprite control outputs to zero
-  io.spriteXPosition := sprite0XReg
-  io.spriteYPosition := sprite0YReg
+  io.spriteXPosition := spriteXReg
+  io.spriteYPosition := spriteYReg
   io.spriteVisible := true.B
   io.spriteFlipHorizontal := sprite0FlipHorizontalReg
   io.spriteFlipVertical := false.B
@@ -72,12 +72,13 @@ class PlayerMovementFSM() extends Module {
 
     is(compute1) {
 
-      when (io.btnC) {
-        when (io.beerReady && (frameCount === 0.U) && beerReady) {
+      when (io.btnC && io.beerReady && beerReady) {
+        when (frameCount === 0.U) {
           // Keep charging up to the max cap of 15
           throwStrength := Mux(throwStrength < 30.S, throwStrength + 1.S, throwStrength)
-          sprite0XReg := Mux(sprite0XReg < 530.S, sprite0XReg + 1.S, sprite0XReg)
+          spriteXReg := Mux(spriteXReg < 530.S, spriteXReg + 1.S, spriteXReg)
         }
+        spriteYReg := Mux(frameCount === 0, spriteYReg + throwStrength, spriteYReg - throwStrength)
       }
 
       // 2. Handle the launch logic when the button is released (or beer stops being ready)
@@ -85,7 +86,7 @@ class PlayerMovementFSM() extends Module {
       when (!io.btnC && frameCount === 0.U) {
         beerSpeedReg  := throwStrength // Launch at full accumulated strength!
         throwStrength := 0.S           // Reset strength for the next throw
-        sprite0XReg := 500.S
+        spriteXReg := 500.S
         when (!(throwStrength === 0.S)) {
           beerReady := false.B
         }
@@ -93,13 +94,13 @@ class PlayerMovementFSM() extends Module {
 
       when(io.btnD){
         btnDownPressed := true.B
-        when(sprite0YReg < (480 - 64 - 24).S && !btnDownPressed) {
-          sprite0YReg := sprite0YReg + 64.S
+        when(spriteYReg < (480 - 64 - 24).S && !btnDownPressed) {
+          spriteYReg := spriteYReg + 64.S
         }
       } .elsewhen(io.btnU){
         btnUpPressed := true.B
-        when(sprite0YReg > (96 + 64).S && !btnUpPressed) {
-          sprite0YReg := sprite0YReg - 64.S
+        when(spriteYReg > (96 + 64).S && !btnUpPressed) {
+          spriteYReg := spriteYReg - 64.S
         }
       } .otherwise {
         btnUpPressed := false.B
@@ -107,7 +108,7 @@ class PlayerMovementFSM() extends Module {
       }
 
       when(io.btnR) {
-        when (sprite0YReg < (96 + 64 + 33).S) {
+        when (spriteYReg < (96 + 64 + 33).S) {
           animFrameReg := 3.U
           beerReady := true.B
         }
