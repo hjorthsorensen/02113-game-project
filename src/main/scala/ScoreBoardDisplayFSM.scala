@@ -6,7 +6,6 @@ class ScoreBoardDisplayFSM extends Module{
         //Inputs
         val score = Input(UInt(8.W))
         val work = Input(Bool())
-        // val scoreWriting = Input(Bool())
         
         
         //Outputs for background

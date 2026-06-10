@@ -17,7 +17,6 @@ class BackgroundHandler extends Module{
         val writeTileID = Output(UInt(5.W))
         val writeEnable = Output(Bool())
 
-        val scoreWriteDone = Output(Bool())
         val scoreWork = Output(Bool())
         val done = Output(Bool())
 
@@ -57,7 +56,7 @@ class BackgroundHandler extends Module{
         }
         is(done){
             io.done := true.B
-        
+            stateReg := idle
         }
     }
 }
