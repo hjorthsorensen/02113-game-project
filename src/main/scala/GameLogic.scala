@@ -221,7 +221,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   //Default .io connections for background handler
   backgroundHandler.io.work := false.B
   backgroundHandler.io.inputAdress := 0.U
-  backgroundHandler.io.inputTileID := 0.U
+  backgroundHandler.io.inputTileID := 26.U
 
   //Conditionally assigns write address and tileID to the backgroundHandler
   when(scoreBoardFSM.io.writingScore) {
