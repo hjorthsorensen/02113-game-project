@@ -49,6 +49,7 @@ class SpawnCustomer extends Module {
   val customerSpawnDelay = RegInit(0.U(8.W))
   val customerDrinkingDelay = RegInit(0.U(8.W))
   val customerDrinkingAnimCycle = RegInit(0.U(2.W))
+  val customerBegunScoring = RegInit(0.U(2.W))
   // reg to decide what customer to spawn
 
   // io connections
@@ -113,6 +114,12 @@ class SpawnCustomer extends Module {
     }
     is(despawn) {
       when(io.customer1Scored) {
+        customerBegunScoring := 1.U
+      }
+      when(io.customer2Scored){
+        customerBegunScoring := 2.U
+      }
+      when(customerBegunScoring === 1.U){
         customer1DrinkingVisible := true.B
         customer1IdleVisible := false.B
         //change to drinking sprite
@@ -124,7 +131,7 @@ class SpawnCustomer extends Module {
         customer1DrinkingVisible := false.B
         customer1IdleVisible := true.B
         customerDrinkingAnimCycle := 1.U
-        customerDrinkingDelay := 20.U
+        customerDrinkingDelay := 10.U
         }
         when(!(customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 1.U){
             customerDrinkingDelay := customerDrinkingDelay + 1.U 
@@ -142,7 +149,7 @@ class SpawnCustomer extends Module {
             customer1DrinkingVisible := false.B
             customer1IdleVisible := true.B
             customerDrinkingAnimCycle := 3.U
-            customerDrinkingDelay := 20.U
+            customerDrinkingDelay := 10.U
         }
         when(!(customerDrinkingDelay === 45.U) && customerDrinkingAnimCycle === 3.U){
             customerDrinkingDelay := customerDrinkingDelay + 1.U
@@ -160,7 +167,7 @@ class SpawnCustomer extends Module {
 
 
 
-      }.elsewhen(io.customer2Scored) {
+      }.elsewhen(customerBegunScoring === 2.U) {
         customer2DrinkingVisible := true.B
         customer2IdleVisible := false.B
         //change to drinking sprite
