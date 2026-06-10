@@ -36,7 +36,7 @@ class PlayerMovementFSM() extends Module {
   val idle :: compute1 :: done :: Nil = Enum(3)
   val stateReg = RegInit(idle)
   
-  val sprite0YReg = RegInit(180.S(10.W))
+  val sprite0YReg = RegInit(160.S(10.W))
   val sprite0XReg = RegInit(500.S(11.W))
   val sprite0FlipHorizontalReg = RegInit(false.B)
 
