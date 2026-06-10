@@ -49,6 +49,8 @@ class PlayerMovementFSM() extends Module {
   val btnUpPressed = RegInit(false.B)
   val btnDownPressed = RegInit(false.B)
 
+  val beerReady = RegInit(false.B)
+
   //Setting all sprite control outputs to zero
   io.spriteXPosition := sprite0XReg
   io.spriteYPosition := sprite0YReg
@@ -84,6 +86,7 @@ class PlayerMovementFSM() extends Module {
         beerSpeedReg  := throwStrength // Launch at full accumulated strength!
         throwStrength := 0.S           // Reset strength for the next throw
         sprite0XReg := 500.S
+        beerReady := false.B
       }
 
       when(io.btnD){
@@ -102,7 +105,10 @@ class PlayerMovementFSM() extends Module {
       }
 
       when(io.btnR) {
-        animFrameReg := 3.U
+        when (sprite0YReg < (96 + 33).S) {
+          animFrameReg := 3.U
+          beerReady := true.B
+        }
       } .elsewhen(io.btnL){
         animFrameReg := 1.U
       } .elsewhen(io.btnC) {
