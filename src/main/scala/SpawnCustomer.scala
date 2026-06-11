@@ -44,7 +44,7 @@ class SpawnCustomer extends Module {
   val customer2AnimCycleReg = RegInit(0.U(7.W))
   val customer2AnimDirReg = RegInit(true.B)
   val customer2ScoreDoneReg = RegInit(false.B)
-  val customer2SeatXReg = RegInit(0.U(4.W))
+  val customer2SeatXReg = RegInit(3.U(4.W))
   val customer2SeatYReg = RegInit(0.U(2.W))
   val customer2SpawnDelayReg = RegInit(0.U(9.W))
 
@@ -56,7 +56,7 @@ class SpawnCustomer extends Module {
   val customerDrinkingDelayReg = RegInit(0.U(8.W))
   val customerDrinkingAnimCycleReg = RegInit(0.U(2.W))
   val customerBegunScoringReg = RegInit(0.U(2.W))
-  val xSpawnValues = VecInit(128.S,200.S,265.S,352.S)
+  val xSpawnValues = VecInit(128.S,200.S,275.S,352.S)
   val ySpawnValues = VecInit(192.S,256.S,320.S,384.S)
 
   // reg to decide what customer to spawn
@@ -104,15 +104,14 @@ class SpawnCustomer extends Module {
 
       // if customer not spawned, and customer delay is 0, spawn customer.
       when(!customer1SpawnedReg && (customer1SpawnDelayReg === 0.U)) {
-        customer1SeatXReg := customer1SeatXReg + random.LFSR(2,true.B)
-        customer1SeatYReg := customer1SeatYReg + random.LFSR(2,true.B)
-        when (customer2SeatXReg === customer1SeatXReg){
+        customer1SeatXReg := customer1SeatXReg + random.LFSR(4,true.B)
+        customer1SeatYReg := customer1SeatYReg + random.LFSR(4,true.B)
+
             when(customer1SeatYReg === customer2SeatYReg){
                 //if they are at the same seat, just wrap around and pick a new lane.
                 //also move one two to the right, to make it seem more random.
                 customer1SeatYReg := customer1SeatYReg + 1.U
-                customer1SeatXReg := customer1SeatXReg + 2.U
-            }
+
 
         }
         customer1XReg := xSpawnValues(customer1SeatXReg)
@@ -122,14 +121,11 @@ class SpawnCustomer extends Module {
         customer1SpawnDelayReg := 240.U
       }
       when(!customer2SpawnedReg && (customer2SpawnDelayReg === 0.U)) {
-        customer2SeatXReg := random.LFSR(2,true.B)
-        customer2SeatYReg := random.LFSR(2,true.B)
-        when (customer2SeatXReg === customer1SeatXReg){
+        customer2SeatXReg := customer2SeatXReg + random.LFSR(4,true.B)
+        customer2SeatYReg := customer2SeatYReg + random.LFSR(4,true.B)
             when(customer1SeatYReg === customer2SeatYReg){
                     //same here.
                 customer2SeatYReg := customer2SeatYReg + 1.U
-                customer2SeatXReg := customer2SeatXReg + 2.U
-            }
 
         }
         customer2XReg := xSpawnValues(customer2SeatXReg)
