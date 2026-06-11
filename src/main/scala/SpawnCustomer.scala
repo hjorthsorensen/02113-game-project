@@ -104,8 +104,8 @@ class SpawnCustomer extends Module {
 
       // if customer not spawned, and customer delay is 0, spawn customer.
       when(!customer1SpawnedReg && (customer1SpawnDelayReg === 0.U)) {
-        customer1SeatXReg := customer1SeatXReg + random.LFSR(2)
-        customer1SeatYReg := customer1SeatYReg + random.LFSR(2)
+        customer1SeatXReg := customer1SeatXReg + random.LFSR(2,true.B)
+        customer1SeatYReg := customer1SeatYReg + random.LFSR(2,true.B)
         when (customer2SeatXReg === customer1SeatXReg){
             when(customer1SeatYReg === customer2SeatYReg){
                 //if they are at the same seat, just wrap around and pick a new lane.
@@ -122,8 +122,8 @@ class SpawnCustomer extends Module {
         customer1SpawnDelayReg := 240.U
       }
       when(!customer2SpawnedReg && (customer2SpawnDelayReg === 0.U)) {
-        customer2SeatXReg := random.LFSR(2)
-        customer2SeatYReg := random.LFSR(2)
+        customer2SeatXReg := random.LFSR(2,true.B)
+        customer2SeatYReg := random.LFSR(2,true.B)
         when (customer2SeatXReg === customer1SeatXReg){
             when(customer1SeatYReg === customer2SeatYReg){
                     //same here.
