@@ -3,25 +3,37 @@
     "class":"firrtl.transforms.DedupedResult",
     "original":"~Top|RamSpWf",
     "duplicate":"~Top|Top/gameTop:GameTop/graphicEngineVGA:GraphicEngineVGA/backBufferMemory:Memory_32/ramsSpWf:RamSpWf",
-    "index":0.5714285714285714
+    "index":0.5614035087719298
   },
   {
     "class":"firrtl.transforms.DedupedResult",
     "original":"~Top|Memory_32",
     "duplicate":"~Top|Top/gameTop:GameTop/graphicEngineVGA:GraphicEngineVGA/backBufferMemory:Memory_32",
-    "index":0.5803571428571429
+    "index":0.5701754385964912
   },
   {
     "class":"firrtl.transforms.DedupedResult",
     "original":"~Top|RamSpWf_1",
     "duplicate":"~Top|Top/gameTop:GameTop/graphicEngineVGA:GraphicEngineVGA/backBufferShadowMemory:Memory_32/ramsSpWf:RamSpWf",
-    "index":0.5892857142857143
+    "index":0.5789473684210527
   },
   {
     "class":"firrtl.transforms.DedupedResult",
     "original":"~Top|Memory_33",
     "duplicate":"~Top|Top/gameTop:GameTop/graphicEngineVGA:GraphicEngineVGA/backBufferShadowMemory:Memory_32",
-    "index":0.5982142857142857
+    "index":0.5877192982456141
+  },
+  {
+    "class":"firrtl.transforms.DedupedResult",
+    "original":"~Top|MaxPeriodFibonacciLFSR",
+    "duplicate":"~Top|Top/gameTop:GameTop/gameLogic:GameLogic/spawnCustomer:SpawnCustomer/customer1SeatXReg_prng:MaxPeriodFibonacciLFSR",
+    "index":0.9385964912280702
+  },
+  {
+    "class":"firrtl.transforms.DedupedResult",
+    "original":"~Top|MaxPeriodFibonacciLFSR_1",
+    "duplicate":"~Top|Top/gameTop:GameTop/gameLogic:GameLogic/spawnCustomer:SpawnCustomer/customer1SeatYReg_prng:MaxPeriodFibonacciLFSR",
+    "index":0.9473684210526315
   },
   {
     "class":"firrtl.EmitCircuitAnnotation",
