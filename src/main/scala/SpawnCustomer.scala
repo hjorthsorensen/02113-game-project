@@ -56,7 +56,7 @@ class SpawnCustomer extends Module {
   val customerDrinkingDelayReg = RegInit(0.U(8.W))
   val customerDrinkingAnimCycleReg = RegInit(0.U(2.W))
   val customerBegunScoringReg = RegInit(0.U(2.W))
-  val xSpawnValues = VecInit(128.S,224.S,256.S,352.S)
+  val xSpawnValues = VecInit(128.S,200.S,265.S,352.S)
   val ySpawnValues = VecInit(192.S,256.S,320.S,384.S)
 
   // reg to decide what customer to spawn
