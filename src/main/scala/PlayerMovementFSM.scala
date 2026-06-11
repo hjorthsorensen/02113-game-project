@@ -15,21 +15,22 @@ class PlayerMovementFSM() extends Module {
     val btnR = Input(Bool())
     val btnD = Input(Bool())
 
-    val beerSpeed = Output(SInt(8.W))
 
     //GraphicEngineVGA
     val spriteXPosition = Output(SInt(11.W)) //-1024 to 1023
     val spriteYPosition = Output(SInt(10.W)) //-512 to 511
-    val spriteAnimationFrame = Output(UInt(2.W))
     val spriteVisible = Output(Bool())
     val spriteFlipHorizontal = Output(Bool())
     val spriteFlipVertical = Output(Bool())
+
+    val beerSpeed = Output(SInt(8.W))
+    val spriteAnimationFrame = Output(UInt(2.W))
+
 
     //Status
     val work = Input(Bool())
     val done = Output(Bool())
     val beerReady = Input(Bool())
-    // val beerValid = Output(Bool())
   })
 
   // REGISTERS
@@ -37,9 +38,10 @@ class PlayerMovementFSM() extends Module {
   val stateReg = RegInit(idle)
   
   val spriteYReg = RegInit(160.S(10.W))
-  val spriteYRegOld = RegInit(160.S(10.W))
   val spriteXReg = RegInit(512.S(11.W))
-  val sprite0FlipHorizontalReg = RegInit(false.B)
+  val spriteFlipHorizontalReg = RegInit(false.B)
+  
+  val spriteYRegOld = RegInit(160.S(10.W))
 
   val beerSpeedReg = RegInit(0.S(8.W))
   val throwStrength = RegInit(0.S(8.W)) //-16 to 15
@@ -57,7 +59,7 @@ class PlayerMovementFSM() extends Module {
   io.spriteXPosition := spriteXReg
   io.spriteYPosition := spriteYReg
   io.spriteVisible := true.B
-  io.spriteFlipHorizontal := sprite0FlipHorizontalReg
+  io.spriteFlipHorizontal := spriteFlipHorizontalReg
   io.spriteFlipVertical := false.B
   io.spriteAnimationFrame := animFrameReg
   io.beerSpeed := beerSpeedReg
