@@ -60,13 +60,11 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.viewBoxX := 0.U
   io.viewBoxY := 0.U
 
-  // Setting the background buffer outputs to zero
-  io.backBufferWriteData := 0.U
-  io.backBufferWriteAddress := 0.U
-  io.backBufferWriteEnable := false.B
-
   // Setting frame done to zero
   io.frameUpdateDone := false.B
+
+  //Default assignment connections for background handler 
+
 
   /////////////////////////////////////////////////////////////////
   // Write here your game logic
@@ -74,95 +72,132 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   /////////////////////////////////////////////////////////////////
 
   /////////////////////////////////////////////////////////////////////////
-  /////FSM modules instantiation and connections
+  /////FSM modules instantiation
   /////////////////////////////////////////////////////////////////////////
 
   val playerMovementFSM = Module(new PlayerMovementFSM())
-  val beerMovement = Module(new BeerMovement())
-  beerMovement.io.work := false.B
-  beerMovement.io.speed := playerMovementFSM.io.beerSpeed
-  beerMovement.io.beerYPosInp := playerMovementFSM.io.spriteYPosition
-
-  playerMovementFSM.io.beerReady := beerMovement.io.beerReady
-
-
-  val scoreFSM = Module(new ScoreFSM())
-  scoreFSM.io.beerPositionX := beerMovement.io.beerXPos
-  scoreFSM.io.beerPositionY := beerMovement.io.beerYPos
-  scoreFSM.io.beerValid := beerMovement.io.beerValid
-  scoreFSM.io.work := false.B
-  io.led(0) := scoreFSM.io.customerOneScored
-  io.led(1) := scoreFSM.io.customerTwoScored
-
-
-  val spawnCustomer = Module(new SpawnCustomer())
-  spawnCustomer.io.customer1Scored := scoreFSM.io.customerOneScored
-  spawnCustomer.io.customer2Scored := scoreFSM.io.customerTwoScored
-
-  spawnCustomer.io.work := false.B
-
-  scoreFSM.io.customerOneScoredInp := spawnCustomer.io.customer1ScoreDone
-  scoreFSM.io.customerTwoScoredInp := spawnCustomer.io.customer2ScoreDone
-
-  scoreFSM.io.customerOnePositionX := spawnCustomer.io.customer1PosX
-  scoreFSM.io.customerOnePositionY := spawnCustomer.io.customer1PosY
-  scoreFSM.io.customerTwoPositionX := spawnCustomer.io.customer2PosX
-  scoreFSM.io.customerTwoPositionY := spawnCustomer.io.customer2PosY
-
+  val beerMovement      = Module(new BeerMovement())
+  val scoreFSM          = Module(new ScoreFSM())
+  val spawnCustomer     = Module(new SpawnCustomer())
+  val backgroundHandler = Module(new BackgroundHandler())
+  val scoreBoardFSM     = Module(new ScoreBoardDisplayFSM())
+  
+  /////////////////////////////////////////////////////////////////////////
+  /////FSM modules connections
+  /////////////////////////////////////////////////////////////////////////
+  
+  beerMovement.io.work      := false.B
+  scoreFSM.io.work          := false.B
+  spawnCustomer.io.work     := false.B
   playerMovementFSM.io.work := false.B
 
+  // Connecting to beer movement
+  beerMovement.io.speed       := playerMovementFSM.io.beerSpeed
+  beerMovement.io.beerYPosInp := playerMovementFSM.io.spriteYPosition
+
+  // Connecting to player movement
+  playerMovementFSM.io.beerReady := beerMovement.io.beerReady
+  
   playerMovementFSM.io.btnC := io.btnC
   playerMovementFSM.io.btnU := io.btnU
   playerMovementFSM.io.btnL := io.btnL
   playerMovementFSM.io.btnR := io.btnR
   playerMovementFSM.io.btnD := io.btnD
 
+  // Connecting to score
+  scoreFSM.io.beerPositionX := beerMovement.io.beerXPos
+  scoreFSM.io.beerPositionY := beerMovement.io.beerYPos
+  scoreFSM.io.beerValid     := beerMovement.io.beerValid
+
+  scoreFSM.io.customerOneScoredInp := spawnCustomer.io.customer1ScoreDone
+  scoreFSM.io.customerTwoScoredInp := spawnCustomer.io.customer2ScoreDone
+  scoreFSM.io.customerOnePositionX := spawnCustomer.io.customer1PosX
+  scoreFSM.io.customerOnePositionY := spawnCustomer.io.customer1PosY
+  scoreFSM.io.customerTwoPositionX := spawnCustomer.io.customer2PosX
+  scoreFSM.io.customerTwoPositionY := spawnCustomer.io.customer2PosY
+  
+  // Connecting to tcoreboard
+  scoreBoardFSM.io.score := scoreFSM.io.score
+  scoreBoardFSM.io.work  := backgroundHandler.io.scoreWork
+
+  // Connecting to spawn customer
+  spawnCustomer.io.customer1Scored := scoreFSM.io.customerOneScored
+  spawnCustomer.io.customer2Scored := scoreFSM.io.customerTwoScored
+
+  // Connecting tp background handler
+  backgroundHandler.io.work        := false.B
+  backgroundHandler.io.inputAdress := 0.U
+  backgroundHandler.io.inputTileID := 26.U
+
+  backgroundHandler.io.scoreDone := scoreBoardFSM.io.done
+
+  io.backBufferWriteAddress := backgroundHandler.io.writeAdress
+  io.backBufferWriteData    := backgroundHandler.io.writeTileID
+  io.backBufferWriteEnable  := backgroundHandler.io.writeEnable
+
+  //Conditionally assigns write address and tileID to the backgroundHandler
+  when(scoreBoardFSM.io.writingScore) {
+    backgroundHandler.io.inputAdress := scoreBoardFSM.io.writeAdress
+    backgroundHandler.io.inputTileID := scoreBoardFSM.io.writeTileID
+  }//add .elsewhen if you want to write other things to the background as well
+
+  // DEBUG CONNECTION
+  //io.led(0) := scoreFSM.io.customerOneScored
+  //io.led(1) := scoreFSM.io.customerTwoScored
+
   /////////////////////////////////////////////////////////////////////////
   /////Positional and visibility logic for sprites
   /////////////////////////////////////////////////////////////////////////
 
-  io.spriteXPosition(0) := playerMovementFSM.io.spriteXPosition
-  io.spriteXPosition(1) := playerMovementFSM.io.spriteXPosition
-  io.spriteXPosition(2) := playerMovementFSM.io.spriteXPosition
-  io.spriteXPosition(3) := playerMovementFSM.io.spriteXPosition
+  // PLAYER
+  io.spriteXPosition(0)  := playerMovementFSM.io.spriteXPosition
+  io.spriteXPosition(1)  := playerMovementFSM.io.spriteXPosition
+  io.spriteXPosition(2)  := playerMovementFSM.io.spriteXPosition
+  io.spriteXPosition(3)  := playerMovementFSM.io.spriteXPosition
   io.spriteXPosition(11) := playerMovementFSM.io.spriteXPosition
+
+  io.spriteYPosition(0)  := playerMovementFSM.io.spriteYPosition
+  io.spriteYPosition(1)  := playerMovementFSM.io.spriteYPosition
+  io.spriteYPosition(2)  := playerMovementFSM.io.spriteYPosition
+  io.spriteYPosition(3)  := playerMovementFSM.io.spriteYPosition
+  io.spriteYPosition(11) := playerMovementFSM.io.spriteYPosition
+
+  io.spriteFlipHorizontal(0)  := playerMovementFSM.io.spriteFlipHorizontal
+  io.spriteFlipHorizontal(1)  := playerMovementFSM.io.spriteFlipHorizontal
+  io.spriteFlipHorizontal(2)  := playerMovementFSM.io.spriteFlipHorizontal
+  io.spriteFlipHorizontal(3)  := playerMovementFSM.io.spriteFlipHorizontal
+  io.spriteFlipHorizontal(11) := playerMovementFSM.io.spriteFlipHorizontal
+
+  io.spriteFlipVertical(0)  := playerMovementFSM.io.spriteFlipVertical
+  io.spriteFlipVertical(1)  := playerMovementFSM.io.spriteFlipVertical
+  io.spriteFlipVertical(2)  := playerMovementFSM.io.spriteFlipVertical
+  io.spriteFlipVertical(3)  := playerMovementFSM.io.spriteFlipVertical
+  io.spriteFlipVertical(11) := playerMovementFSM.io.spriteFlipVertical
+
+  // CUSTOMERS
   io.spriteXPosition(4) := spawnCustomer.io.customer1PosX
   io.spriteXPosition(5) := spawnCustomer.io.customer1PosX
   io.spriteXPosition(6) := spawnCustomer.io.customer2PosX
   io.spriteXPosition(7) := spawnCustomer.io.customer2PosX
-  io.spriteXPosition(8) := beerMovement.io.beerXPos
 
-
-  io.spriteYPosition(0) := playerMovementFSM.io.spriteYPosition
-  io.spriteYPosition(1) := playerMovementFSM.io.spriteYPosition
-  io.spriteYPosition(2) := playerMovementFSM.io.spriteYPosition
-  io.spriteYPosition(3) := playerMovementFSM.io.spriteYPosition
-  io.spriteYPosition(11) := playerMovementFSM.io.spriteYPosition
   io.spriteYPosition(4) := spawnCustomer.io.customer1PosY
   io.spriteYPosition(5) := spawnCustomer.io.customer1PosY
   io.spriteYPosition(6) := spawnCustomer.io.customer2PosY
   io.spriteYPosition(7) := spawnCustomer.io.customer2PosY
-  io.spriteYPosition(8) := beerMovement.io.beerYPos
 
-
-  io.spriteFlipHorizontal(0) := playerMovementFSM.io.spriteFlipHorizontal
-  io.spriteFlipHorizontal(1) := playerMovementFSM.io.spriteFlipHorizontal
-  io.spriteFlipHorizontal(2) := playerMovementFSM.io.spriteFlipHorizontal
-  io.spriteFlipHorizontal(3) := playerMovementFSM.io.spriteFlipHorizontal
-  io.spriteFlipHorizontal(11) := playerMovementFSM.io.spriteFlipHorizontal
   io.spriteFlipHorizontal(4) := spawnCustomer.io.customer1Flipped
   io.spriteFlipHorizontal(5) := spawnCustomer.io.customer2Flipped
-
-  io.spriteFlipVertical(0) := playerMovementFSM.io.spriteFlipVertical
-  io.spriteFlipVertical(1) := playerMovementFSM.io.spriteFlipVertical
-  io.spriteFlipVertical(2) := playerMovementFSM.io.spriteFlipVertical
-  io.spriteFlipVertical(3) := playerMovementFSM.io.spriteFlipVertical
-  io.spriteFlipVertical(11) := playerMovementFSM.io.spriteFlipVertical
 
   io.spriteVisible(4) := spawnCustomer.io.customer1IdleVisible
   io.spriteVisible(5) := spawnCustomer.io.customer1DrinkingVisible
   io.spriteVisible(6) := spawnCustomer.io.customer2IdleVisible
   io.spriteVisible(7) := spawnCustomer.io.customer2DrinkingVisible
+  
+  // BEER
+  io.spriteXPosition(8) := beerMovement.io.beerXPos
+  
+  io.spriteYPosition(8) := beerMovement.io.beerYPos
+
   io.spriteVisible(8) := beerMovement.io.beerVisible
 
 
@@ -171,66 +206,36 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   /////////////////////////////////////////////////////////////////////////
   switch(playerMovementFSM.io.spriteAnimationFrame) {
     is(0.U) {
-      io.spriteVisible(0) := true.B
-      io.spriteVisible(1) := false.B
-      io.spriteVisible(2) := false.B
-      io.spriteVisible(3) := false.B
+      io.spriteVisible(0)  := true.B // TRUE
+      io.spriteVisible(1)  := false.B
+      io.spriteVisible(2)  := false.B
+      io.spriteVisible(3)  := false.B
       io.spriteVisible(11) := false.B
     }
     is(1.U) {
-      io.spriteVisible(11) := true.B
-      io.spriteVisible(0) := false.B
-      io.spriteVisible(1) := false.B
-      io.spriteVisible(2) := false.B
-      io.spriteVisible(3) := false.B
+      io.spriteVisible(0)  := false.B
+      io.spriteVisible(1)  := false.B
+      io.spriteVisible(2)  := false.B
+      io.spriteVisible(3)  := false.B
+      io.spriteVisible(11) := true.B // TRUE
     }
     is(2.U) {
-      io.spriteVisible(2) := true.B
-      io.spriteVisible(0) := false.B
-      io.spriteVisible(1) := false.B
-      io.spriteVisible(3) := false.B
+      io.spriteVisible(0)  := false.B
+      io.spriteVisible(1)  := false.B
+      io.spriteVisible(2)  := true.B // TRUE
+      io.spriteVisible(3)  := false.B
       io.spriteVisible(11) := false.B
 
     }
     is(3.U) {
-      io.spriteVisible(3) := true.B
-      io.spriteVisible(0) := false.B
+      io.spriteVisible(0)  := false.B
+      io.spriteVisible(1)  := false.B
+      io.spriteVisible(2)  := false.B
+      io.spriteVisible(3)  := true.B //TRUE
       io.spriteVisible(11) := false.B
-      io.spriteVisible(2) := false.B
-      io.spriteVisible(1) := false.B
 
     }
   }
-  /////////////////////////////////////////////////////////////////////////
-  /////BACKGROUND LOGIC
-  /////////////////////////////////////////////////////////////////////////
-
-  val backgroundHandler = Module(new BackgroundHandler())
-  //Scoreboard FSM
-  val scoreBoardFSM = Module(new ScoreBoardDisplayFSM())
-  //Default assignment connections for background handler 
-  io.backBufferWriteAddress := backgroundHandler.io.writeAdress
-  io.backBufferWriteData := backgroundHandler.io.writeTileID
-  io.backBufferWriteEnable := backgroundHandler.io.writeEnable
-
-  //Score specefic signals - Add signals here for any additional background updates needed after the scoreboard is done
-  scoreBoardFSM.io.score := scoreFSM.io.score
-  scoreBoardFSM.io.work := backgroundHandler.io.scoreWork
-  backgroundHandler.io.scoreDone := scoreBoardFSM.io.done
-
-  //Default .io connections for background handler
-  backgroundHandler.io.work := false.B
-  backgroundHandler.io.inputAdress := 0.U
-  backgroundHandler.io.inputTileID := 26.U
-
-  //Conditionally assigns write address and tileID to the backgroundHandler
-  when(scoreBoardFSM.io.writingScore) {
-    backgroundHandler.io.inputAdress := scoreBoardFSM.io.writeAdress
-    backgroundHandler.io.inputTileID := scoreBoardFSM.io.writeTileID
-  }//add .elsewhen if you want to write other things to the background as well
-
-
-  
 
   /////////////////////////////////////////////////////////////////////////
   /////DONE SIGNALS AND FSMD FOR FRAME UPDATE
