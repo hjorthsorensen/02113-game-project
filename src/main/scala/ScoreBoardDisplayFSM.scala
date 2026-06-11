@@ -89,9 +89,10 @@ class ScoreBoardDisplayFSM extends Module{
             MiddleDigitReg := middle
             LeftDigitReg := left
             LeftLeftDigitReg := leftLeft
-            
+
+            //Wait a few cycles before writing to the score board to ensure the digits are calculated and stable.
             waitReg := waitReg + 1.U
-            when(waitReg === 31.U){
+            when(waitReg === 20.U){
                 waitReg := 0.U
                 stateReg := busy
             }
