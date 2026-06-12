@@ -60,7 +60,7 @@ class BeerMovement extends Module{
         tableIDReg := 2.U
     }.elsewhen(beerYReg >= (10*32).S){
         tableIDReg := 1.U   
-    }.otherwise(beerYReg >= (8*32).S){
+    }.elsewhen(beerYReg >= (8*32).S){
         tableIDReg := 0.U
     }
     //FSMD switch
