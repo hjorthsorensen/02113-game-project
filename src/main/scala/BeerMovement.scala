@@ -17,6 +17,7 @@ class BeerMovement extends Module{
         val beerValid = Output(Bool())
         val beerReady = Output(Bool())
         val done = Output(Bool())
+        val beerBroken = Output(Bool())
 
     })
     //FSMD states
@@ -34,11 +35,13 @@ class BeerMovement extends Module{
     
     val beerReadyReg = RegInit(true.B)
     val beerValidReg = RegInit(false.B)
+    val beerBrokenReg = RegInit(false.B)
 
 
     //.io connections and default outputs
     io.done := false.B
     io.beerValid := beerValidReg
+    io.beerBroken := beerBrokenReg
 
     io.beerReady := beerReadyReg
     io.beerVisible := beerVisibleReg
@@ -59,6 +62,7 @@ class BeerMovement extends Module{
                     beerValidReg := false.B
                 }
                 when(!inCalc && doneCalc && (beerXReg <=64.S)){
+                    beerBrokenReg := true.B
                     beerYReg := beerYReg + 1.S
                 }
                 //When the beer is stationary, we are now not in calculation, and the beer is ready for the next throw
@@ -69,6 +73,7 @@ class BeerMovement extends Module{
 
                 when(!inCalc && (io.speed =/= 0.S) && beerReadyReg){
                     //Initialize the values for the beer movement based on the input speed and the sprite's Y position
+                    beerBrokenReg := false.B
                     fpsReg := 0.U
                     beerVisibleReg := true.B
                     beerReadyReg := false.B

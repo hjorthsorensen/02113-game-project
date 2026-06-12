@@ -15,8 +15,7 @@ class PlayerMovementFSM() extends Module {
     val btnR = Input(Bool())
     val btnD = Input(Bool())
 
-
-    //GraphicEngineVGA
+    //SpriteA
     val spriteXPosition = Output(SInt(11.W)) //-1024 to 1023
     val spriteYPosition = Output(SInt(10.W)) //-512 to 511
     val spriteVisible = Output(Bool())
@@ -25,7 +24,6 @@ class PlayerMovementFSM() extends Module {
 
     val beerSpeed = Output(SInt(8.W))
     val spriteAnimationFrame = Output(UInt(2.W))
-
 
     //Status
     val work = Input(Bool())
@@ -95,8 +93,7 @@ class PlayerMovementFSM() extends Module {
           spriteAnimationY := true.B
           spriteYRegOld := spriteYReg
         }
-
-        spriteYReg := Mux(frameCount === 0.U || frameCount === 2.U, spriteYReg + (throwStrength >> 2), spriteYReg - (throwStrength >> 2))
+        spriteYReg := Mux(throwStrength < 30.S,Mux(frameCount === 0.U || frameCount === 1.U, spriteYReg + (throwStrength >> 3), spriteYReg - (throwStrength >> 3)), Mux(frameCount === 0.U || frameCount === 2.U, spriteYReg + (throwStrength >> 2), spriteYReg - (throwStrength >> 2)))
       }
 
       // --- BEER THROW RELEASE
