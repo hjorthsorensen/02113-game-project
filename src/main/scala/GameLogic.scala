@@ -132,20 +132,14 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   spawnCustomer.io.customer2Scored := scoreFSM.io.customerTwoScored
 
   // Connecting to return beer FSM
-  returnBeerFSM.io.costumerXPos := 0.S
-  returnBeerFSM.io.costumerYPos := 0.S
-  returnBeerFSM.io.returnTrue := false.B
-  returnBeerFSM.io.isBeerCatched := false.B
-
-  when(scoreFSM.io.customerOneScored) {
-    returnBeerFSM.io.costumerXPos := spawnCustomer.io.customer1PosX
-    returnBeerFSM.io.costumerYPos := spawnCustomer.io.customer1PosY
-    returnBeerFSM.io.returnTrue := true.B
-  }.elsewhen(scoreFSM.io.customerTwoScored) {
-    returnBeerFSM.io.costumerXPos := spawnCustomer.io.customer2PosX
-    returnBeerFSM.io.costumerYPos := spawnCustomer.io.customer2PosY
-    returnBeerFSM.io.returnTrue := true.B
-  }
+  returnBeerFSM.io.customer1XPos := spawnCustomer.io.customer1PosX
+  returnBeerFSM.io.customer1YPos := spawnCustomer.io.customer1PosY
+  returnBeerFSM.io.customer2XPos := spawnCustomer.io.customer2PosX
+  returnBeerFSM.io.customer2YPos := spawnCustomer.io.customer2PosY
+  returnBeerFSM.io.returnCustomer1 := spawnCustomer.io.customer1ScoreDone
+  returnBeerFSM.io.returnCustomer2 := spawnCustomer.io.customer2ScoreDone
+  
+  
   returnBeerFSM.io.isBeerCatched := scoreFSM.io.beerCatched
 
   // Connecting tp background handler

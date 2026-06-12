@@ -6,10 +6,15 @@ class ReturnBeerFSM extends Module{
         //Inputs
         
         val work = Input(Bool())
-        val returnTrue = Input(Bool())
         val isBeerCatched = Input(Bool())
-        val costumerXPos = Input(SInt(10.W))
-        val costumerYPos = Input(SInt(10.W))
+
+        val returnCustomer1 = Input(Bool())
+        val returnCustomer2 = Input(Bool())
+
+        val customer1XPos = Input(SInt(11.W))
+        val customer1YPos = Input(SInt(10.W))
+        val customer2XPos = Input(SInt(11.W))
+        val customer2YPos = Input(SInt(10.W))
         
         //Outputs for beer movement
         val returnBeerXPos = Output(SInt(11.W))
@@ -32,6 +37,17 @@ class ReturnBeerFSM extends Module{
     val beerReturnValidReg = RegInit(false.B)
     val returnBeerSpeedReg = RegInit(0.S(8.W))
 
+    val returnCustomer1Reg = RegInit(false.B)
+    val returnCustomer2Reg = RegInit(false.B)
+
+    def risingEdge(signal: Bool): Bool = signal && !RegNext(signal)
+    when(risingEdge(io.returnCustomer1)){
+        returnCustomer1Reg := true.B
+    }
+    when(risingEdge(io.returnCustomer2)){
+        returnCustomer2Reg := true.B
+    }
+
     //.io connections and default outputs
     io.done := false.B
     io.returnBeerXPos := returnBeerXPosReg
@@ -40,27 +56,35 @@ class ReturnBeerFSM extends Module{
     io.beerReturnValid := beerReturnValidReg
 
 
+
     switch(stateReg){
         is(idle){
             when(io.work){
                 stateReg := busy
-                when(!beerVisibleReg && io.returnTrue){
+                when(!beerVisibleReg && returnCustomer1Reg){
                     beerVisibleReg := true.B
                     beerReturnValidReg := true.B
-                    returnBeerXPosReg := io.costumerXPos
-                    returnBeerYPosReg := io.costumerYPos
+                    returnBeerXPosReg := io.customer1XPos
+                    returnBeerYPosReg := io.customer1YPos
+                    returnBeerSpeedReg := 30.S
+                }.elsewhen(!beerVisibleReg && returnCustomer2Reg){
+                    beerVisibleReg := true.B
+                    beerReturnValidReg := true.B
+                    returnBeerXPosReg := io.customer2XPos
+                    returnBeerYPosReg := io.customer2YPos
                     returnBeerSpeedReg := 30.S
                 }
-                
             }
         }
         is(busy){
             when(beerVisibleReg){
                 returnBeerXPosReg := returnBeerXPosReg + returnBeerSpeedReg
                 returnBeerSpeedReg := returnBeerSpeedReg - 1.S
-                when(returnBeerXPosReg >= 512.S || io.isBeerCatched){
+                when(returnBeerXPosReg >= 512.S || io.isBeerCatched || returnBeerSpeedReg <= 0.S){
                     beerVisibleReg := false.B
                     beerReturnValidReg := false.B
+                    returnCustomer1Reg := false.B
+                    returnCustomer2Reg := false.B
                 }
             }
             stateReg := done
