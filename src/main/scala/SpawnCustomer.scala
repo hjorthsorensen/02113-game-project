@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util._
 
-class SpawnCustomer extends Module {
+class SpawnCustomer(degreeOfRandom: Int) extends Module {
   val io = IO(new Bundle {
     val work = Input(Bool())
     // val beerDone = Input(Bool())
@@ -104,8 +104,8 @@ class SpawnCustomer extends Module {
 
       // if customer not spawned, and customer delay is 0, spawn customer.
       when(!customer1SpawnedReg && (customer1SpawnDelayReg === 0.U)) {
-        customer1SeatXReg := customer1SeatXReg + random.LFSR(4,true.B)
-        customer1SeatYReg := customer1SeatYReg + random.LFSR(4,true.B)
+        customer1SeatXReg := customer1SeatXReg + random.LFSR(degreeOfRandom,true.B)
+        customer1SeatYReg := customer1SeatYReg + random.LFSR(degreeOfRandom,true.B)
 
             when(customer1SeatYReg === customer2SeatYReg){
                 //if they are at the same seat, just wrap around and pick a new lane.
@@ -121,8 +121,8 @@ class SpawnCustomer extends Module {
         customer1SpawnDelayReg := 240.U
       }
       when(!customer2SpawnedReg && (customer2SpawnDelayReg === 0.U)) {
-        customer2SeatXReg := customer2SeatXReg + random.LFSR(4,true.B)
-        customer2SeatYReg := customer2SeatYReg + random.LFSR(4,true.B)
+        customer2SeatXReg := customer2SeatXReg + random.LFSR(degreeOfRandom,true.B)
+        customer2SeatYReg := customer2SeatYReg + random.LFSR(degreeOfRandom,true.B)
             when(customer1SeatYReg === customer2SeatYReg){
                     //same here.
                 customer2SeatYReg := customer2SeatYReg + 1.U
