@@ -45,7 +45,7 @@ class PlayerMovementFSM() extends Module {
   val spriteXReg              = RegInit(512.S(11.W))
   val spriteFlipHorizontalReg = RegInit(false.B)
   val spriteYRegOld           = RegInit(160.S(10.W))
-  val animFrameReg            = RegInit(0.U(2.W))
+  val animFrameReg            = RegInit(0.U(3.W))
   val spriteAnimationY        = RegInit(false.B)
   
   // BEER
@@ -156,9 +156,13 @@ class PlayerMovementFSM() extends Module {
       } .elsewhen(io.btnC && beerReady) {
         animFrameReg := 2.U
       } .otherwise {
-        animFrameReg := 0.U
+        when (frameCount == 0.U || frameCount == 1.U || frameCount == 2.U || frameCount == 3.U) {
+          animFrameReg := 0.U
+        } .otherwise {
+          animFrameReg := 4.U
+        }
       }
-
+      
       stateReg := done
     }
 

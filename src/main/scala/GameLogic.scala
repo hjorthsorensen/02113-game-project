@@ -261,6 +261,14 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
       io.spriteVisible(11) := false.B
 
     }
+    is(4.U) {
+      io.spriteVisible(0)  := false.B
+      io.spriteVisible(1)  := true.B //TRUE
+      io.spriteVisible(2)  := false.B
+      io.spriteVisible(3)  := false.B 
+      io.spriteVisible(11) := false.B
+
+    }
   }
 
   /////////////////////////////////////////////////////////////////////////
