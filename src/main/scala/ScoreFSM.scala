@@ -16,7 +16,7 @@ class ScoreFSM extends Module {
     val beerPositionX = Input(SInt(11.W))
     val beerPositionY = Input(SInt(10.W))
     val beerEmptyY = Input(SInt(10.W))
-    val beerEmptyX = Input(Bool())
+    val beerEmptyX = Input(SInt(11.W))
     val emptyBeerValid = Input(Bool())
     val beerValid = Input(Bool())
     val customerOneScoredInp = Input(Bool())
@@ -36,10 +36,9 @@ class ScoreFSM extends Module {
   val scoreReg = RegInit(0.U(16.W))
   val customerOneScoredReg = RegInit(false.B)
   val customerTwoScoredReg = RegInit(false.B)
+  val beerCatched = RegInit(false.B)
   customerOneScoredReg := false.B
   customerTwoScoredReg := false.B
-  playerReadyToCatch := false.B
-  beerCatched := false.B
 
   def fallingEdge(signal: Bool): Bool = !signal && RegNext(signal)
   val validFallingEdge = fallingEdge(io.beerValid)
@@ -48,7 +47,7 @@ class ScoreFSM extends Module {
   val distanceY1 = WireDefault(0.S(10.W))
   val distanceX2 = WireDefault(0.S(11.W))
   val distanceY2 = WireDefault(0.S(10.W))
-  val beerCanBeCaught = (playerY === beerEmptyY) && (beerEmptyX <= 512.S) && (beerEmptyX >= (512-32).S) && io.playerReadyToCatch
+  val beerCanBeCaught = (io.playerY === io.beerEmptyY) && (io.beerEmptyX <= 512.S) && (io.beerEmptyX >= (512-32).S) && io.playerReadyToCatch
 
 
   distanceX1 := io.beerPositionX - io.customerOnePositionX
@@ -82,10 +81,10 @@ class ScoreFSM extends Module {
           when(distanceX1 === 0.S) {
             scoreReg := scoreReg + 5.U
             customerOneScoredReg := true.B
-          }.elsewhen(distanceX1 >= -32.S && distanceX1 <= 32.S) {
+          }.elsewhen(distanceX1 >= -16.S && distanceX1 <= 32.S) {
             scoreReg := scoreReg + 2.U
             customerOneScoredReg := true.B
-          }.elsewhen(distanceX1 >= -64.S && distanceX1 <= 64.S) {
+          }.elsewhen(distanceX1 >= -32.S && distanceX1 <= 64.S) {
             scoreReg := scoreReg + 1.U
             customerOneScoredReg := true.B
           }
@@ -97,10 +96,10 @@ class ScoreFSM extends Module {
           when(distanceX2 === 0.S) {
             scoreReg := scoreReg + 5.U
             customerTwoScoredReg := true.B
-          }.elsewhen(distanceX2 >= -32.S && distanceX2 <= 32.S) {
+          }.elsewhen(distanceX2 >= -16.S && distanceX2 <= 32.S) {
             scoreReg := scoreReg + 2.U
             customerTwoScoredReg := true.B
-          }.elsewhen(distanceX2 >= -64.S && distanceX2 <= 64.S) {
+          }.elsewhen(distanceX2 >= -32.S && distanceX2 <= 64.S) {
             scoreReg := scoreReg + 1.U
             customerTwoScoredReg := true.B
           }
@@ -121,6 +120,9 @@ class ScoreFSM extends Module {
       when(io.emptyBeerValid && beerCanBeCaught) {
         scoreReg := scoreReg + 1.U
         beerCatched := true.B
+      }.elsewhen(io.emptyBeerValid && !beerCanBeCaught) {
+        scoreReg := scoreReg - 1.U
+        beerCatched := false.B
       }
     }
     is(doneState) {
