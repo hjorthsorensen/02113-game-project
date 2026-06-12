@@ -12,6 +12,6 @@ opt_design
 place_design
 route_design
 
-write_bitstream -force Top.bit
+write_bitstream -force output/Top.bit
 
 exit
