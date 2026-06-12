@@ -1,4 +1,4 @@
-set_param general.maxThreads 24
+set_param general.maxThreads 12
 
 set verilog_files [glob -nocomplain *.v]
 
