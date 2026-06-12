@@ -81,10 +81,10 @@ class ScoreFSM extends Module {
           when(distanceX1 === 0.S) {
             scoreReg := scoreReg + 5.U
             customerOneScoredReg := true.B
-          }.elsewhen(distanceX1 >= -32.S && distanceX1 <= 32.S) {
+          }.elsewhen(distanceX1 >= -16.S && distanceX1 <= 32.S) {
             scoreReg := scoreReg + 2.U
             customerOneScoredReg := true.B
-          }.elsewhen(distanceX1 >= -64.S && distanceX1 <= 64.S) {
+          }.elsewhen(distanceX1 >= -32.S && distanceX1 <= 64.S) {
             scoreReg := scoreReg + 1.U
             customerOneScoredReg := true.B
           }
@@ -96,10 +96,10 @@ class ScoreFSM extends Module {
           when(distanceX2 === 0.S) {
             scoreReg := scoreReg + 5.U
             customerTwoScoredReg := true.B
-          }.elsewhen(distanceX2 >= -32.S && distanceX2 <= 32.S) {
+          }.elsewhen(distanceX2 >= -16.S && distanceX2 <= 32.S) {
             scoreReg := scoreReg + 2.U
             customerTwoScoredReg := true.B
-          }.elsewhen(distanceX2 >= -64.S && distanceX2 <= 64.S) {
+          }.elsewhen(distanceX2 >= -32.S && distanceX2 <= 64.S) {
             scoreReg := scoreReg + 1.U
             customerTwoScoredReg := true.B
           }
@@ -120,6 +120,9 @@ class ScoreFSM extends Module {
       when(io.emptyBeerValid && beerCanBeCaught) {
         scoreReg := scoreReg + 1.U
         beerCatched := true.B
+      }.elsewhen(io.emptyBeerValid && !beerCanBeCaught) {
+        scoreReg := scoreReg - 1.U
+        beerCatched := false.B
       }
     }
     is(doneState) {
