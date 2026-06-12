@@ -119,20 +119,24 @@ class SpawnCustomer(degreeOfRandom: Int) extends Module {
        customer1IdleVisibleReg := true.B
         customer1SpawnedReg := true.B
         customer1SpawnDelayReg := 240.U
+        customer1AnimCycleReg := 0.U
+        customer1AnimDirReg := true.B
       }
       when(!customer2SpawnedReg && (customer2SpawnDelayReg === 0.U)) {
         customer2SeatXReg := customer2SeatXReg + random.LFSR(degreeOfRandom,true.B)
         customer2SeatYReg := customer2SeatYReg + random.LFSR(degreeOfRandom,true.B)
-            when(customer1SeatYReg === customer2SeatYReg){
-                    //same here.
-                customer2SeatYReg := customer2SeatYReg + 1.U
+        //     when(customer1SeatYReg === customer2SeatYReg){
+        //             //same here.
+        //         customer2SeatYReg := customer2SeatYReg + 1.U
 
-        }
+        // }
         customer2XReg := xSpawnValues(customer2SeatXReg)
         customer2YReg := ySpawnValues(customer2SeatYReg)
         customer2IdleVisibleReg := true.B
         customer2SpawnedReg := true.B
         customer2SpawnDelayReg := 240.U
+        customer2AnimCycleReg := 0.U
+        customer2AnimDirReg := true.B
       }
 
       stateReg := despawn
