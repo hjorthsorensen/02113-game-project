@@ -86,6 +86,10 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   /////FSM modules connections
   /////////////////////////////////////////////////////////////////////////
   
+  val isCatching = WireDefault(false.B)
+
+  isCatching := playerMovementFSM.io.isCatching
+
   beerMovement.io.work      := false.B
   scoreFSM.io.work          := false.B
   spawnCustomer.io.work     := false.B
