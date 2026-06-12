@@ -34,7 +34,6 @@ tile_generator_custom/image_data.mem
 firrtl_black_box_resource_files.f
 Top.anno.json
 *.png
-program.tcl
 Top.bit
 build_flash.bat
 dfx_runtime.txt
