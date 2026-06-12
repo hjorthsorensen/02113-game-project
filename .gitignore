@@ -37,3 +37,5 @@ Top.anno.json
 Top.bit
 build_flash.bat
 dfx_runtime.txt
+*.bak
+clockInfo.txt

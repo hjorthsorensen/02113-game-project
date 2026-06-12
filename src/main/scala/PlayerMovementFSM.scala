@@ -31,6 +31,7 @@ class PlayerMovementFSM() extends Module {
     val work = Input(Bool())
     val done = Output(Bool())
     val beerReady = Input(Bool())
+    val isCatching = Output(Bool())
   })
   ///////////////////////////////////////////////////
   // REGISTERS
@@ -56,6 +57,7 @@ class PlayerMovementFSM() extends Module {
   val btnUpPressed   = RegInit(false.B)
   val btnDownPressed = RegInit(false.B)
   val frameCount     = RegInit(0.U(2.W))
+  val catchingReg    = RegInit(false.B)
 
   ////////////////////////////////////////////
   //IO Connections
@@ -69,8 +71,9 @@ class PlayerMovementFSM() extends Module {
   io.spriteFlipVertical   := false.B
   
   // OTHER
-  io.beerSpeed := beerSpeedReg
-  io.done      := false.B
+  io.beerSpeed  := beerSpeedReg
+  io.done       := false.B
+  io.isCatching := catchingReg
   ////////////////////////////////////////////////////////
   //FSMD switch
   ////////////////////////////////////////////////////////
@@ -112,6 +115,13 @@ class PlayerMovementFSM() extends Module {
 
         }
 
+      }
+
+      // BEER CATCH
+      when (io.btnL) {
+        catchingReg := true.B
+      } .otherwise {
+        catchingReg := false.B
       }
 
       // MOVE PLAYER
