@@ -78,7 +78,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val playerMovementFSM = Module(new PlayerMovementFSM())
   val beerMovement      = Module(new BeerMovement())
   val scoreFSM          = Module(new ScoreFSM())
-  val spawnCustomer     = Module(new SpawnCustomer())
+  val spawnCustomer     = Module(new SpawnCustomer(16))
   val backgroundHandler = Module(new BackgroundHandler())
   val scoreBoardFSM     = Module(new ScoreBoardDisplayFSM())
   
