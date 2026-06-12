@@ -31,7 +31,7 @@ class ScoreBoardDisplayFSM extends Module{
     // val wireScore = cat(LeftLeftDigitReg, LeftDigitReg, MiddleDigitReg, RightDigitReg,scoreReg)
 
    def doubleDabble(score: UInt): (UInt, UInt, UInt, UInt) = {
-    val shiftRegInit = Cat(0.U(16.W), score(15, 0)) // 16b BCD + 16b input
+    val shiftRegInit = Cat(0.U(16.W), score(15, 0)) // 16bit digits + 16bit input
     var shiftReg = shiftRegInit
     
     for (i <- 0 until 16) {
@@ -52,7 +52,7 @@ class ScoreBoardDisplayFSM extends Module{
       shiftReg = Cat(newBcd, shiftReg(15, 0)) << 1
     }
     val result = shiftReg(31, 16)
-    (
+    (// Return the 4 base10 digits.
       result(3, 0),    // ones
       result(7, 4),    // tens
       result(11, 8),   // hundreds
