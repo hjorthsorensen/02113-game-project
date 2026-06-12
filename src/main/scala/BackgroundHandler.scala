@@ -7,6 +7,7 @@ class BackgroundHandler extends Module{
         
         val work = Input(Bool())
         val scoreDone = Input(Bool())
+        val brokenGlassDone = Input(Bool())
         val inputAdress = Input(UInt(10.W))
         val inputTileID = Input(UInt(5.W))
         
@@ -18,13 +19,14 @@ class BackgroundHandler extends Module{
         val writeEnable = Output(Bool())
 
         val scoreWork = Output(Bool())
+        val brokenGlassWork = Output(Bool())
         val done = Output(Bool())
 
     })
 
     
     
-    val idle :: scoreBoard :: otherBackgroundThing :: done :: Nil = Enum(4)
+    val idle :: scoreBoard :: brokenGlass :: done :: Nil = Enum(4)
     val stateReg = RegInit(idle)
 
 
@@ -33,6 +35,7 @@ class BackgroundHandler extends Module{
 
     io.writeEnable := false.B
     io.scoreWork := false.B
+    io.brokenGlassWork := false.B
     io.done := false.B
 
     switch(stateReg){
@@ -46,13 +49,15 @@ class BackgroundHandler extends Module{
             io.writeEnable := true.B
             
             when(io.scoreDone){
-                stateReg := otherBackgroundThing
+                stateReg := brokenGlass
             }
         }
-        is(otherBackgroundThing){
-            // Placeholder for any additional background updates needed after the scoreboard is done.
-            // For now, it just transitions to the done state immediately.
-            stateReg := done
+        is(brokenGlass){
+            io.writeEnable := true.B
+
+            when(io.brokenGlassDone) {
+                stateReg := done
+            }
         }
         is(done){
             io.done := true.B
