@@ -81,6 +81,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val spawnCustomer     = Module(new SpawnCustomer(16))
   val backgroundHandler = Module(new BackgroundHandler())
   val scoreBoardFSM     = Module(new ScoreBoardDisplayFSM())
+  val returnBeer = Module(new ReturnBeerFSM())
   
   /////////////////////////////////////////////////////////////////////////
   /////FSM modules connections
@@ -118,7 +119,12 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   
   scoreFSM.io.playerReadyToCatch := playerMovementFSM.io.isCatching
   scoreFSM.io.playerY            := playerMovementFSM.io.spriteYPosition
-  // Connecting to tcoreboard
+  scoreFSM.io.beerEmptyY := returnBeerFSM.io.returnBeerYPos
+  scoreFSM.io.beerEmptyX := returnBeerFSM.io.returnBeerXPos
+  scoreFSM.io.emptyBeerValid := returnBeerFSM.io.beerReturnValid
+
+
+  // Connecting to scoreboard
   scoreBoardFSM.io.score := scoreFSM.io.score
   scoreBoardFSM.io.work  := backgroundHandler.io.scoreWork
 
