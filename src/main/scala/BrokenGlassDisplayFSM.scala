@@ -6,7 +6,7 @@ class BrokenGlassDisplayFSM extends Module{
         //Inputs
         val work = Input(Bool())
         val beerBroken = Input(Bool())
-        val tableID = Input(Bool())
+        val tableID = Input(UInt(2.W))
         
         
         //Outputs for background
@@ -35,7 +35,6 @@ class BrokenGlassDisplayFSM extends Module{
     io.writeAdress := 0.U
     io.writeTileID := 0.U
     io.writingBrokenGlass := false.B
-    io.done := false.B
     
 
     switch(stateReg){
@@ -64,7 +63,6 @@ class BrokenGlassDisplayFSM extends Module{
             }
         }
         is(done){
-            io.done := true.B
             brokenGlassWriteDoneReg := true.B
             stateReg := idle
         }

@@ -87,12 +87,6 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   ///// FSM modules connections
   /////////////////////////////////////////////////////////////////////////
 
-  beerMovement.io.work := false.B
-  scoreFSM.io.work := false.B
-  spawnCustomer.io.work := false.B
-  playerMovementFSM.io.work := false.B
-  returnBeerFSM.io.work := false.B
-
   // Connecting to beer movement
   beerMovement.io.speed := playerMovementFSM.io.beerSpeed
   beerMovement.io.beerYPosInp := playerMovementFSM.io.spriteYPosition
@@ -144,12 +138,10 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   returnBeerFSM.io.customer2YPos := spawnCustomer.io.customer2PosY
   returnBeerFSM.io.returnCustomer1 := spawnCustomer.io.customer1ScoreDone
   returnBeerFSM.io.returnCustomer2 := spawnCustomer.io.customer2ScoreDone
-  
-  
+
   returnBeerFSM.io.isBeerCatched := scoreFSM.io.beerCatched
 
   // Connecting tp background handler
-  backgroundHandler.io.work := false.B
   backgroundHandler.io.inputAdress := 0.U
   backgroundHandler.io.inputTileID := 26.U
 
@@ -266,10 +258,10 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
     }
     is(4.U) {
-      io.spriteVisible(0)  := false.B
-      io.spriteVisible(1)  := true.B //TRUE
-      io.spriteVisible(2)  := false.B
-      io.spriteVisible(3)  := false.B 
+      io.spriteVisible(0) := false.B
+      io.spriteVisible(1) := true.B // TRUE
+      io.spriteVisible(2) := false.B
+      io.spriteVisible(3) := false.B
       io.spriteVisible(11) := false.B
 
     }
@@ -278,7 +270,8 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   /////////////////////////////////////////////////////////////////////////
   ///// DONE SIGNALS AND FSMD FOR FRAME UPDATE
   /////////////////////////////////////////////////////////////////////////
-  val idle :: compute1 :: done :: Nil = Enum(3)
+
+  val idle :: compute1 :: doneState :: Nil = Enum(3)
   val stateReg = RegInit(idle)
 
   val playerDoneReg = RegInit(false.B)
@@ -288,17 +281,18 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val backgroundDoneReg = RegInit(false.B)
   val returnBeerDoneReg = RegInit(false.B)
 
+  // THESE ARE THE NEW CONTINUOUS WORK LINES YOU ARE ADDING:
+  playerMovementFSM.io.work := (stateReg === compute1) && !playerDoneReg
+  beerMovement.io.work := (stateReg === compute1) && !beerDoneReg
+  scoreFSM.io.work := (stateReg === compute1) && !scoreFSMDoneReg
+  spawnCustomer.io.work := (stateReg === compute1) && !spawnCustomerReg
+  backgroundHandler.io.work := (stateReg === compute1) && !backgroundDoneReg
+  returnBeerFSM.io.work := (stateReg === compute1) && !returnBeerDoneReg
+
   switch(stateReg) {
     is(idle) {
       when(io.newFrame) {
         stateReg := compute1
-        playerMovementFSM.io.work := true.B
-        beerMovement.io.work := true.B
-        scoreFSM.io.work := true.B
-        spawnCustomer.io.work := true.B
-        backgroundHandler.io.work := true.B
-        returnBeerFSM.io.work := true.B
-
         playerDoneReg := false.B
         beerDoneReg := false.B
         scoreFSMDoneReg := false.B
@@ -320,11 +314,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
       when(spawnCustomer.io.done) {
         spawnCustomerReg := true.B
       }
-
       when(backgroundHandler.io.done) {
         backgroundDoneReg := true.B
       }
-
       when(returnBeerFSM.io.done) {
         returnBeerDoneReg := true.B
       }
@@ -332,10 +324,10 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
       when(
         playerDoneReg && beerDoneReg && scoreFSMDoneReg && spawnCustomerReg && backgroundDoneReg && returnBeerDoneReg
       ) {
-        stateReg := done
+        stateReg := doneState
       }
     }
-    is(done) {
+    is(doneState) {
       io.frameUpdateDone := true.B
       stateReg := idle
     }
