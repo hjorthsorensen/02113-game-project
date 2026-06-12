@@ -85,7 +85,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   /////////////////////////////////////////////////////////////////////////
   /////FSM modules connections
   /////////////////////////////////////////////////////////////////////////
-  
+
   beerMovement.io.work      := false.B
   scoreFSM.io.work          := false.B
   spawnCustomer.io.work     := false.B
@@ -116,6 +116,8 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   scoreFSM.io.customerTwoPositionX := spawnCustomer.io.customer2PosX
   scoreFSM.io.customerTwoPositionY := spawnCustomer.io.customer2PosY
   
+  scoreFSM.io.playerReadyToCatch := playerMovementFSM.io.isCatching
+  scoreFSM.io.playerY            := playerMovementFSM.io.spriteYPosition
   // Connecting to tcoreboard
   scoreBoardFSM.io.score := scoreFSM.io.score
   scoreBoardFSM.io.work  := backgroundHandler.io.scoreWork
