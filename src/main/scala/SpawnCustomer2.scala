@@ -4,7 +4,7 @@ import chisel3.util._
 class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   val io = IO(new Bundle {
     val work = Input(Bool())
-    // val beerDone = Input(Bool())
+    val beerDone = Input(Bool())
     val customer1Scored = Input(Bool())
     val customer2Scored = Input(Bool())
     val done = Output(Bool())

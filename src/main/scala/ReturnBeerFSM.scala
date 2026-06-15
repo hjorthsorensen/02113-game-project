@@ -32,11 +32,28 @@ class ReturnBeerFSM extends Module{
     val stateReg = RegInit(idle)
     //Registers for calculations
     val returnBeerXPosReg = RegInit(0.S(11.W))
-    val returnBeerXPos1Reg = RegInit(0.S(11.W))
-    val returnBeerXPos2Reg = RegInit(0.S(11.W))
-    val returnBeerYPos1Reg = RegInit(0.S(10.W))
-    val returnBeerYPos2Reg = RegInit(0.S(10.W))
     val returnBeerYPosReg = RegInit(0.S(10.W))
+
+    val returnBeerX1PosPrevReg = RegInit(0.S(11.W))
+    val returnBeerY1PosPrevReg = RegInit(0.S(10.W))
+    val returnBeerX2PosPrevReg = RegInit(0.S(11.W))
+    val returnBeerY2PosPrevReg = RegInit(0.S(10.W))
+
+    when(io.customer1XPos =/= 0.S){
+        returnBeerX1PosPrevReg := io.customer1XPos
+    }
+    when(io.customer2XPos =/= 0.S){
+        returnBeerX2PosPrevReg := io.customer2XPos
+    }
+    when(io.customer1YPos =/= 0.S){
+        returnBeerY1PosPrevReg := io.customer1YPos + 32.S
+    }
+    when(io.customer2YPos =/= 0.S){
+        returnBeerY2PosPrevReg := io.customer2YPos + 32.S
+    }
+    
+
+
     val beerVisibleReg = RegInit(false.B)
     val beerReturnValidReg = RegInit(false.B)
     val returnBeerSpeedReg = RegInit(0.S(8.W))
@@ -66,11 +83,7 @@ class ReturnBeerFSM extends Module{
     io.beerReturnValid := beerReturnValidReg
 
 
-    returnBeerXPos1Reg := io.customer1XPos
-    returnBeerYPos1Reg := io.customer1YPos + 32.S
 
-    returnBeerXPos2Reg := io.customer2XPos
-    returnBeerYPos2Reg := io.customer2YPos + 32.S
 
 
     switch(stateReg){
@@ -81,18 +94,14 @@ class ReturnBeerFSM extends Module{
                     beerVisibleReg := true.B
                     beerReturnValidReg := true.B
                     returnBeerSpeedReg := 30.S
-                    returnBeerXPos1Reg := returnBeerXPos1Reg
-                    returnBeerXPosReg := returnBeerXPos1Reg
-                    returnBeerYPos1Reg := returnBeerYPos1Reg
-                    returnBeerYPosReg := returnBeerYPos1Reg
+                    returnBeerXPosReg := returnBeerX1PosPrevReg
+                    returnBeerYPosReg := returnBeerY1PosPrevReg
                     returningCustomer1 := true.B
                 }.elsewhen(!beerVisibleReg && returnCustomer2RegQueue){
                     beerVisibleReg := true.B
                     beerReturnValidReg := true.B
-                    returnBeerXPos2Reg := returnBeerXPos2Reg
-                    returnBeerXPosReg := returnBeerXPos2Reg
-                    returnBeerYPos2Reg := returnBeerYPos2Reg
-                    returnBeerYPosReg := returnBeerYPos2Reg
+                    returnBeerXPosReg := returnBeerX2PosPrevReg
+                    returnBeerYPosReg := returnBeerY2PosPrevReg
                     returnBeerSpeedReg := 30.S
                     returningCustomer2 := true.B
                 }
