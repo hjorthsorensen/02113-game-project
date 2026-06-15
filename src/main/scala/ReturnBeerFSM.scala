@@ -68,14 +68,14 @@ class ReturnBeerFSM extends Module{
                     beerVisibleReg := true.B
                     beerReturnValidReg := true.B
                     returnBeerXPosReg := io.customer1XPos
-                    returnBeerYPosReg := io.customer1YPos
+                    returnBeerYPosReg := io.customer1YPos + 32.S
                     returnBeerSpeedReg := 35.S
                     returningCustomer1 := true.B
                 }.elsewhen(!beerVisibleReg && returnCustomer2RegQueue){
                     beerVisibleReg := true.B
                     beerReturnValidReg := true.B
                     returnBeerXPosReg := io.customer2XPos
-                    returnBeerYPosReg := io.customer2YPos
+                    returnBeerYPosReg := io.customer2YPos + 32.S
                     returnBeerSpeedReg := 35.S
                     returningCustomer2 := true.B
                 }
