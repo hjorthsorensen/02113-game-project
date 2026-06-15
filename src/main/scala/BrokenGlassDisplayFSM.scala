@@ -26,10 +26,15 @@ class BrokenGlassDisplayFSM extends Module{
     val brokenGlassReg = RegInit(false.B)
     val brokenGlassWriteDoneReg = RegInit(false.B)
 
+    def risingEdge(signal: Bool): Bool = signal && !RegNext(signal)
     val table1 = (40*7+1).U
     val table2 = (40*9+1).U
     val table3 = (40*11+1).U
     val table4 = (40*13+1).U
+
+    when(risingEdge(io.beerBroken)){
+        brokenGlassReg := true.B
+    }
 
     io.done := brokenGlassWriteDoneReg
     io.writeAdress := 0.U
@@ -45,18 +50,17 @@ class BrokenGlassDisplayFSM extends Module{
     val tile3Cnt = RegInit(0.U(8.W))
     val tile4Cnt = RegInit(0.U(8.W))
 
-    
+
 
     
-    def risingEdge(signal: Bool): Bool = signal && !RegNext(signal)
 
     switch(stateReg){
         is(idle){
             brokenGlassWriteDoneReg := false.B
             when(io.work){
-                when(risingEdge(io.beerBroken) && !brokenGlassReg){
+                when(io.beerBroken){// && !brokenGlassReg
                     stateReg := busy
-                    brokenGlassReg := true.B
+                    // brokenGlassReg := true.B
                 }.otherwise{
                     stateReg := calcIdle
                 }
@@ -65,7 +69,7 @@ class BrokenGlassDisplayFSM extends Module{
         is(busy){
             stateReg := calcIdle
             io.writingBrokenGlass := true.B
-            brokenGlassReg := false.B
+            // brokenGlassReg := false.B
             when(io.tableID === 0.U && !tile1BrokenReg) { 
                 io.writeAdress := table1
                 io.writeTileID := 29.U
@@ -84,18 +88,7 @@ class BrokenGlassDisplayFSM extends Module{
                 tile4BrokenReg := true.B
             }
 
-            when(tile1BrokenReg){
-                tile1Cnt := tile1Cnt + 1.U
-            }
-            when(tile2BrokenReg){
-                tile2Cnt := tile2Cnt + 1.U
-            }
-            when(tile3BrokenReg){
-                tile3Cnt := tile3Cnt + 1.U
-            }
-            when(tile4BrokenReg){
-                tile4Cnt := tile4Cnt + 1.U
-            }
+            
         }
         is(calcIdle){
             io.writingBrokenGlass := true.B
@@ -127,7 +120,20 @@ class BrokenGlassDisplayFSM extends Module{
 
         }
 
-        is(finished){     
+        is(finished){
+            when(tile1BrokenReg){
+                tile1Cnt := tile1Cnt + 1.U
+            }
+            when(tile2BrokenReg){
+                tile2Cnt := tile2Cnt + 1.U
+            }
+            when(tile3BrokenReg){
+                tile3Cnt := tile3Cnt + 1.U
+            }
+            when(tile4BrokenReg){
+                tile4Cnt := tile4Cnt + 1.U
+            }
+            
             brokenGlassWriteDoneReg := true.B
             stateReg := idle
         }
