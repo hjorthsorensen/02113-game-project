@@ -25,6 +25,8 @@ class PlayerMovementFSM() extends Module {
     val beerSpeed = Output(SInt(8.W))
     val spriteAnimationFrame = Output(UInt(3.W))
 
+    val beerLeft = Output(UInt(4.W))
+
     //Status
     val work = Input(Bool())
     val done = Output(Bool())
@@ -50,6 +52,7 @@ class PlayerMovementFSM() extends Module {
   val beerSpeedReg  = RegInit(0.S(8.W))
   val throwStrength = RegInit(0.S(8.W)) //-16 to 15
   val beerReady     = RegInit(false.B)
+  val beerLeftReg   = RegInit(10.U)
 
   // OTHER
   val btnUpPressed   = RegInit(false.B)
@@ -71,6 +74,7 @@ class PlayerMovementFSM() extends Module {
   
   // OTHER
   io.beerSpeed  := beerSpeedReg
+  io.beerLeft   := beerLeftReg
   io.done       := false.B
   io.isCatching := catchingReg
   ////////////////////////////////////////////////////////
@@ -150,9 +154,10 @@ class PlayerMovementFSM() extends Module {
       // ANIMATION ASSiGNMENT
       when(io.btnR) {
         // ONLY ALLOW REFILL AT TOP
-        when (spriteYReg < (96 + 64 + 33).S) {
+        when (spriteYReg < (96 + 64 + 33).S && !beerReady) {
           animFrameReg := 3.U
           beerReady := true.B
+          beerLeftReg := beerLeftReg - 1.U
         }
       } .elsewhen(catchingReg){
         animFrameReg := 1.U
