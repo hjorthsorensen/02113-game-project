@@ -32,6 +32,10 @@ class ReturnBeerFSM extends Module{
     val stateReg = RegInit(idle)
     //Registers for calculations
     val returnBeerXPosReg = RegInit(0.S(11.W))
+    val returnBeerXPos1Reg = RegInit(0.S(11.W))
+    val returnBeerXPos2Reg = RegInit(0.S(11.W))
+    val returnBeerYPos1Reg = RegInit(0.S(10.W))
+    val returnBeerYPos2Reg = RegInit(0.S(10.W))
     val returnBeerYPosReg = RegInit(0.S(10.W))
     val beerVisibleReg = RegInit(false.B)
     val beerReturnValidReg = RegInit(false.B)
@@ -59,6 +63,12 @@ class ReturnBeerFSM extends Module{
     io.beerReturnValid := beerReturnValidReg
 
 
+    returnBeerXPos1Reg := io.customer1XPos
+    returnBeerYPos1Reg := io.customer1YPos + 32.S
+
+    returnBeerXPos2Reg := io.customer2XPos
+    returnBeerYPos2Reg := io.customer2YPos + 32.S
+
 
     switch(stateReg){
         is(idle){
@@ -67,15 +77,19 @@ class ReturnBeerFSM extends Module{
                 when(!beerVisibleReg && returnCustomer1RegQueue){
                     beerVisibleReg := true.B
                     beerReturnValidReg := true.B
-                    returnBeerXPosReg := io.customer1XPos
-                    returnBeerYPosReg := io.customer1YPos + 32.S
                     returnBeerSpeedReg := 35.S
+                    returnBeerXPos1Reg := returnBeerXPos1Reg
+                    returnBeerXPosReg := returnBeerXPos1Reg
+                    returnBeerYPos1Reg := returnBeerYPos1Reg
+                    returnBeerYPosReg := returnBeerYPos1Reg
                     returningCustomer1 := true.B
                 }.elsewhen(!beerVisibleReg && returnCustomer2RegQueue){
                     beerVisibleReg := true.B
                     beerReturnValidReg := true.B
-                    returnBeerXPosReg := io.customer2XPos
-                    returnBeerYPosReg := io.customer2YPos + 32.S
+                    returnBeerXPos2Reg := returnBeerXPos2Reg
+                    returnBeerXPosReg := returnBeerXPos2Reg
+                    returnBeerYPos2Reg := returnBeerYPos2Reg
+                    returnBeerYPosReg := returnBeerYPos2Reg
                     returnBeerSpeedReg := 35.S
                     returningCustomer2 := true.B
                 }
