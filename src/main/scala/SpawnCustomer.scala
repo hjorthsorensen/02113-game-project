@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util._
 
-class SpawnCustomer(degreeOfRandom: Int) extends Module {
+class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
   val io = IO(new Bundle {
     val work = Input(Bool())
     // val beerDone = Input(Bool())
