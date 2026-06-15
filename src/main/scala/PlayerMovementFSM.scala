@@ -23,7 +23,7 @@ class PlayerMovementFSM() extends Module {
     val spriteFlipVertical = Output(Bool())
 
     val beerSpeed = Output(SInt(8.W))
-    val spriteAnimationFrame = Output(UInt(2.W))
+    val spriteAnimationFrame = Output(UInt(3.W))
 
     //Status
     val work = Input(Bool())
@@ -56,6 +56,7 @@ class PlayerMovementFSM() extends Module {
   val btnDownPressed = RegInit(false.B)
   val frameCount     = RegInit(0.U(2.W))
   val catchingReg    = RegInit(false.B)
+  val catchCount     = RegInit(0.U(6.W))
 
   ////////////////////////////////////////////
   //IO Connections
@@ -116,8 +117,12 @@ class PlayerMovementFSM() extends Module {
 
       // BEER CATCH
       when (io.btnL) {
+        catchCount := 32.U
         catchingReg := true.B
-      } .otherwise {
+      }
+
+      catchCount := catchCount + 1.U
+      when (catchCount < 32.U) {
         catchingReg := false.B
       }
 
@@ -141,6 +146,7 @@ class PlayerMovementFSM() extends Module {
         }
       }
 
+
       // ANIMATION ASSiGNMENT
       when(io.btnR) {
         // ONLY ALLOW REFILL AT TOP
@@ -148,7 +154,7 @@ class PlayerMovementFSM() extends Module {
           animFrameReg := 3.U
           beerReady := true.B
         }
-      } .elsewhen(io.btnL){
+      } .elsewhen(catchingReg){
         animFrameReg := 1.U
       } .elsewhen(io.btnC && beerReady) {
         animFrameReg := 2.U
