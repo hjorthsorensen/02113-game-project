@@ -154,7 +154,7 @@ class PlayerMovementFSM() extends Module {
       // ANIMATION ASSiGNMENT
       when(io.btnR) {
         // ONLY ALLOW REFILL AT TOP
-        when (spriteYReg < (96 + 64 + 33).S && !beerReady) {
+        when (spriteYReg < (96 + 64 + 33).S && !beerReady && beerLeftReg > 0.U) {
           animFrameReg := 3.U
           beerReady := true.B
           beerLeftReg := beerLeftReg - 1.U
