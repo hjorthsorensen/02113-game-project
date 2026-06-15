@@ -92,11 +92,11 @@ class beerLeftFSM extends Module{
             io.writingScore := true.B
             when(scoreIDReg === 0.U){
                 scoreIDReg := scoreIDReg + 1.U
-                io.writeAdress := (17 + 40).U
+                io.writeAdress := (16 + 40).U
                 io.writeTileID := RightDigitReg + 16.U
             }.elsewhen(scoreIDReg === 1.U){
                 scoreIDReg := scoreIDReg + 1.U
-                io.writeAdress := (16 + 40).U
+                io.writeAdress := (15 + 40).U
                 io.writeTileID := MiddleDigitReg + 16.U
                 stateReg := done
             }
