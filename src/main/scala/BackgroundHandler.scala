@@ -28,7 +28,7 @@ class BackgroundHandler extends Module{
 
     
     
-    val idle :: scoreBoard :: brokenGlass :: beerLeft :: done :: Nil = Enum(4)
+    val idle :: scoreBoard :: brokenGlass :: beerLeft :: done :: Nil = Enum(5)
     val stateReg = RegInit(idle)
 
 
@@ -67,7 +67,7 @@ class BackgroundHandler extends Module{
         is(beerLeft) {
             io.writeEnable := true.B
             
-            when(io.scoreDone){
+            when(io.beerDone){
                 stateReg := done
             }
         }

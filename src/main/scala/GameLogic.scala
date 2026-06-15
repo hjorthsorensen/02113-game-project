@@ -161,6 +161,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
   backgroundHandler.io.scoreDone := scoreBoardFSM.io.done
   backgroundHandler.io.brokenGlassDone := brokenGlassFSM.io.done
+  backgroundHandler.io.beerDone := beerLeftFSM.io.done
 
   io.backBufferWriteAddress := backgroundHandler.io.writeAdress
   io.backBufferWriteData := backgroundHandler.io.writeTileID
