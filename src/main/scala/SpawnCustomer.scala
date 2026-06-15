@@ -210,6 +210,7 @@ when(customerBegunScoringVec(0)  && !(customerDrinkingDelayVec(0) === 60.U) && c
           customerYPosVec(0) := 384.S
         }
       }
+  customerIdleVisibilityVec(0) := true.B
   stateReg := spawnSecondCustomer
     }
     is(spawnSecondCustomer){
@@ -244,6 +245,7 @@ when(customerBegunScoringVec(0)  && !(customerDrinkingDelayVec(0) === 60.U) && c
       }
 
       }
+      customerIdleVisibilityVec(1) := true.B
       stateReg := spawnThirdCustomer
 
       
@@ -288,6 +290,7 @@ when(customerBegunScoringVec(0)  && !(customerDrinkingDelayVec(0) === 60.U) && c
           customerYPosVec(2) := 384.S          
         }
       }
+      customerIdleVisibilityVec(2) := true.B
       
       } //end of third customer
 
@@ -336,6 +339,9 @@ when(customerBegunScoringVec(0)  && !(customerDrinkingDelayVec(0) === 60.U) && c
       when(!(customerSpawnDelayReg === 0.U)) {
         customerSpawnDelayReg := customerSpawnDelayReg - 1.U
       }
+      customerAnimDelayCycleVec(0) := customerAnimDelayCycleVec(0) + 1.U
+      customerAnimDelayCycleVec(1) := customerAnimDelayCycleVec(1) + 1.U
+      //customerAnimDelayCycleVec(2) := customerAnimDelayCycleVec(2) + 1.U
       stateReg := done
     }
 

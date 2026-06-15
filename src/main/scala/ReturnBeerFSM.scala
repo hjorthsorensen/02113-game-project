@@ -43,6 +43,9 @@ class ReturnBeerFSM extends Module{
     val returningCustomer1 = RegInit(false.B)
     val returningCustomer2 = RegInit(false.B)
 
+    val fpsReg = RegInit(0.U(2.W))
+
+
     def risingEdge(signal: Bool): Bool = signal && !RegNext(signal)
     when(risingEdge(io.returnCustomer1)){
         returnCustomer1RegQueue := true.B
@@ -69,14 +72,14 @@ class ReturnBeerFSM extends Module{
                     beerReturnValidReg := true.B
                     returnBeerXPosReg := io.customer1XPos
                     returnBeerYPosReg := io.customer1YPos + 32.S
-                    returnBeerSpeedReg := 35.S
+                    returnBeerSpeedReg := 25.S
                     returningCustomer1 := true.B
                 }.elsewhen(!beerVisibleReg && returnCustomer2RegQueue){
                     beerVisibleReg := true.B
                     beerReturnValidReg := true.B
                     returnBeerXPosReg := io.customer2XPos
                     returnBeerYPosReg := io.customer2YPos + 32.S
-                    returnBeerSpeedReg := 35.S
+                    returnBeerSpeedReg := 25.S
                     returningCustomer2 := true.B
                 }
             }
@@ -84,11 +87,14 @@ class ReturnBeerFSM extends Module{
         is(busy){
             when(beerVisibleReg){
                 returnBeerXPosReg := returnBeerXPosReg + returnBeerSpeedReg
+                when(fpsReg === 1.U){
+                    returnBeerSpeedReg := returnBeerSpeedReg - 1.S
+                }
                 returnBeerSpeedReg := returnBeerSpeedReg - 1.S
                 when((returnBeerXPosReg >= 512.S || io.isBeerCatched || returnBeerSpeedReg <= 0.S) && returningCustomer1){
                     beerVisibleReg := false.B
                     beerReturnValidReg := false.B
-                    returnCustomer2RegQueue := false.B
+                    returnCustomer1RegQueue := false.B
                     returningCustomer1 := false.B
                 }.elsewhen((returnBeerXPosReg >= 512.S || io.isBeerCatched || returnBeerSpeedReg <= 0.S) && returningCustomer2){
                     beerVisibleReg := false.B
@@ -101,6 +107,7 @@ class ReturnBeerFSM extends Module{
             stateReg := done
         }
         is(done){
+            fpsReg := fpsReg + 1.U
             stateReg := idle
             io.done := true.B
         }
