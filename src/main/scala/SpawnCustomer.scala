@@ -75,7 +75,176 @@ class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
 
 
 // animation handler
-//first customer 
+
+
+
+
+
+// end of animation handling
+
+
+  // statemachine
+  val idle :: spawnFirstCustomer :: spawnSecondCustomer :: spawnThirdCustomer :: despawn :: delays :: animate :: done :: Nil = Enum(8)
+  val stateReg = RegInit(idle)
+
+  switch(stateReg) {
+
+    is(idle) {
+      when(io.work) {
+        //only spawn new customers when all customers are despawned, 
+        //and 
+        when((customerSpawnedVec(0) === false.B && customerSpawnedVec(1) === false.B && customerSpawnedVec(2) === false.B) && customerSpawnDelayReg === 0.U){
+            stateReg := spawnFirstCustomer
+        }.elsewhen(anyCustomerScored){
+          stateReg := despawn
+        }.otherwise{
+          stateReg := delays
+        }
+      }
+    }
+
+    is(spawnFirstCustomer) {
+      //all customers are despawned. start spawning customers, at random places, and show them.
+      //spawning of different customers are in different states to ensure we can read their y values 
+      //and place them om different tables (only if they are too close)
+      customerXPosVec(0) := Mux(customerRandomValuesVec(0) >= 450.U,450.S,Mux(customerRandomValuesVec(0) <= 96.U, 96.S, customerRandomValuesVec(0).asSInt))
+      customerSeatYVec(0) := customerRandomValuesVec(0)
+      switch(customerSeatYVec(0)){
+        is(0.U){
+          customerYPosVec(0) := 192.S
+        }
+        is(1.U){
+          customerYPosVec(0) := 256.S
+
+        }
+        is(2.U){
+          customerYPosVec(0) := 320.S
+
+        }
+        is(3.U){
+          customerYPosVec(0) := 384.S
+        }
+      }
+  customerIdleVisibilityVec(0) := true.B
+  customerSpawnedVec(0) := true.B
+  stateReg := spawnSecondCustomer
+    }
+    is(spawnSecondCustomer){
+      //Check if we want to spawn second customer.
+      when(Customers.U === 2.U){
+        //first, get random position.
+        customerXPosVec(1) := Mux(customerRandomValuesVec(1) >= 450.U,450.S,Mux(customerRandomValuesVec(1) <= 96.U, 96.S, customerRandomValuesVec(1).asSInt))
+        customerSeatYVec(1) := customerRandomValuesVec(1)
+      switch(customerSeatYVec(1)){
+        is(0.U){
+          customerYPosVec(1) := 192.S
+        }
+        is(1.U){
+          customerYPosVec(1) := 256.S
+
+        }
+        is(2.U){
+          customerYPosVec(1) := 320.S
+
+        }
+        is(3.U){
+          customerYPosVec(1) := 384.S
+        }
+      }
+
+      //now we check if they overlap...
+      when((customerXPosVec(1) - customerXPosVec(0)).abs <= 50.S){
+        when(customerYPosVec(1) === customerYPosVec(0)){
+          //if already at lowest table, go up one table; otherwise go to the next table.
+          customerYPosVec(1) := Mux(customerYPosVec(1) === 384.S, customerYPosVec(1) - 64.S, customerYPosVec(1) + 64.S)
+        }
+      }
+
+      }
+      customerIdleVisibilityVec(1) := true.B
+      customerSpawnedVec(1) := true.B
+      stateReg := spawnThirdCustomer
+
+      
+    }
+    is(spawnThirdCustomer){
+      when(Customers.U === 3.U){
+        //set x value randomly; and just ensure it is a different table than the others are at.
+      customerXPosVec(2) := Mux(customerRandomValuesVec(2) >= 450.U,450.S,Mux(customerRandomValuesVec(2) <= 96.U, 96.S, customerRandomValuesVec(2).asSInt))
+      customerSeatYVec(2) := customerRandomValuesVec(2)
+      when(!(customerSeatYVec(2) === customerSeatYVec(1)) && !(customerSeatYVec(2) === customerSeatYVec(0))){
+          switch(customerSeatYVec(2)){
+        is(0.U){
+          customerYPosVec(2) := 192.S
+          }
+        is(1.U){
+          customerYPosVec(2) := 256.S
+
+          }
+        is(2.U){
+          customerYPosVec(2) := 320.S
+
+          }
+        is(3.U){
+          customerYPosVec(2) := 384.S
+          }
+        }
+        //naive method of ensuring that it goes to an empty row.
+        //if we implement more customers at the same time than four,
+        //we need a more robust solution.
+      }.otherwise{
+        when(!(customerSeatYVec(0) === 0.U) && !(customerSeatYVec(1) === 0.U)){
+          customerSeatYVec(2) := 0.U
+          customerYPosVec(2) := 192.S
+        }.elsewhen(!(customerSeatYVec(0) === 1.U) && !(customerSeatYVec(1) === 1.U)){
+          customerSeatYVec(2) := 1.U
+          customerYPosVec(2) := 256.S          
+        }.elsewhen(!(customerSeatYVec(0) === 2.U) && !(customerSeatYVec(1) === 2.U)){
+          customerSeatYVec(2) := 2.U
+          customerYPosVec(2) := 320.S          
+        }.elsewhen(!(customerSeatYVec(0) === 3.U) && !(customerSeatYVec(1) === 3.U)){
+          customerSeatYVec(2) := 3.U
+          customerYPosVec(2) := 384.S          
+        }
+      }
+      customerIdleVisibilityVec(2) := true.B
+      
+      } //end of third customer
+
+    //we dont have to go to despawn.
+    //when we spawn customers, there is no possibility
+    //(or it should not be possible)
+    //that customers despawn.
+    stateReg := animate
+
+    }
+    is(despawn) {
+      when(io.customer1Scored){
+        customerBegunScoringVec(0) := true.B
+        customerAnimCycleVec(0) := 1.U
+
+
+      }.elsewhen(io.customer2Scored){
+        customerBegunScoringVec(1) := true.B
+        customerAnimCycleVec(1) := 1.U
+
+      // we currently dont have the io signals from outside to handle third customer.
+      //add io.customer3Scored in FSMScores.
+
+       }
+      //.elsewhen(io.customer3Scored){
+      //   customerBegunScoringVec(2) := true.B
+      //    }
+
+       stateReg := animate
+    }
+    // is(animate) {
+    //   // customer despawn animations here
+    //   //customer one despawn here
+      
+    // }
+    is(animate){
+      //first customer 
 when(customerBegunScoringVec(0)  && !(customerDrinkingDelayVec(0) === 60.U) && customerAnimCycleVec(0) === 1.U) {
         customerDrinkingVisibilityVec(0) := true.B
         customerIdleVisibilityVec(0) := false.B
@@ -161,169 +330,10 @@ when(customerBegunScoringVec(0)  && !(customerDrinkingDelayVec(0) === 60.U) && c
           customerAnimDirVec(1) := !customerAnimDirVec(1)
         }
       }
-
-
-
-
-// end of animation handling
-
-
-  // statemachine
-  val idle :: spawnFirstCustomer :: spawnSecondCustomer :: spawnThirdCustomer :: despawn :: delays :: animate :: done :: Nil = Enum(8)
-  val stateReg = RegInit(idle)
-
-  switch(stateReg) {
-
-    is(idle) {
-      when(io.work) {
-        //only spawn new customers when all customers are despawned, 
-        //and 
-        when((customerSpawnedVec(0) === false.B && customerSpawnedVec(1) === false.B && customerSpawnedVec(2) === false.B) && customerSpawnDelayReg === 0.U){
-            stateReg := spawnFirstCustomer
-        }.elsewhen(anyCustomerScored){
-          stateReg := despawn
-        }.otherwise{
-          stateReg := delays
-        }
-      }
+      stateReg := delays
     }
 
-    is(spawnFirstCustomer) {
-      //all customers are despawned. start spawning customers, at random places, and show them.
-      //spawning of different customers are in different states to ensure we can read their y values 
-      //and place them om different tables (only if they are too close)
-      customerXPosVec(0) := Mux(customerRandomValuesVec(0) >= 450.U,450.S,Mux(customerRandomValuesVec(0) <= 96.U, 96.S, customerRandomValuesVec(0).asSInt))
-      customerSeatYVec(0) := customerRandomValuesVec(0)
-      switch(customerSeatYVec(0)){
-        is(0.U){
-          customerYPosVec(0) := 192.S
-        }
-        is(1.U){
-          customerYPosVec(0) := 256.S
 
-        }
-        is(2.U){
-          customerYPosVec(0) := 320.S
-
-        }
-        is(3.U){
-          customerYPosVec(0) := 384.S
-        }
-      }
-  customerIdleVisibilityVec(0) := true.B
-  stateReg := spawnSecondCustomer
-    }
-    is(spawnSecondCustomer){
-      //Check if we want to spawn second customer.
-      when(Customers.U === 2.U){
-        //first, get random position.
-        customerXPosVec(1) := Mux(customerRandomValuesVec(1) >= 450.U,450.S,Mux(customerRandomValuesVec(1) <= 96.U, 96.S, customerRandomValuesVec(1).asSInt))
-        customerSeatYVec(1) := customerRandomValuesVec(1)
-      switch(customerSeatYVec(1)){
-        is(0.U){
-          customerYPosVec(1) := 192.S
-        }
-        is(1.U){
-          customerYPosVec(1) := 256.S
-
-        }
-        is(2.U){
-          customerYPosVec(1) := 320.S
-
-        }
-        is(3.U){
-          customerYPosVec(1) := 384.S
-        }
-      }
-
-      //now we check if they overlap...
-      when((customerXPosVec(1) - customerXPosVec(0)).abs <= 50.S){
-        when(customerYPosVec(1) === customerYPosVec(0)){
-          //if already at lowest table, go up one table; otherwise go to the next table.
-          customerYPosVec(1) := Mux(customerYPosVec(1) === 384.S, customerYPosVec(1) - 64.S, customerYPosVec(1) + 64.S)
-        }
-      }
-
-      }
-      customerIdleVisibilityVec(1) := true.B
-      stateReg := spawnThirdCustomer
-
-      
-    }
-    is(spawnThirdCustomer){
-      when(Customers.U === 3.U){
-        //set x value randomly; and just ensure it is a different table than the others are at.
-      customerXPosVec(2) := Mux(customerRandomValuesVec(2) >= 450.U,450.S,Mux(customerRandomValuesVec(2) <= 96.U, 96.S, customerRandomValuesVec(2).asSInt))
-      customerSeatYVec(2) := customerRandomValuesVec(2)
-      when(!(customerSeatYVec(2) === customerSeatYVec(1)) && !(customerSeatYVec(2) === customerSeatYVec(0))){
-          switch(customerSeatYVec(2)){
-        is(0.U){
-          customerYPosVec(2) := 192.S
-          }
-        is(1.U){
-          customerYPosVec(2) := 256.S
-
-          }
-        is(2.U){
-          customerYPosVec(2) := 320.S
-
-          }
-        is(3.U){
-          customerYPosVec(2) := 384.S
-          }
-        }
-        //naive method of ensuring that it goes to an empty row.
-        //if we implement more customers at the same time than four,
-        //we need a more robust solution.
-      }.otherwise{
-        when(!(customerSeatYVec(0) === 0.U) && !(customerSeatYVec(1) === 0.U)){
-          customerSeatYVec(2) := 0.U
-          customerYPosVec(2) := 192.S
-        }.elsewhen(!(customerSeatYVec(0) === 1.U) && !(customerSeatYVec(1) === 1.U)){
-          customerSeatYVec(2) := 1.U
-          customerYPosVec(2) := 256.S          
-        }.elsewhen(!(customerSeatYVec(0) === 2.U) && !(customerSeatYVec(1) === 2.U)){
-          customerSeatYVec(2) := 2.U
-          customerYPosVec(2) := 320.S          
-        }.elsewhen(!(customerSeatYVec(0) === 3.U) && !(customerSeatYVec(1) === 3.U)){
-          customerSeatYVec(2) := 3.U
-          customerYPosVec(2) := 384.S          
-        }
-      }
-      customerIdleVisibilityVec(2) := true.B
-      
-      } //end of third customer
-
-    //we dont have to go to despawn.
-    //when we spawn customers, there is no possibility
-    //(or it should not be possible)
-    //that customers despawn.
-    stateReg := delays
-
-    }
-    is(despawn) {
-      when(io.customer1Scored){
-        customerBegunScoringVec(0) := true.B
-
-
-      }.elsewhen(io.customer2Scored){
-        customerBegunScoringVec(1) := true.B
-
-      // we currently dont have the io signals from outside to handle third customer.
-      //add io.customer3Scored in FSMScores.
-
-       }
-      //.elsewhen(io.customer3Scored){
-      //   customerBegunScoringVec(2) := true.B
-      //    }
-
-       stateReg := delays
-    }
-    // is(animate) {
-    //   // customer despawn animations here
-    //   //customer one despawn here
-      
-    // }
 
     is(delays) {
       when(customerSpawnedVec(0)) {
