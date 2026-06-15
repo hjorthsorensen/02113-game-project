@@ -1,5 +1,6 @@
 import chisel3._
 import chisel3.util._
+import chisel3.util.random.LFSR
 
 class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
   val io = IO(new Bundle {
@@ -81,9 +82,8 @@ class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
   io.customer1Flipped := customer1FlippedReg
   io.customer2Flipped := customer2FlippedReg
 
-
-
-
+  val randomVal = RegInit(0.U(11.W))
+  randomVal := random.LFSR(32)
 
   // statemachine
   val idle :: spawn :: spawn2 :: despawn :: delays :: animate :: done :: Nil = Enum(8)
@@ -104,8 +104,8 @@ class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
 
       // if customer not spawned, and customer delay is 0, spawn customer.
       when(!customer1SpawnedReg && (customer1SpawnDelayReg === 0.U)) {
-        customer1SeatXReg := customer1SeatXReg + random.LFSR(degreeOfRandom,true.B)
-        customer1SeatYReg := customer1SeatYReg + random.LFSR(degreeOfRandom,true.B)
+        customer1SeatXReg := customer1SeatXReg + randomVal
+        customer1SeatYReg := customer1SeatYReg + randomVal
 
             when(customer1SeatYReg === customer2SeatYReg){
                 //if they are at the same seat, just wrap around and pick a new lane.
@@ -126,13 +126,14 @@ class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
     }
     is(spawn2){
       when(!customer2SpawnedReg && (customer2SpawnDelayReg === 0.U)) {
-        customer2SeatXReg := customer2SeatXReg + random.LFSR(degreeOfRandom,true.B)
-        customer2SeatYReg := customer2SeatYReg + random.LFSR(degreeOfRandom,true.B)
-        //     when(customer1SeatYReg === customer2SeatYReg){
-        //             //same here.
-        //         customer2SeatYReg := customer2SeatYReg + 1.U
+        customer2SeatXReg := customer2SeatXReg + randomVal
+        customer2SeatYReg := customer2SeatYReg + randomVal
 
-        // }
+                    when(customer1SeatYReg === customer2SeatYReg){
+                //if they are at the same seat, just wrap around and pick a new lane.
+                //also move one two to the right, to make it seem more random.
+                  customer2SeatYReg := customer2SeatYReg + 1.U
+                    }                
         customer2XReg := xSpawnValues(customer2SeatXReg)
         customer2YReg := ySpawnValues(customer2SeatYReg)
         customer2IdleVisibleReg := true.B
