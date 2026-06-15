@@ -28,6 +28,7 @@ class ScoreFSM extends Module {
     // Outputs
     val customerOneScored = Output(Bool())
     val customerTwoScored = Output(Bool())
+    val currentMultiplier = Output(UInt(5.W))
     val done = Output(Bool())
     val score = Output(UInt(16.W))
     val beerCatched = Output(Bool())
@@ -133,4 +134,5 @@ class ScoreFSM extends Module {
   io.customerOneScored := customerOneScoredReg
   io.customerTwoScored := customerTwoScoredReg
   io.beerCatched := beerCatched
+  io.currentMultiplier := scoreMultiplier
 }

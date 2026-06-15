@@ -77,12 +77,13 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val playerMovementFSM = Module(new PlayerMovementFSM())
   val beerMovement = Module(new BeerMovement())
   val scoreFSM = Module(new ScoreFSM())
-  val spawnCustomer = Module(new SpawnCustomer2(16,2))
+  val spawnCustomer = Module(new SpawnCustomer2(16, 2))
   val backgroundHandler = Module(new BackgroundHandler())
   val scoreBoardFSM = Module(new ScoreBoardDisplayFSM())
   val returnBeerFSM = Module(new ReturnBeerFSM())
   val brokenGlassFSM = Module(new BrokenGlassDisplayFSM())
   val beerLeftFSM = Module(new beerLeftFSM())
+  val multiplierFSM = Module(new MultiplierDisplayFSM())
 
   /////////////////////////////////////////////////////////////////////////
   ///// FSM modules connections
@@ -132,12 +133,16 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
   // Connecting beer left
   beerLeftFSM.io.score := playerMovementFSM.io.beerLeft
-  beerLeftFSM.io.work  := backgroundHandler.io.beerWork
+  beerLeftFSM.io.work := backgroundHandler.io.beerWork
 
   // Connecting to brokenGlassDisplayFSM
   brokenGlassFSM.io.beerBroken := beerMovement.io.beerBroken
   brokenGlassFSM.io.work := backgroundHandler.io.brokenGlassWork
   brokenGlassFSM.io.tableID := beerMovement.io.tableID
+
+  // Connecting to MultiplierFSM
+  multiplierFSM.io.multiplier := scoreFSM.io.currentMultiplier
+  multiplierFSM.io.work := backgroundHandler.io.multiplierWork
 
   // Connecting to spawn customer
   spawnCustomer.io.customer1Scored := scoreFSM.io.customerOneScored
@@ -150,8 +155,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   returnBeerFSM.io.customer2YPos := spawnCustomer.io.customer2PosY
   returnBeerFSM.io.returnCustomer1 := spawnCustomer.io.customer1ScoreDone
   returnBeerFSM.io.returnCustomer2 := spawnCustomer.io.customer2ScoreDone
-  
-  
+
   returnBeerFSM.io.isBeerCatched := scoreFSM.io.beerCatched
 
   // Connecting tp background handler
@@ -162,6 +166,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   backgroundHandler.io.scoreDone := scoreBoardFSM.io.done
   backgroundHandler.io.brokenGlassDone := brokenGlassFSM.io.done
   backgroundHandler.io.beerDone := beerLeftFSM.io.done
+  backgroundHandler.io.multiplierDone := multiplierFSM.io.done
 
   io.backBufferWriteAddress := backgroundHandler.io.writeAdress
   io.backBufferWriteData := backgroundHandler.io.writeTileID
@@ -171,14 +176,17 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   when(scoreBoardFSM.io.writingScore) {
     backgroundHandler.io.inputAdress := scoreBoardFSM.io.writeAdress
     backgroundHandler.io.inputTileID := scoreBoardFSM.io.writeTileID
+  }.elsewhen { multiplierFSM.io.writingMultiplier } {
+    backgroundHandler.io.inputAdress := multiplierFSM.io.writeAdress
+    backgroundHandler.io.inputTileID := multiplierFSM.io.writeTileID
   }.elsewhen(brokenGlassFSM.io.writingBrokenGlass) {
     backgroundHandler.io.inputAdress := brokenGlassFSM.io.writeAdress
     backgroundHandler.io.inputTileID := brokenGlassFSM.io.writeTileID
-  } .elsewhen(beerLeftFSM.io.writingScore) {
+  }.elsewhen(beerLeftFSM.io.writingScore) {
     backgroundHandler.io.inputAdress := beerLeftFSM.io.writeAdress
     backgroundHandler.io.inputTileID := beerLeftFSM.io.writeTileID
   }
-    // add .elsewhen if you want to write other things to the background as well
+  // add .elsewhen if you want to write other things to the background as well
 
   // DEBUG CONNECTION
   // io.led(0) := scoreFSM.io.customerOneScored
@@ -278,10 +286,10 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
     }
     is(4.U) {
-      io.spriteVisible(0)  := false.B
-      io.spriteVisible(1)  := true.B //TRUE
-      io.spriteVisible(2)  := false.B
-      io.spriteVisible(3)  := false.B 
+      io.spriteVisible(0) := false.B
+      io.spriteVisible(1) := true.B // TRUE
+      io.spriteVisible(2) := false.B
+      io.spriteVisible(3) := false.B
       io.spriteVisible(11) := false.B
     }
   }
