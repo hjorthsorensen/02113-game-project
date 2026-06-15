@@ -33,6 +33,27 @@ class ReturnBeerFSM extends Module{
     //Registers for calculations
     val returnBeerXPosReg = RegInit(0.S(11.W))
     val returnBeerYPosReg = RegInit(0.S(10.W))
+
+    val returnBeerX1PosPrevReg = RegInit(0.S(11.W))
+    val returnBeerY1PosPrevReg = RegInit(0.S(10.W))
+    val returnBeerX2PosPrevReg = RegInit(0.S(11.W))
+    val returnBeerY2PosPrevReg = RegInit(0.S(10.W))
+
+    when(io.customer1XPos =/= 0.S){
+        returnBeerX1PosPrevReg := io.customer1XPos
+    }
+    when(io.customer2XPos =/= 0.S){
+        returnBeerX2PosPrevReg := io.customer2XPos
+    }
+    when(io.customer1YPos =/= 0.S){
+        returnBeerY1PosPrevReg := io.customer1YPos + 32.S
+    }
+    when(io.customer2YPos =/= 0.S){
+        returnBeerY2PosPrevReg := io.customer2YPos + 32.S
+    }
+    
+
+
     val beerVisibleReg = RegInit(false.B)
     val beerReturnValidReg = RegInit(false.B)
     val returnBeerSpeedReg = RegInit(0.S(8.W))
@@ -44,6 +65,8 @@ class ReturnBeerFSM extends Module{
     val returningCustomer2 = RegInit(false.B)
 
     val fpsReg = RegInit(0.U(2.W))
+    val idleC = RegInit(0.U(8.W))
+
 
 
     def risingEdge(signal: Bool): Bool = signal && !RegNext(signal)
@@ -62,7 +85,6 @@ class ReturnBeerFSM extends Module{
     io.beerReturnValid := beerReturnValidReg
 
 
-
     switch(stateReg){
         is(idle){
             when(io.work){
@@ -70,16 +92,16 @@ class ReturnBeerFSM extends Module{
                 when(!beerVisibleReg && returnCustomer1RegQueue){
                     beerVisibleReg := true.B
                     beerReturnValidReg := true.B
-                    returnBeerXPosReg := io.customer1XPos
-                    returnBeerYPosReg := io.customer1YPos + 32.S
-                    returnBeerSpeedReg := 25.S
+                    returnBeerSpeedReg := 28.S
+                    returnBeerXPosReg := returnBeerX1PosPrevReg
+                    returnBeerYPosReg := returnBeerY1PosPrevReg
                     returningCustomer1 := true.B
                 }.elsewhen(!beerVisibleReg && returnCustomer2RegQueue){
                     beerVisibleReg := true.B
                     beerReturnValidReg := true.B
-                    returnBeerXPosReg := io.customer2XPos
-                    returnBeerYPosReg := io.customer2YPos + 32.S
-                    returnBeerSpeedReg := 25.S
+                    returnBeerXPosReg := returnBeerX2PosPrevReg
+                    returnBeerYPosReg := returnBeerY2PosPrevReg
+                    returnBeerSpeedReg := 28.S
                     returningCustomer2 := true.B
                 }
             }
@@ -91,23 +113,39 @@ class ReturnBeerFSM extends Module{
                     returnBeerSpeedReg := returnBeerSpeedReg - 1.S
                 }
                 returnBeerSpeedReg := returnBeerSpeedReg - 1.S
-                when((returnBeerXPosReg >= 512.S || io.isBeerCatched || returnBeerSpeedReg <= 0.S) && returningCustomer1){
+                when((returnBeerXPosReg >= 512.S || io.isBeerCatched) && returningCustomer1){
                     beerVisibleReg := false.B
                     beerReturnValidReg := false.B
                     returnCustomer1RegQueue := false.B
                     returningCustomer1 := false.B
-                }.elsewhen((returnBeerXPosReg >= 512.S || io.isBeerCatched || returnBeerSpeedReg <= 0.S) && returningCustomer2){
+                    // returnCustomer2RegQueue := false.B
+                    // returningCustomer2 := false.B
+                }.elsewhen((returnBeerXPosReg >= 512.S || io.isBeerCatched) && returningCustomer2){
                     beerVisibleReg := false.B
                     beerReturnValidReg := false.B
                     returnCustomer2RegQueue := false.B
                     returningCustomer2 := false.B
+                    // returnCustomer1RegQueue := false.B
+                    // returningCustomer1 := false.B
                 }
 
+            }
+            when(!beerVisibleReg){
+                idleC := idleC + 1.U
+                when(idleC === 180.U){
+                    idleC := 0.U
+                    returnCustomer2RegQueue := false.B
+                    returningCustomer2 := false.B
+                    returnCustomer1RegQueue := false.B
+                    returningCustomer1 := false.B
+
+                }
             }
             stateReg := done
         }
         is(done){
             fpsReg := fpsReg + 1.U
+            
             stateReg := idle
             io.done := true.B
         }

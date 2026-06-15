@@ -23,7 +23,9 @@ class PlayerMovementFSM() extends Module {
     val spriteFlipVertical = Output(Bool())
 
     val beerSpeed = Output(SInt(8.W))
-    val spriteAnimationFrame = Output(UInt(2.W))
+    val spriteAnimationFrame = Output(UInt(3.W))
+
+    val beerLeft = Output(UInt(4.W))
 
     //Status
     val work = Input(Bool())
@@ -50,12 +52,14 @@ class PlayerMovementFSM() extends Module {
   val beerSpeedReg  = RegInit(0.S(8.W))
   val throwStrength = RegInit(0.S(8.W)) //-16 to 15
   val beerReady     = RegInit(false.B)
+  val beerLeftReg   = RegInit(10.U)
 
   // OTHER
   val btnUpPressed   = RegInit(false.B)
   val btnDownPressed = RegInit(false.B)
   val frameCount     = RegInit(0.U(2.W))
   val catchingReg    = RegInit(false.B)
+  val catchCount     = RegInit(0.U(7.W))
 
   ////////////////////////////////////////////
   //IO Connections
@@ -70,6 +74,7 @@ class PlayerMovementFSM() extends Module {
   
   // OTHER
   io.beerSpeed  := beerSpeedReg
+  io.beerLeft   := beerLeftReg
   io.done       := false.B
   io.isCatching := catchingReg
   ////////////////////////////////////////////////////////
@@ -116,8 +121,12 @@ class PlayerMovementFSM() extends Module {
 
       // BEER CATCH
       when (io.btnL) {
+        catchCount := 64.U
         catchingReg := true.B
-      } .otherwise {
+      }
+
+      catchCount := catchCount + 1.U
+      when (catchCount < 64.U) {
         catchingReg := false.B
       }
 
@@ -141,19 +150,21 @@ class PlayerMovementFSM() extends Module {
         }
       }
 
+
       // ANIMATION ASSiGNMENT
       when(io.btnR) {
         // ONLY ALLOW REFILL AT TOP
-        when (spriteYReg < (96 + 64 + 33).S) {
+        when (spriteYReg < (96 + 64 + 33).S && !beerReady) {
           animFrameReg := 3.U
           beerReady := true.B
+          beerLeftReg := beerLeftReg - 1.U
         }
-      } .elsewhen(io.btnL){
+      } .elsewhen(catchingReg){
         animFrameReg := 1.U
       } .elsewhen(io.btnC && beerReady) {
         animFrameReg := 2.U
       } .otherwise {
-        when (frameCount === 0.U || frameCount === 1.U) {
+        when (catchCount < 32.U) {
           animFrameReg := 0.U
         } .otherwise {
           animFrameReg := 4.U

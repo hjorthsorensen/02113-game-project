@@ -23,6 +23,7 @@ class ScoreFSM extends Module {
     val customerTwoScoredInp = Input(Bool())
     val playerY = Input(SInt(10.W))
     val playerReadyToCatch = Input(Bool())
+    val beerBroken = Input(Bool())
 
     // Outputs
     val customerOneScored = Output(Bool())
@@ -37,6 +38,7 @@ class ScoreFSM extends Module {
   val customerOneScoredReg = RegInit(false.B)
   val customerTwoScoredReg = RegInit(false.B)
   val beerCatched = RegInit(false.B)
+  val scoreMultiplier = RegInit(1.U(8.W))
   customerOneScoredReg := false.B
   customerTwoScoredReg := false.B
 
@@ -47,8 +49,6 @@ class ScoreFSM extends Module {
   val distanceY1 = WireDefault(0.S(10.W))
   val distanceX2 = WireDefault(0.S(11.W))
   val distanceY2 = WireDefault(0.S(10.W))
-  val beerCanBeCaught = (io.playerY === io.beerEmptyY) && (io.beerEmptyX <= 512.S) && (io.beerEmptyX >= (512-32).S) && io.playerReadyToCatch
-
 
   distanceX1 := io.beerPositionX - io.customerOnePositionX
   distanceY1 := io.beerPositionY - io.customerOnePositionY
@@ -56,8 +56,8 @@ class ScoreFSM extends Module {
   distanceY2 := io.beerPositionY - io.customerTwoPositionY
 
   // State definitions
-  val idleState :: waitingForBeerState :: customerStatusState :: glassReturn :: doneState :: Nil =
-    Enum(5)
+  val idleState :: waitingForBeerState :: glassReturn :: doneState :: Nil =
+    Enum(4)
   val stateReg = RegInit(idleState)
   // This fixes a bug where it adds 60 numbers a sec, but appearently it didn't look good so now it runs with an intentional bug.
   // when(validFallingEdge){
@@ -79,13 +79,13 @@ class ScoreFSM extends Module {
         when(distanceY1 >= 0.S && distanceY1 < 40.S) {
           // Score Calculations | Pixel perfect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
           when(distanceX1 === 0.S) {
-            scoreReg := scoreReg + 5.U
+            scoreReg := scoreReg + (5.U * scoreMultiplier)
             customerOneScoredReg := true.B
           }.elsewhen(distanceX1 >= -16.S && distanceX1 <= 32.S) {
-            scoreReg := scoreReg + 2.U
+            scoreReg := scoreReg + (2.U * scoreMultiplier)
             customerOneScoredReg := true.B
           }.elsewhen(distanceX1 >= -32.S && distanceX1 <= 64.S) {
-            scoreReg := scoreReg + 1.U
+            scoreReg := scoreReg + (1.U * scoreMultiplier)
             customerOneScoredReg := true.B
           }
         }
@@ -94,34 +94,31 @@ class ScoreFSM extends Module {
         when(distanceY2 >= 0.S && distanceY2 < 40.S) {
           // Score Calculations | Pixel perfect = 5 points, within 32 units = 2 points, within 64 units = 1 points, otherwise 0.
           when(distanceX2 === 0.S) {
-            scoreReg := scoreReg + 5.U
+            scoreReg := scoreReg + (5.U * scoreMultiplier)
             customerTwoScoredReg := true.B
           }.elsewhen(distanceX2 >= -16.S && distanceX2 <= 32.S) {
-            scoreReg := scoreReg + 2.U
+            scoreReg := scoreReg + (2.U * scoreMultiplier)
             customerTwoScoredReg := true.B
           }.elsewhen(distanceX2 >= -32.S && distanceX2 <= 64.S) {
-            scoreReg := scoreReg + 1.U
+            scoreReg := scoreReg + (1.U * scoreMultiplier)
             customerTwoScoredReg := true.B
           }
         }
       }
     }
-    // is(customerStatusState) { // Put them down for one cycle so the GameLogic FSM can read the score and update the customers
-    //   when(io.customerOneScoredInp) {
-    //     customerOneScoredReg := false.B
-    //   }
-    //   when(io.customerTwoScoredInp) {
-    //     customerTwoScoredReg := false.B
-    //   }
-    //   stateReg := doneState
-    // }
     is(glassReturn) {
       stateReg := doneState
-      when(io.emptyBeerValid && (io.playerY === io.beerEmptyY) && (io.beerEmptyX <= 512.S) && (io.beerEmptyX >= (512-32).S) && io.playerReadyToCatch) {
+      when(
+        io.emptyBeerValid && (io.playerY === io.beerEmptyY) && (io.beerEmptyX <= 512.S) && (io.beerEmptyX >= (512 - 32).S) && io.playerReadyToCatch
+      ) {
         scoreReg := scoreReg + 1.U
+        scoreMultiplier := scoreMultiplier + 1.U
         beerCatched := true.B
-      }.elsewhen(io.emptyBeerValid && (!(io.playerY === io.beerEmptyY) || !io.playerReadyToCatch) && (io.beerEmptyX <= 512.S) && (io.beerEmptyX >= (512-32).S) && scoreReg - 1.U > 0.U) {
+      }.elsewhen(
+        io.emptyBeerValid && (!(io.playerY === io.beerEmptyY) || !io.playerReadyToCatch) && (io.beerEmptyX <= 512.S) && (io.beerEmptyX >= (512 - 32).S) && scoreReg - 1.U > 0.U
+      ) {
         scoreReg := scoreReg - 1.U
+        scoreMultiplier := 1.U
         beerCatched := false.B
       }
     }
