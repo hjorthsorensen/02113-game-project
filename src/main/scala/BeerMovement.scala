@@ -39,6 +39,7 @@ class BeerMovement extends Module{
     val beerBrokenReg = RegInit(false.B)
     val tableIDReg = RegInit(0.U(2.W))
 
+    val beerFallingSpeedReg = RegInit(0.S(8.W))
     val beerFallingReg = RegInit(false.B)
 
 
@@ -76,11 +77,11 @@ class BeerMovement extends Module{
                     beerValidReg := false.B
                     beerFallingReg := false.B
                     beerXReg := 500.S
-
+                    
                 }
-                when(!inCalc && doneCalc && (beerXReg <=64.S) && !beerFallingReg){
+                when(!inCalc && doneCalc && (beerXReg <=64.S)){
                     beerBrokenReg := true.B
-                    beerFallingReg := true.B
+                    beerYReg := beerYReg + 1.S
                 }
                 //When the beer is stationary, we are now not in calculation, and the beer is ready for the next throw
                 when(inCalc && doneCalc){
@@ -105,10 +106,6 @@ class BeerMovement extends Module{
         }
         is(busy){
             //Update the beers position and remaining speed every frame until the movement is done
-            beerYReg := beerYReg + 1.S
-            // when(beerFallingReg){
-            //     b
-            // }
             when(!doneCalc && inCalc){
                 remainSpeed := remainSpeed - 1.S
                 beerXReg := beerXReg - remainSpeed
