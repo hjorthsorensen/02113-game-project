@@ -23,6 +23,7 @@ class ScoreFSM extends Module {
     val customerTwoScoredInp = Input(Bool())
     val playerY = Input(SInt(10.W))
     val playerReadyToCatch = Input(Bool())
+    val beerBroken = Input(Bool())
 
     // Outputs
     val customerOneScored = Output(Bool())
@@ -47,7 +48,6 @@ class ScoreFSM extends Module {
   val distanceY1 = WireDefault(0.S(10.W))
   val distanceX2 = WireDefault(0.S(11.W))
   val distanceY2 = WireDefault(0.S(10.W))
-  val beerCanBeCaught = (io.playerY === io.beerEmptyY) && (io.beerEmptyX <= 512.S) && (io.beerEmptyX >= (512-32).S) && io.playerReadyToCatch
 
 
   distanceX1 := io.beerPositionX - io.customerOnePositionX
