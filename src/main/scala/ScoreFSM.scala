@@ -117,10 +117,10 @@ class ScoreFSM extends Module {
     // }
     is(glassReturn) {
       stateReg := doneState
-      when(io.emptyBeerValid && beerCanBeCaught) {
+      when(io.emptyBeerValid && (io.playerY === io.beerEmptyY) && (io.beerEmptyX <= 512.S) && (io.beerEmptyX >= (512-32).S) && io.playerReadyToCatch) {
         scoreReg := scoreReg + 1.U
         beerCatched := true.B
-      }.elsewhen(io.emptyBeerValid && !beerCanBeCaught) {
+      }.elsewhen(io.emptyBeerValid && (!(io.playerY === io.beerEmptyY) || !io.playerReadyToCatch) && (io.beerEmptyX <= 512.S) && (io.beerEmptyX >= (512-32).S) && scoreReg - 1.U > 0.U) {
         scoreReg := scoreReg - 1.U
         beerCatched := false.B
       }
