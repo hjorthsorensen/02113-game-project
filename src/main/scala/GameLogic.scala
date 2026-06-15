@@ -136,7 +136,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // Connecting to spawn customer
   spawnCustomer.io.customer1Scored := scoreFSM.io.customerOneScored
   spawnCustomer.io.customer2Scored := scoreFSM.io.customerTwoScored
-
+  spawnCustomer.io.beerDone := beerMovement.io.beerValid
   // Connecting to return beer FSM
   returnBeerFSM.io.customer1XPos := spawnCustomer.io.customer1PosX
   returnBeerFSM.io.customer1YPos := spawnCustomer.io.customer1PosY
