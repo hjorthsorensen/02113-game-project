@@ -3,49 +3,49 @@
     "class":"firrtl.transforms.DedupedResult",
     "original":"~Top|RamSpWf",
     "duplicate":"~Top|Top/gameTop:GameTop/graphicEngineVGA:GraphicEngineVGA/backBufferMemory:Memory_32/ramsSpWf:RamSpWf",
-    "index":0.5470085470085471
+    "index":0.5423728813559322
   },
   {
     "class":"firrtl.transforms.DedupedResult",
     "original":"~Top|Memory_32",
     "duplicate":"~Top|Top/gameTop:GameTop/graphicEngineVGA:GraphicEngineVGA/backBufferMemory:Memory_32",
-    "index":0.5555555555555556
+    "index":0.5508474576271186
   },
   {
     "class":"firrtl.transforms.DedupedResult",
     "original":"~Top|RamSpWf_1",
     "duplicate":"~Top|Top/gameTop:GameTop/graphicEngineVGA:GraphicEngineVGA/backBufferShadowMemory:Memory_32/ramsSpWf:RamSpWf",
-    "index":0.5641025641025641
+    "index":0.559322033898305
   },
   {
     "class":"firrtl.transforms.DedupedResult",
     "original":"~Top|Memory_33",
     "duplicate":"~Top|Top/gameTop:GameTop/graphicEngineVGA:GraphicEngineVGA/backBufferShadowMemory:Memory_32",
-    "index":0.5726495726495726
+    "index":0.5677966101694916
   },
   {
     "class":"firrtl.transforms.DedupedResult",
     "original":"~Top|MaxPeriodFibonacciLFSR",
     "duplicate":"~Top|Top/gameTop:GameTop/gameLogic:GameLogic/spawnCustomer:SpawnCustomer/customer1SeatXReg_prng:MaxPeriodFibonacciLFSR",
-    "index":0.9145299145299145
+    "index":0.9067796610169492
   },
   {
     "class":"firrtl.transforms.DedupedResult",
     "original":"~Top|MaxPeriodFibonacciLFSR_1",
     "duplicate":"~Top|Top/gameTop:GameTop/gameLogic:GameLogic/spawnCustomer:SpawnCustomer/customer1SeatYReg_prng:MaxPeriodFibonacciLFSR",
-    "index":0.9230769230769231
+    "index":0.9152542372881356
   },
   {
     "class":"firrtl.transforms.DedupedResult",
     "original":"~Top|MaxPeriodFibonacciLFSR_2",
     "duplicate":"~Top|Top/gameTop:GameTop/gameLogic:GameLogic/spawnCustomer:SpawnCustomer/customer2SeatXReg_prng:MaxPeriodFibonacciLFSR",
-    "index":0.9316239316239316
+    "index":0.923728813559322
   },
   {
     "class":"firrtl.transforms.DedupedResult",
     "original":"~Top|MaxPeriodFibonacciLFSR_3",
     "duplicate":"~Top|Top/gameTop:GameTop/gameLogic:GameLogic/spawnCustomer:SpawnCustomer/customer2SeatYReg_prng:MaxPeriodFibonacciLFSR",
-    "index":0.9401709401709402
+    "index":0.9322033898305084
   },
   {
     "class":"firrtl.EmitCircuitAnnotation",

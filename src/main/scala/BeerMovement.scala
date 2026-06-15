@@ -18,6 +18,7 @@ class BeerMovement extends Module{
         val beerReady = Output(Bool())
         val done = Output(Bool())
         val beerBroken = Output(Bool())
+        val tableID = Output(UInt(2.W))
 
     })
     //FSMD states
@@ -36,6 +37,7 @@ class BeerMovement extends Module{
     val beerReadyReg = RegInit(true.B)
     val beerValidReg = RegInit(false.B)
     val beerBrokenReg = RegInit(false.B)
+    val tableIDReg = RegInit(0.U(2.W))
 
 
     //.io connections and default outputs
@@ -47,10 +49,20 @@ class BeerMovement extends Module{
     io.beerVisible := beerVisibleReg
     io.beerXPos := beerXReg
     io.beerYPos := beerYReg
+    io.tableID := tableIDReg
 
     //Calculating when the beer movement is done
     val doneCalc = remainSpeed === 0.S
 
+    when(beerYReg >= (14*32).S){
+        tableIDReg := 3.U
+    }.elsewhen(beerYReg >= (12*32).S){
+        tableIDReg := 2.U
+    }.elsewhen(beerYReg >= (10*32).S){
+        tableIDReg := 1.U   
+    }.elsewhen(beerYReg >= (8*32).S){
+        tableIDReg := 0.U
+    }
     //FSMD switch
     switch(stateReg){
         is(idle){

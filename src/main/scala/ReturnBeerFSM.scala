@@ -37,15 +37,18 @@ class ReturnBeerFSM extends Module{
     val beerReturnValidReg = RegInit(false.B)
     val returnBeerSpeedReg = RegInit(0.S(8.W))
 
-    val returnCustomer1Reg = RegInit(false.B)
-    val returnCustomer2Reg = RegInit(false.B)
+    val returnCustomer1RegQueue = RegInit(false.B)
+    val returnCustomer2RegQueue = RegInit(false.B)
+
+    val returningCustomer1 = RegInit(false.B)
+    val returningCustomer2 = RegInit(false.B)
 
     def risingEdge(signal: Bool): Bool = signal && !RegNext(signal)
     when(risingEdge(io.returnCustomer1)){
-        returnCustomer1Reg := true.B
+        returnCustomer1RegQueue := true.B
     }
     when(risingEdge(io.returnCustomer2)){
-        returnCustomer2Reg := true.B
+        returnCustomer2RegQueue := true.B
     }
 
     //.io connections and default outputs
@@ -61,18 +64,20 @@ class ReturnBeerFSM extends Module{
         is(idle){
             when(io.work){
                 stateReg := busy
-                when(!beerVisibleReg && returnCustomer1Reg){
+                when(!beerVisibleReg && returnCustomer1RegQueue){
                     beerVisibleReg := true.B
                     beerReturnValidReg := true.B
                     returnBeerXPosReg := io.customer1XPos
                     returnBeerYPosReg := io.customer1YPos
-                    returnBeerSpeedReg := 30.S
-                }.elsewhen(!beerVisibleReg && returnCustomer2Reg){
+                    returnBeerSpeedReg := 35.S
+                    returningCustomer1 := true.B
+                }.elsewhen(!beerVisibleReg && returnCustomer2RegQueue){
                     beerVisibleReg := true.B
                     beerReturnValidReg := true.B
                     returnBeerXPosReg := io.customer2XPos
                     returnBeerYPosReg := io.customer2YPos
-                    returnBeerSpeedReg := 30.S
+                    returnBeerSpeedReg := 35.S
+                    returningCustomer2 := true.B
                 }
             }
         }
@@ -80,12 +85,18 @@ class ReturnBeerFSM extends Module{
             when(beerVisibleReg){
                 returnBeerXPosReg := returnBeerXPosReg + returnBeerSpeedReg
                 returnBeerSpeedReg := returnBeerSpeedReg - 1.S
-                when(returnBeerXPosReg >= 512.S || io.isBeerCatched || returnBeerSpeedReg <= 0.S){
+                when((returnBeerXPosReg >= 512.S || io.isBeerCatched || returnBeerSpeedReg <= 0.S) && returningCustomer1){
                     beerVisibleReg := false.B
                     beerReturnValidReg := false.B
-                    returnCustomer1Reg := false.B
-                    returnCustomer2Reg := false.B
+                    returnCustomer2RegQueue := false.B
+                    returningCustomer1 := false.B
+                }.elsewhen((returnBeerXPosReg >= 512.S || io.isBeerCatched || returnBeerSpeedReg <= 0.S) && returningCustomer2){
+                    beerVisibleReg := false.B
+                    beerReturnValidReg := false.B
+                    returnCustomer2RegQueue := false.B
+                    returningCustomer2 := false.B
                 }
+
             }
             stateReg := done
         }
