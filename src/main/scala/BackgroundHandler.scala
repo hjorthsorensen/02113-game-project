@@ -50,6 +50,7 @@ class BackgroundHandler extends Module{
             
             when(io.scoreDone){
                 stateReg := brokenGlass
+                io.brokenGlassWork := true.B
             }
         }
         is(brokenGlass){

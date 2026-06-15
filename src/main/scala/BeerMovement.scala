@@ -39,6 +39,8 @@ class BeerMovement extends Module{
     val beerBrokenReg = RegInit(false.B)
     val tableIDReg = RegInit(0.U(2.W))
 
+    val beerFallingReg = RegInit(false.B)
+
 
     //.io connections and default outputs
     io.done := false.B
@@ -54,13 +56,13 @@ class BeerMovement extends Module{
     //Calculating when the beer movement is done
     val doneCalc = remainSpeed === 0.S
 
-    when(beerYReg >= (14*32).S){
+    when(beerYReg >= (13*32).S){
         tableIDReg := 3.U
-    }.elsewhen(beerYReg >= (12*32).S){
+    }.elsewhen(beerYReg >= (11*32).S){
         tableIDReg := 2.U
-    }.elsewhen(beerYReg >= (10*32).S){
+    }.elsewhen(beerYReg >= (9*32).S){
         tableIDReg := 1.U   
-    }.elsewhen(beerYReg >= (8*32).S){
+    }.elsewhen(beerYReg >= (7*32).S){
         tableIDReg := 0.U
     }
     //FSMD switch
@@ -72,10 +74,13 @@ class BeerMovement extends Module{
                     beerVisibleReg := false.B
                     beerReadyReg := true.B   
                     beerValidReg := false.B
+                    beerFallingReg := false.B
+                    beerXReg := 500.S
+
                 }
-                when(!inCalc && doneCalc && (beerXReg <=64.S)){
+                when(!inCalc && doneCalc && (beerXReg <=64.S) && !beerFallingReg){
                     beerBrokenReg := true.B
-                    beerYReg := beerYReg + 1.S
+                    beerFallingReg := true.B
                 }
                 //When the beer is stationary, we are now not in calculation, and the beer is ready for the next throw
                 when(inCalc && doneCalc){
@@ -100,6 +105,10 @@ class BeerMovement extends Module{
         }
         is(busy){
             //Update the beers position and remaining speed every frame until the movement is done
+            beerYReg := beerYReg + 1.S
+            // when(beerFallingReg){
+            //     b
+            // }
             when(!doneCalc && inCalc){
                 remainSpeed := remainSpeed - 1.S
                 beerXReg := beerXReg - remainSpeed
