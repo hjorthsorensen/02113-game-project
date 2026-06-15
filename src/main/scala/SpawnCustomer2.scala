@@ -4,330 +4,282 @@ import chisel3.util._
 class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   val io = IO(new Bundle {
     val work = Input(Bool())
-    val beerDone = Input(Bool())
+    // val beerDone = Input(Bool())
     val customer1Scored = Input(Bool())
     val customer2Scored = Input(Bool())
     val done = Output(Bool())
     val customer1PosX = Output(SInt(11.W))
     val customer1PosY = Output(SInt(10.W))
-    val customer1IdleVisible = Output(Bool())
-    val customer1DrinkingVisible = Output(Bool())
-    val customer1Flipped = Output(Bool())
-    val customer1ScoreDone = Output(Bool())
-
     val customer2PosX = Output(SInt(11.W))
     val customer2PosY = Output(SInt(10.W))
+    val customer1IdleVisible = Output(Bool())
     val customer2IdleVisible = Output(Bool())
+    val customer1DrinkingVisible = Output(Bool())
     val customer2DrinkingVisible = Output(Bool())
+    val customer1Flipped = Output(Bool())
     val customer2Flipped = Output(Bool())
+    val customer1ScoreDone = Output(Bool())
     val customer2ScoreDone = Output(Bool())
   })
 
-  // Customer Vec Initialisations. 
-  val customerXPosVec = VecInit(0.S(11.W),0.S(11.W),0.S(11.W))
-  val customerYPosVec = VecInit(0.S(11.W),0.S(11.W),0.S(11.W))
-  val customerIdleVisibilityVec = VecInit(false.B,false.B,false.B)
-  val customerDrinkingVisibilityVec = VecInit(false.B,false.B,false.B)
-  val customerSpawnedVec = VecInit(false.B,false.B,false.B)
-  val customerAnimCycleVec = VecInit(0.U(2.W),0.U(2.W),0.U(2.W))
-  val customerAnimDelayCycleVec = VecInit(0.U(7.W),0.U(7.W),0.U(7.W))
-  val customerScoreDoneVec = VecInit(false.B,false.B,false.B)
-  val customerSeatYVec = VecInit(0.U(2.W),0.U(2.W),0.U(2.W))
-  val customerFlippedVec = VecInit(false.B,false.B,false.B)
-  val customerSpawnDelayReg = RegInit(0.U(9.W))
-  val customerRandomValuesVec = VecInit(0.U(9.W))
-  val customerBegunScoringVec = VecInit(false.B,false.B,false.B)
-  val customerAnimDirVec = VecInit(false.B,false.B,false.B)
-//randomX should be between ~64 and ~450.
-  customerRandomValuesVec(0) := random.LFSR(32,true.B)
-  customerRandomValuesVec(1) := random.LFSR(32,true.B)
-  customerRandomValuesVec(2) := random.LFSR(32,true.B)
+  // customers default spawn is (0,0); position is picked in spawn state
+  val customer1XReg = RegInit(0.S(11.W))
+  val customer1YReg = RegInit(0.S(10.W))
+  val customer1IdleVisibleReg = RegInit(false.B)
+  val customer1DrinkingVisibleReg = RegInit(false.B)
+  val customer1SpawnedReg = RegInit(false.B)
+  val customer1AnimCycleReg = RegInit(0.U(7.W))
+  val customer1AnimDirReg = RegInit(true.B)
+  val customer1ScoreDoneReg = RegInit(false.B)
+  val customer1SeatXReg = RegInit(1.U(4.W))
+  val customer1SeatYReg = RegInit(2.U(2.W))
+  val customer1SpawnDelayReg = RegInit(0.U(9.W))
 
-  //common / shared regs
+
+  val customer2XReg = RegInit(0.S(11.W))
+  val customer2YReg = RegInit(0.S(10.W))
+  val customer2IdleVisibleReg = RegInit(false.B)
+  val customer2DrinkingVisibleReg = RegInit(false.B)
+  val customer2SpawnedReg = RegInit(false.B)
+  val customer2AnimCycleReg = RegInit(0.U(7.W))
+  val customer2AnimDirReg = RegInit(true.B)
+  val customer2ScoreDoneReg = RegInit(false.B)
+  val customer2SeatXReg = RegInit(3.U(4.W))
+  val customer2SeatYReg = RegInit(0.U(2.W))
+  val customer2SpawnDelayReg = RegInit(0.U(9.W))
+
+  val customer1FlippedReg = RegInit(false.B)
+  val customer2FlippedReg = RegInit(false.B)
+    //common / shared regs
   val customerToSpawnReg = RegInit(0.U(2.W))
   val customerToDespawnReg = RegInit(0.U(2.W))
-  val customerDrinkingDelayVec = VecInit((0.U(8.W)),(0.U(8.W)),(0.U(8.W)))
-  val anyCustomerScored = RegInit(false.B)
-  anyCustomerScored := io.customer1Scored === true.B || io.customer2Scored === true.B
-
-
+  val customerDrinkingDelayReg = RegInit(0.U(8.W))
+  val customerDrinkingAnimCycleReg = RegInit(0.U(2.W))
+  val customerBegunScoringReg = RegInit(0.U(2.W))
+  val xSpawnValues = VecInit(128.S,200.S,275.S,352.S)
+  val ySpawnValues = VecInit(192.S,256.S,320.S,384.S)
 
   // reg to decide what customer to spawn
 
   // io connections
   io.done := false.B
-  io.customer1PosX := customerXPosVec(0)
-  io.customer1PosY := customerYPosVec(0)
-  io.customer1IdleVisible := customerIdleVisibilityVec(0)
-  io.customer1DrinkingVisible := customerDrinkingVisibilityVec(0)
-  io.customer1ScoreDone := customerScoreDoneVec(0)
-  customerScoreDoneVec(0) := false.B
-  io.customer1Flipped := customerFlippedVec(0)
+  io.customer1PosX := customer1XReg
+  io.customer1PosY := customer1YReg
+  io.customer2PosX := customer2XReg
+  io.customer2PosY := customer2YReg
+  io.customer1IdleVisible :=customer1IdleVisibleReg
+  io.customer1DrinkingVisible := customer1DrinkingVisibleReg
+  io.customer2IdleVisible :=customer2IdleVisibleReg
+  io.customer2DrinkingVisible := customer2DrinkingVisibleReg
 
+  io.customer1ScoreDone := customer1ScoreDoneReg
+  io.customer2ScoreDone := customer2ScoreDoneReg
 
-  io.customer2PosX := customerXPosVec(1)
-  io.customer2PosY := customerYPosVec(1)
-  io.customer2IdleVisible := customerIdleVisibilityVec(1)
-  io.customer2DrinkingVisible := customerDrinkingVisibilityVec(1)
-  io.customer2ScoreDone := customerScoreDoneVec(1)
-  customerScoreDoneVec(1):= false.B
-  io.customer2Flipped := customerFlippedVec(1)
+  customer1ScoreDoneReg := false.B
+  customer2ScoreDoneReg := false.B
+  
+  io.customer1Flipped := customer1FlippedReg
+  io.customer2Flipped := customer2FlippedReg
 
 
 
 
 
   // statemachine
-  val idle :: spawnFirstCustomer :: spawnSecondCustomer :: spawnThirdCustomer :: despawn :: delays :: animate :: done :: Nil = Enum(8)
+  val idle :: spawn :: despawn :: delays :: animate :: done :: Nil = Enum(6)
   val stateReg = RegInit(idle)
 
   switch(stateReg) {
 
     is(idle) {
       when(io.work) {
-        //only spawn new customers when all customers are despawned, 
-        //and 
-        when((customerSpawnedVec(0) === false.B && customerSpawnedVec(1) === false.B && customerSpawnedVec(2) === false.B) && customerSpawnDelayReg === 0.U){
-            stateReg := spawnFirstCustomer
-        }.elsewhen(anyCustomerScored){
-          stateReg := despawn
-        }.otherwise{
-          stateReg := delays
-        }
+        stateReg := spawn
       }
+      //   .elsewhen(!(customerToDespawn === 0.U)) {
+      //     stateReg := despawn
+      //   }
     }
 
-    is(spawnFirstCustomer) {
-      //all customers are despawned. start spawning customers, at random places, and show them.
-      //spawning of different customers are in different states to ensure we can read their y values 
-      //and place them om different tables (only if they are too close)
-      customerXPosVec(0) := Mux(customerRandomValuesVec(0) >= 450.U,450.S,Mux(customerRandomValuesVec(0) <= 96.U, 96.S, customerRandomValuesVec(0)))
-      customerSeatYVec(0) := customerRandomValuesVec(0)
-      switch(customerSeatYVec(0)){
-        is(0.U){
-          customerYPosVec(0) := 192.S
-        }
-        is(1.U){
-          customerYPosVec(0) := 256.S
+    is(spawn) {
+
+      // if customer not spawned, and customer delay is 0, spawn customer.
+      when(!customer1SpawnedReg && (customer1SpawnDelayReg === 0.U)) {
+        customer1SeatXReg := customer1SeatXReg + random.LFSR(degreeOfRandom,true.B)
+        customer1SeatYReg := customer1SeatYReg + random.LFSR(degreeOfRandom,true.B)
+
+            when(customer1SeatYReg === customer2SeatYReg){
+                //if they are at the same seat, just wrap around and pick a new lane.
+                //also move one two to the right, to make it seem more random.
+                customer1SeatYReg := customer1SeatYReg + 1.U
+
 
         }
-        is(2.U){
-          customerYPosVec(0) := 320.S
-
-        }
-        is(3.U){
-          customerYPosVec(0) := 384.S
-        }
+        customer1XReg := xSpawnValues(customer1SeatXReg)
+        customer1YReg := ySpawnValues(customer1SeatYReg)
+       customer1IdleVisibleReg := true.B
+        customer1SpawnedReg := true.B
+        customer1SpawnDelayReg := 240.U
+        customer1AnimCycleReg := 0.U
+        customer1AnimDirReg := true.B
       }
-  stateReg := spawnSecondCustomer
-    }
-    is(spawnSecondCustomer){
-      //Check if we want to spawn second customer.
-      when(Customers.U === 2.U){
-        //first, get random position.
-        customerXPosVec(1) := Mux(customerRandomValuesVec(1) >= 450.U,450.S,Mux(customerRandomValuesVec(1) <= 96.U, 96.S, customerRandomValuesVec(1)))
-        customerSeatYVec(1) := customerRandomValuesVec(1)
-      switch(customerSeatYVec(1)){
-        is(0.U){
-          customerYPosVec(1) := 192.S
-        }
-        is(1.U){
-          customerYPosVec(1) := 256.S
+      when(!customer2SpawnedReg && (customer2SpawnDelayReg === 0.U)) {
+        customer2SeatXReg := customer2SeatXReg + random.LFSR(degreeOfRandom,true.B)
+        customer2SeatYReg := customer2SeatYReg + random.LFSR(degreeOfRandom,true.B)
+        //     when(customer1SeatYReg === customer2SeatYReg){
+        //             //same here.
+        //         customer2SeatYReg := customer2SeatYReg + 1.U
 
-        }
-        is(2.U){
-          customerYPosVec(1) := 320.S
-
-        }
-        is(3.U){
-          customerYPosVec(1) := 384.S
-        }
+        // }
+        customer2XReg := xSpawnValues(customer2SeatXReg)
+        customer2YReg := ySpawnValues(customer2SeatYReg)
+        customer2IdleVisibleReg := true.B
+        customer2SpawnedReg := true.B
+        customer2SpawnDelayReg := 240.U
+        customer2AnimCycleReg := 0.U
+        customer2AnimDirReg := true.B
       }
 
-      //now we check if they overlap...
-      when((customerXPosVec(1) - customerXPosVec(0)).abs <= 50.S){
-        when(customerYPosVec(1) === customerYPosVec(0)){
-          //if already at lowest table, go up one table; otherwise go to the next table.
-          customerYPosVec(1) := Mux(customerYPosVec(1) === 384.S, customerYPosVec(1) - 64.S, customerYPosVec(1) + 64.S)
-        }
-      }
-
-      }
-      stateReg := spawnThirdCustomer
-
-      
-    }
-    is(spawnThirdCustomer){
-      when(Customers.U === 3.U){
-        //set x value randomly; and just ensure it is a different table than the others are at.
-      customerXPosVec(2) := Mux(customerRandomValuesVec(2) >= 450.U,450.S,Mux(customerRandomValuesVec(2) <= 96.U, 96.S, customerRandomValuesVec(2)))
-      customerSeatYVec(2) := customerRandomValuesVec(2)
-      when(!(customerSeatYVec(2) === customerSeatYVec(1)) && !(customerSeatYVec(2) === customerSeatYVec(0))){
-          switch(customerSeatYVec(2)){
-        is(0.U){
-          customerYPosVec(2) := 192.S
-          }
-        is(1.U){
-          customerYPosVec(2) := 256.S
-
-          }
-        is(2.U){
-          customerYPosVec(2) := 320.S
-
-          }
-        is(3.U){
-          customerYPosVec(2) := 384.S
-          }
-        }
-        //naive method of ensuring that it goes to an empty row.
-        //if we implement more customers at the same time than four,
-        //we need a more robust solution.
-      }.otherwise{
-        when(!(customerSeatYVec(0) === 0.U) && !(customerSeatYVec(1) === 0.U)){
-          customerSeatYVec(2) := 0.U
-          customerYPosVec(2) := 192.S
-        }.elsewhen(!(customerSeatYVec(0) === 1.U) && !(customerSeatYVec(1) === 1.U)){
-          customerSeatYVec(2) := 1.U
-          customerYPosVec(2) := 256.S          
-        }.elsewhen(!(customerSeatYVec(0) === 2.U) && !(customerSeatYVec(1) === 2.U)){
-          customerSeatYVec(2) := 2.U
-          customerYPosVec(2) := 320.S          
-        }.elsewhen(!(customerSeatYVec(0) === 3.U) && !(customerSeatYVec(1) === 3.U)){
-          customerSeatYVec(2) := 3.U
-          customerYPosVec(2) := 384.S          
-        }
-      }
-      
-      } //end of third customer
-
-    //we dont have to go to despawn.
-    //when we spawn customers, there is no possibility
-    //(or it should not be possible)
-    //that customers despawn.
-    stateReg := delays
+      stateReg := despawn
 
     }
     is(despawn) {
-      when(io.customer1Scored){
-        customerBegunScoringVec(0) := true.B
+      when(io.customer1Scored) {
+        customerBegunScoringReg := 1.U
+      }
+      when(io.customer2Scored){
+        customerBegunScoringReg := 2.U
+      }
+      when(customerBegunScoringReg === 1.U){
+        customer1DrinkingVisibleReg := true.B
+       customer1IdleVisibleReg := false.B
+        //change to drinking sprite
+        when(!(customerDrinkingDelayReg === 35.U) && customerDrinkingAnimCycleReg === 0.U){
+            customerDrinkingDelayReg := customerDrinkingDelayReg + 1.U
+        }
+        .elsewhen(customerDrinkingDelayReg === 35.U && customerDrinkingAnimCycleReg === 0.U){
+            //going back to idle, and waiting for 4 frames
+        customer1DrinkingVisibleReg := false.B
+       customer1IdleVisibleReg := true.B
+        customerDrinkingAnimCycleReg := 1.U
+        customerDrinkingDelayReg := 0.U
+        }
+        when(!(customerDrinkingDelayReg === 35.U) && customerDrinkingAnimCycleReg === 1.U){
+            customerDrinkingDelayReg := customerDrinkingDelayReg + 1.U 
+        }
+        .elsewhen((customerDrinkingDelayReg === 35.U) && customerDrinkingAnimCycleReg === 1.U){
+            customer1DrinkingVisibleReg := true.B
+           customer1IdleVisibleReg := false.B
+            customerDrinkingAnimCycleReg := 2.U
+            customerDrinkingDelayReg := 0.U
+        }
+        when(!(customerDrinkingDelayReg === 45.U) && customerDrinkingAnimCycleReg === 2.U){
+            customerDrinkingDelayReg := customerDrinkingDelayReg + 1.U
+        }
+        .elsewhen(customerDrinkingDelayReg === 45.U && customerDrinkingAnimCycleReg === 2.U){
+            customer1XReg := 0.S
+            customer1YReg := 0.S
+           customer1IdleVisibleReg := false.B
+            customer1DrinkingVisibleReg := false.B
+            customer1SpawnedReg := false.B
+            customer1ScoreDoneReg := true.B
+            customerBegunScoringReg := 0.U
+            customerDrinkingAnimCycleReg := 0.U
+            customerDrinkingDelayReg := 0.U
+            customer1SpawnDelayReg := 240.U
+        }
 
 
-      }.elsewhen(io.customer2Scored){
-        customerBegunScoringVec(1) := true.B
 
-      // we currently dont have the io signals from outside to handle third customer.
-      //add io.customer3Scored in FSMScores.
 
-       }
-      //.elsewhen(io.customer3Scored){
-      //   customerBegunScoringVec(2) := true.B
-      //    }
 
-       
+
+      }.elsewhen(customerBegunScoringReg === 2.U) {
+        customer2DrinkingVisibleReg := true.B
+       customer2IdleVisibleReg := false.B
+        //change to drinking sprite
+        when(!(customerDrinkingDelayReg === 45.U) && customerDrinkingAnimCycleReg === 0.U){
+            customerDrinkingDelayReg := customerDrinkingDelayReg + 1.U
+        }
+        .elsewhen(customerDrinkingDelayReg === 45.U && customerDrinkingAnimCycleReg === 0.U){
+            //going back to idle, and waiting for 4 frames
+        customer2DrinkingVisibleReg := false.B
+       customer2IdleVisibleReg := true.B
+        customerDrinkingAnimCycleReg := 1.U
+        customerDrinkingDelayReg := 0.U
+        }
+        when(!(customerDrinkingDelayReg === 45.U) && customerDrinkingAnimCycleReg === 1.U){
+            customerDrinkingDelayReg := customerDrinkingDelayReg + 1.U 
+        }
+        .elsewhen((customerDrinkingDelayReg === 45.U) && customerDrinkingAnimCycleReg === 1.U){
+            customer2DrinkingVisibleReg := true.B
+           customer2IdleVisibleReg := false.B
+            customerDrinkingAnimCycleReg := 2.U
+            customerDrinkingDelayReg := 0.U
+        }
+        when(!(customerDrinkingDelayReg === 45.U) && customerDrinkingAnimCycleReg === 2.U){
+            customerDrinkingDelayReg := customerDrinkingDelayReg + 1.U
+        }
+        .elsewhen(customerDrinkingDelayReg === 45.U && customerDrinkingAnimCycleReg === 2.U){
+            customer2XReg := 0.S
+            customer2YReg := 0.S
+           customer2IdleVisibleReg := false.B
+            customer2DrinkingVisibleReg := false.B
+            customer2SpawnedReg := false.B
+            customer2ScoreDoneReg := true.B
+            customerBegunScoringReg := 0.U
+            customerDrinkingAnimCycleReg := 0.U
+            customerDrinkingDelayReg := 0.U
+            customer2SpawnDelayReg := 240.U
+        }
+      }
+
+
+
+
+        //set io.customer1ScoreDone & io.customer2ScoreDone true, when done with animation.
+      stateReg := animate
     }
     is(animate) {
-      // customer despawn animations here
-      //customer one despawn here
-      when(customerBegunScoringVec(0)  && !(customerDrinkingDelayVec(0) === 60.U) && customerAnimCycleVec(0) === 0.U) {
-        customerDrinkingVisibilityVec(0) := true.B
-        customerIdleVisibilityVec(0) := false.B
-        customerDrinkingDelayVec(0) := customerDrinkingDelayVec(0) + 1.U
-      }.elsewhen(customerBegunScoringVec(0) && customerDrinkingDelayVec(0) === 0.U && customerAnimCycleVec(0) === 0.U){
-        customerDrinkingVisibilityVec := false.B
-        customerIdleVisibilityVec(0) := true.B
-        customerDrinkingDelayVec(0) := 0.U
-        customerAnimCycleVec(0) := 1.U
-      }.elsewhen(customerBegunScoringVec(0)  && !(customerDrinkingDelayVec(0) === 60.U) && customerAnimCycleVec(0) === 1.U){
-        customerDrinkingVisibilityVec(0) := true.B
-        customerIdleVisibilityVec(0) := false.B
-        customerDrinkingDelayVec(0) := customerDrinkingDelayVec(0) + 1.U
-    }.elsewhen(customerBegunScoringVec(0) && customerDrinkingDelayVec(0) === 0.U && customerAnimCycleVec(0) === 1.U){
-            customerXPosVec(0) := 0.S
-            customerYPosVec(0) := 0.S
-            customerIdleVisibilityVec(0) := false.B
-            customerDrinkingVisibilityVec(0) := false.B
-            customerSpawnedVec(0) := false.B
-            customerScoreDoneVec(0) := true.B
-            customerBegunScoringVec(0) := 0.U
-            customerAnimCycleVec(0) := 0.U
-            customerDrinkingDelayVec(0) := 0.U
-            when(customerScoreDoneVec(0) && customerScoreDoneVec(1)){
-            customerSpawnDelayReg := 240.U
-            }
-            //customer two despawn here
-          when(customerBegunScoringVec(1)  && !(customerDrinkingDelayVec(1) === 60.U) && customerAnimCycleVec(1) === 0.U) {
-        customerDrinkingVisibilityVec(1) := true.B
-        customerIdleVisibilityVec(1) := false.B
-        customerDrinkingDelayVec(1) := customerDrinkingDelayVec(1) + 1.U
-      }.elsewhen(customerBegunScoringVec(1) && customerDrinkingDelayVec(1) === 0.U && customerAnimCycleVec(1) === 0.U){
-        customerDrinkingVisibilityVec := false.B
-        customerIdleVisibilityVec(1) := true.B
-        customerDrinkingDelayVec(1) := 0.U
-        customerAnimCycleVec(1) := 1.U
-      }.elsewhen(customerBegunScoringVec(1)  && !(customerDrinkingDelayVec(1) === 60.U) && customerAnimCycleVec(1) === 1.U){
-        customerDrinkingVisibilityVec(1) := true.B
-        customerIdleVisibilityVec(1) := false.B
-        customerDrinkingDelayVec(1) := customerDrinkingDelayVec(1) + 1.U
-    }.elsewhen(customerBegunScoringVec(1) && customerDrinkingDelayVec(1) === 0.U && customerAnimCycleVec(1) === 1.U){
-            customerXPosVec(1) := 0.S
-            customerYPosVec(1) := 0.S
-            customerIdleVisibilityVec(1) := false.B
-            customerDrinkingVisibilityVec(1) := false.B
-            customerSpawnedVec(1) := false.B
-            customerScoreDoneVec(1) := true.B
-            customerBegunScoringVec(1) := 0.U
-            customerAnimCycleVec(1) := 0.U
-            customerDrinkingDelayVec(1) := 0.U
-            when(customerScoreDoneVec(0) && customerScoreDoneVec(1)){
-            customerSpawnDelayReg := 240.U
-            }
-          
-
-    }
-    }
-    //add third customer despawn here, if we add it later...
-
-
-      // animation cycle
-      when(customerSpawnedVec(0)){
-        when(customerAnimDelayCycleVec(0) > 59.U){
-          customerAnimDelayCycleVec(0) := 0.U
-          when(customerAnimDirVec(0)){
-            customerYPosVec(0) := customerYPosVec(0) + 2.S
-
+      when(customer1SpawnedReg) {
+        when(customer1AnimCycleReg > 59.U) {
+          customer1AnimCycleReg := 0.U
+          when(customer1AnimDirReg) {
+            customer1YReg := customer1YReg + 2.S
           }.otherwise{
-            customerYPosVec(0) := customerYPosVec(0) - 2.S
+            customer1YReg := customer1YReg - 2.S
           }
-          customerAnimDirVec(0) := !customerAnimDirVec(0)
+            customer1AnimDirReg := !customer1AnimDirReg
         }
-      }.elsewhen(customerSpawnedVec(1)){
-        when(customerAnimDelayCycleVec(1) > 59.U){
-          customerAnimDelayCycleVec(1) := 0.U
-          when(customerAnimDirVec(1)){
-            customerYPosVec(1) := customerYPosVec(1) + 2.S
+      }
+
+      when(customer2SpawnedReg) {
+        when(customer2AnimCycleReg === 60.U) {
+          customer2AnimCycleReg := 0.U
+          when(customer2AnimDirReg){
+          customer2YReg := customer2YReg + 2.S
 
           }.otherwise{
-            customerYPosVec(1) := customerYPosVec(1) - 2.S
+          customer2YReg := customer2YReg - 2.S
+
           }
-          customerAnimDirVec(1) := !customerAnimDirVec(1)
+          customer2AnimDirReg := !customer2AnimDirReg
         }
       }
       stateReg := delays
     }
-
     is(delays) {
-      when(customerSpawnedVec(0)) {
-        customerAnimCycleVec(0) := customerAnimCycleVec(0) + 1.U
+      when(customer1SpawnedReg) {
+        customer1AnimCycleReg := customer1AnimCycleReg + 1.U
       }
-      when(customerSpawnedVec(1)) {
-        customerAnimCycleVec(1) := customerAnimCycleVec(1) + 1.U
-      }
-      when(customerSpawnedVec(2)) {
-        customerAnimCycleVec(2) := customerAnimCycleVec(2) + 1.U
+      when(customer2SpawnedReg) {
+        customer2AnimCycleReg := customer2AnimCycleReg + 1.U
       }
 
-      when(!(customerSpawnDelayReg === 0.U)) {
-        customerSpawnDelayReg := customerSpawnDelayReg - 1.U
+      when(!(customer1SpawnDelayReg === 0.U)) {
+        customer1SpawnDelayReg := customer1SpawnDelayReg - 1.U
+      }
+      when(!(customer2SpawnDelayReg === 0.U)) {
+        customer2SpawnDelayReg := customer2SpawnDelayReg - 1.U
       }
       stateReg := done
     }
