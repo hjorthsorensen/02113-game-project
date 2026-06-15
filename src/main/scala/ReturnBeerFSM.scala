@@ -65,6 +65,8 @@ class ReturnBeerFSM extends Module{
     val returningCustomer2 = RegInit(false.B)
 
     val fpsReg = RegInit(0.U(2.W))
+    val idleC = RegInit(0.U(8.W))
+
 
 
     def risingEdge(signal: Bool): Bool = signal && !RegNext(signal)
@@ -83,9 +85,6 @@ class ReturnBeerFSM extends Module{
     io.beerReturnValid := beerReturnValidReg
 
 
-
-
-
     switch(stateReg){
         is(idle){
             when(io.work){
@@ -93,7 +92,7 @@ class ReturnBeerFSM extends Module{
                 when(!beerVisibleReg && returnCustomer1RegQueue){
                     beerVisibleReg := true.B
                     beerReturnValidReg := true.B
-                    returnBeerSpeedReg := 30.S
+                    returnBeerSpeedReg := 28.S
                     returnBeerXPosReg := returnBeerX1PosPrevReg
                     returnBeerYPosReg := returnBeerY1PosPrevReg
                     returningCustomer1 := true.B
@@ -102,7 +101,7 @@ class ReturnBeerFSM extends Module{
                     beerReturnValidReg := true.B
                     returnBeerXPosReg := returnBeerX2PosPrevReg
                     returnBeerYPosReg := returnBeerY2PosPrevReg
-                    returnBeerSpeedReg := 30.S
+                    returnBeerSpeedReg := 28.S
                     returningCustomer2 := true.B
                 }
             }
@@ -114,23 +113,39 @@ class ReturnBeerFSM extends Module{
                     returnBeerSpeedReg := returnBeerSpeedReg - 1.S
                 }
                 returnBeerSpeedReg := returnBeerSpeedReg - 1.S
-                when((returnBeerXPosReg >= 512.S || io.isBeerCatched || returnBeerSpeedReg <= 0.S) && returningCustomer1){
+                when((returnBeerXPosReg >= 512.S || io.isBeerCatched) && returningCustomer1){
                     beerVisibleReg := false.B
                     beerReturnValidReg := false.B
                     returnCustomer1RegQueue := false.B
                     returningCustomer1 := false.B
-                }.elsewhen((returnBeerXPosReg >= 512.S || io.isBeerCatched || returnBeerSpeedReg <= 0.S) && returningCustomer2){
+                    // returnCustomer2RegQueue := false.B
+                    // returningCustomer2 := false.B
+                }.elsewhen((returnBeerXPosReg >= 512.S || io.isBeerCatched) && returningCustomer2){
                     beerVisibleReg := false.B
                     beerReturnValidReg := false.B
                     returnCustomer2RegQueue := false.B
                     returningCustomer2 := false.B
+                    // returnCustomer1RegQueue := false.B
+                    // returningCustomer1 := false.B
                 }
 
+            }
+            when(!beerVisibleReg){
+                idleC := idleC + 1.U
+                when(idleC === 180.U){
+                    idleC := 0.U
+                    returnCustomer2RegQueue := false.B
+                    returningCustomer2 := false.B
+                    returnCustomer1RegQueue := false.B
+                    returningCustomer1 := false.B
+
+                }
             }
             stateReg := done
         }
         is(done){
             fpsReg := fpsReg + 1.U
+            
             stateReg := idle
             io.done := true.B
         }
