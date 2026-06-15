@@ -121,7 +121,7 @@ class PlayerMovementFSM() extends Module {
 
       // BEER CATCH
       when (io.btnL) {
-        catchCount := 32.U
+        catchCount := 64.U
         catchingReg := true.B
       }
 
