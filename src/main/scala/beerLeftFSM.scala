@@ -4,7 +4,7 @@ import chisel3.util._
 class beerLeftFSM extends Module{
     val io = IO(new Bundle {
         //Inputs
-        val score = Input(UInt(16.W))
+        val score = Input(UInt(8.W))
         val work = Input(Bool())
         
         
@@ -22,41 +22,33 @@ class beerLeftFSM extends Module{
     val stateReg = RegInit(idle)
     // val tile1 :: tile2 :: tile3 :: Nil = Enum(3)
     // val tileReg = RegInit(tile1)
-    val scoreReg = RegInit(0.U(16.W))
+    val scoreReg = RegInit(0.U(8.W))
 
     val RightDigitReg = RegInit(0.U(4.W))
     val MiddleDigitReg = RegInit(0.U(4.W))
-    val LeftDigitReg = RegInit(0.U(4.W))
-    val LeftLeftDigitReg = RegInit(0.U(4.W))
     // val wireScore = cat(LeftLeftDigitReg, LeftDigitReg, MiddleDigitReg, RightDigitReg,scoreReg)
 
-   def doubleDabble(score: UInt): (UInt, UInt, UInt, UInt) = {
-    val shiftRegInit = Cat(0.U(16.W), score(15, 0)) // 16bit digits + 16bit input
+   def doubleDabble(score: UInt): (UInt, UInt) = {
+    val shiftRegInit = Cat(0.U(8.W), score(7, 0)) // 16bit digits + 16bit input
     var shiftReg = shiftRegInit
     
-    for (i <- 0 until 16) {
-      val bcd = shiftReg(31, 16)
+    for (i <- 0 until 8) {
+      val bcd = shiftReg(15, 8)
     
       val ones      = bcd(3, 0)
       val tens      = bcd(7, 4)
-      val hundreds  = bcd(11, 8)
-      val thousands = bcd(15, 12)
     
       val onesAdj      = Mux(ones      >= 5.U, ones      + 3.U, ones)
       val tensAdj      = Mux(tens      >= 5.U, tens      + 3.U, tens)
-      val hundredsAdj  = Mux(hundreds  >= 5.U, hundreds  + 3.U, hundreds)
-      val thousandsAdj = Mux(thousands >= 5.U, thousands + 3.U, thousands)
     
-      val newBcd = Cat(thousandsAdj, hundredsAdj, tensAdj, onesAdj)
+      val newBcd = Cat(tensAdj, onesAdj)
     
-      shiftReg = Cat(newBcd, shiftReg(15, 0)) << 1
+      shiftReg = Cat(newBcd, shiftReg(7, 0)) << 1
     }
-    val result = shiftReg(31, 16)
+    val result = shiftReg(15, 8)
     (// Return the 4 base10 digits.
       result(3, 0),    // ones
-      result(7, 4),    // tens
-      result(11, 8),   // hundreds
-      result(15, 12)   // thousands
+      result(7, 4)    // tens
     )
     }
     
@@ -84,11 +76,9 @@ class beerLeftFSM extends Module{
         }
         is(calcDigits){
             //Double Dabble algorithm for BCD conversion
-            val (right, middle, left, leftLeft) = doubleDabble(scoreReg)
+            val (right, middle) = doubleDabble(scoreReg)
             RightDigitReg := right
             MiddleDigitReg := middle
-            LeftDigitReg := left
-            LeftLeftDigitReg := leftLeft
 
             //Wait a few cycles before writing to the score board to ensure the digits are calculated and stable.
             waitReg := waitReg + 1.U
@@ -108,14 +98,7 @@ class beerLeftFSM extends Module{
                 scoreIDReg := scoreIDReg + 1.U
                 io.writeAdress := (16 + 40).U
                 io.writeTileID := MiddleDigitReg + 16.U
-            }.elsewhen(scoreIDReg === 2.U){
-                scoreIDReg := scoreIDReg + 1.U
-                io.writeAdress := (15 + 40).U
-                io.writeTileID := LeftDigitReg + 16.U
-            }.elsewhen(scoreIDReg === 3.U){
                 stateReg := done
-                io.writeAdress := (14 + 40).U
-                io.writeTileID := LeftLeftDigitReg + 16.U
             }
         }
         is(done){
