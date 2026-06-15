@@ -59,7 +59,7 @@ class PlayerMovementFSM() extends Module {
   val btnDownPressed = RegInit(false.B)
   val frameCount     = RegInit(0.U(2.W))
   val catchingReg    = RegInit(false.B)
-  val catchCount     = RegInit(0.U(6.W))
+  val catchCount     = RegInit(0.U(7.W))
 
   ////////////////////////////////////////////
   //IO Connections
@@ -126,7 +126,7 @@ class PlayerMovementFSM() extends Module {
       }
 
       catchCount := catchCount + 1.U
-      when (catchCount < 32.U) {
+      when (catchCount < 64.U) {
         catchingReg := false.B
       }
 
