@@ -82,6 +82,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val scoreBoardFSM = Module(new ScoreBoardDisplayFSM())
   val returnBeerFSM = Module(new ReturnBeerFSM())
   val brokenGlassFSM = Module(new BrokenGlassDisplayFSM())
+  val beerLeftFSM = Module(new beerLeftFSM())
 
   /////////////////////////////////////////////////////////////////////////
   ///// FSM modules connections
@@ -129,6 +130,10 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   scoreBoardFSM.io.score := scoreFSM.io.score
   scoreBoardFSM.io.work := backgroundHandler.io.scoreWork
 
+  // Connecting beer left
+  beerLeftFSM.io.score := playerMovementFSM.io.beerLeft
+  beerLeftFSM.io.work  := backgroundHandler.io.beerWork
+
   // Connecting to brokenGlassDisplayFSM
   brokenGlassFSM.io.beerBroken := beerMovement.io.beerBroken
   brokenGlassFSM.io.work := backgroundHandler.io.brokenGlassWork
@@ -168,7 +173,11 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   }.elsewhen(brokenGlassFSM.io.writingBrokenGlass) {
     backgroundHandler.io.inputAdress := brokenGlassFSM.io.writeAdress
     backgroundHandler.io.inputTileID := brokenGlassFSM.io.writeTileID
-  } // add .elsewhen if you want to write other things to the background as well
+  } .elsewhen(beerLeftFSM.io.writingScore) {
+    backgroundHandler.io.inputAdress := beerLeftFSM.io.writeAdress
+    backgroundHandler.io.inputTileID := beerLeftFSM.io.writeTileID
+  }
+    // add .elsewhen if you want to write other things to the background as well
 
   // DEBUG CONNECTION
   // io.led(0) := scoreFSM.io.customerOneScored
