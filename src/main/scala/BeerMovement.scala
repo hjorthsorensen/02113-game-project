@@ -77,7 +77,9 @@ class BeerMovement extends Module{
                     beerValidReg := false.B
                     beerFallingReg := false.B
                     beerXReg := 500.S
-                    
+                }
+                when(!inCalc && doneCalc && (fpsReg === 100.U)){
+                    beerBrokenReg := false.B
                 }
                 when(!inCalc && doneCalc && (beerXReg <=64.S)){
                     beerBrokenReg := true.B
