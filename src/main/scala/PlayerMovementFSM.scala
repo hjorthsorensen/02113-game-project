@@ -15,7 +15,7 @@ class PlayerMovementFSM() extends Module {
     val btnR = Input(Bool())
     val btnD = Input(Bool())
 
-    val reset = Input(Bool())
+    val resetIn = Input(Bool())
 
     //SpriteA
     val spriteXPosition = Output(SInt(11.W)) //-1024 to 1023
@@ -68,26 +68,26 @@ class PlayerMovementFSM() extends Module {
   ///////////////////////////////////////////
 
 
-  when (reset) {
-    spriteYReg              = (160.S)
-    spriteXReg              = (512.S)
-    spriteFlipHorizontalReg = (false.B)
-    spriteYRegOld           = (160.S)
-    animFrameReg            = (0.U)
-    spriteAnimationY        = (false.B)
+  when (io.resetIn) {
+    spriteYReg              := 160.S
+    spriteXReg              := 512.S
+    spriteFlipHorizontalReg := false.B
+    spriteYRegOld           := 160.S
+    animFrameReg            := 0.U
+    spriteAnimationY        := false.B
   
     // BEER
-    beerSpeedReg  = (0.S)
-    throwStrength = (0.S) //-16 to 15
-    beerReady     = (false.B)
-    beerLeftReg   = (10.U)
+    beerSpeedReg  := 0.S
+    throwStrength := 0.S //-16 to 15
+    beerReady     := false.B
+    beerLeftReg   := 10.U
 
     // OTHER
-    btnUpPressed   = (false.B)
-    btnDownPressed = (false.B)
-    frameCount     = (0.U)
-    catchingReg    = (false.B)
-    catchCount     = (0.U)
+    btnUpPressed   := false.B
+    btnDownPressed := false.B
+    frameCount     := 0.U
+    catchingReg    := false.B
+    catchCount     := 0.U
 
     io.spriteVisible := false.B
 

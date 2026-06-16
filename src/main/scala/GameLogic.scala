@@ -70,6 +70,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // (you might need to change the initialization values above)
   /////////////////////////////////////////////////////////////////
 
+  // DEBUG RESET
+  val resetIn = WireDefault(io.sw(2))
+
   /////////////////////////////////////////////////////////////////////////
   ///// FSM modules instantiation
   /////////////////////////////////////////////////////////////////////////
@@ -98,7 +101,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   returnBeerFSM.io.work := false.B
   viewBoxFSM.io.work := false.B
 
-  playerMovementFSM.reset := io.sw(2)
+  playerMovementFSM.io.resetIn := resetIn
 
   // Connecting to beer movement
   beerMovement.io.speed := playerMovementFSM.io.beerSpeed
