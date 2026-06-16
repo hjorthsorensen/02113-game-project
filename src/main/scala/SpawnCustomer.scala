@@ -1,5 +1,6 @@
 import chisel3._
 import chisel3.util._
+import chisel3.util.random.LFSR
 
 class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
   val io = IO(new Bundle {
@@ -81,17 +82,17 @@ class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
   io.customer1Flipped := customer1FlippedReg
   io.customer2Flipped := customer2FlippedReg
 
-
-
-
+  val randomVal = RegInit(0.U(11.W))
+  randomVal := random.LFSR(32)
 
   // statemachine
-  val idle :: spawn :: spawn2 :: despawn :: delays :: animate :: done :: Nil = Enum(8)
+  val idle :: spawn :: spawn2 :: despawn :: delays :: animate :: done :: Nil = Enum(7)
   val stateReg = RegInit(idle)
 
   switch(stateReg) {
 
     is(idle) {
+
       when(io.work) {
         stateReg := spawn
       }
@@ -104,16 +105,17 @@ class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
 
       // if customer not spawned, and customer delay is 0, spawn customer.
       when(!customer1SpawnedReg && (customer1SpawnDelayReg === 0.U)) {
-        customer1SeatXReg := customer1SeatXReg + random.LFSR(degreeOfRandom,true.B)
-        customer1SeatYReg := customer1SeatYReg + random.LFSR(degreeOfRandom,true.B)
+        customer1SeatXReg := customer1SeatXReg + randomVal
 
-            when(customer1SeatYReg === customer2SeatYReg){
+            when(customer1SeatYReg + randomVal === customer2SeatYReg){
                 //if they are at the same seat, just wrap around and pick a new lane.
                 //also move one two to the right, to make it seem more random.
-                customer1SeatYReg := customer1SeatYReg + 1.U
-
+                customer1SeatYReg := customer1SeatYReg + randomVal + 1.U
+        }.otherwise{
+        customer1SeatYReg := customer1SeatYReg + randomVal
 
         }
+
         customer1XReg := xSpawnValues(customer1SeatXReg)
         customer1YReg := ySpawnValues(customer1SeatYReg)
        customer1IdleVisibleReg := true.B
@@ -126,13 +128,16 @@ class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
     }
     is(spawn2){
       when(!customer2SpawnedReg && (customer2SpawnDelayReg === 0.U)) {
-        customer2SeatXReg := customer2SeatXReg + random.LFSR(degreeOfRandom,true.B)
-        customer2SeatYReg := customer2SeatYReg + random.LFSR(degreeOfRandom,true.B)
-        //     when(customer1SeatYReg === customer2SeatYReg){
-        //             //same here.
-        //         customer2SeatYReg := customer2SeatYReg + 1.U
+        customer2SeatXReg := customer2SeatXReg + randomVal
+        customer2SeatYReg := customer2SeatYReg + randomVal
 
-        // }
+                    when(customer1SeatYReg === customer2SeatYReg + randomVal){
+                //if they are at the same seat, just wrap around and pick a new lane.
+                //also move one two to the right, to make it seem more random.
+                  customer2SeatYReg := customer2SeatYReg + 1.U + randomVal
+                    }.otherwise{
+                      customer2SeatYReg := customer2SeatYReg + randomVal
+                    }
         customer2XReg := xSpawnValues(customer2SeatXReg)
         customer2YReg := ySpawnValues(customer2SeatYReg)
         customer2IdleVisibleReg := true.B
@@ -152,7 +157,7 @@ class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
       when(io.customer2Scored){
         customerBegunScoringReg := 2.U
       }
-      when(customerBegunScoringReg === 1.U){
+      when(customerBegunScoringReg === 1.U || io.customer1Scored){
         customer1DrinkingVisibleReg := true.B
        customer1IdleVisibleReg := false.B
         //change to drinking sprite
@@ -196,7 +201,7 @@ class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
 
 
 
-      }.elsewhen(customerBegunScoringReg === 2.U) {
+      }.elsewhen(customerBegunScoringReg === 2.U || io.customer2Scored) {
         customer2DrinkingVisibleReg := true.B
        customer2IdleVisibleReg := false.B
         //change to drinking sprite

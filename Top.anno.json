@@ -21,7 +21,11 @@
     "class":"firrtl.transforms.DedupedResult",
     "original":"~Top|Memory_65",
     "duplicate":"~Top|Top/gameTop:GameTop/graphicEngineVGA:GraphicEngineVGA/backBufferShadowMemory:Memory_64",
+<<<<<<< HEAD
+    "index":0.6093023255813953
+=======
     "index":0.6121495327102804
+>>>>>>> 10ce9126f46e5160c70ef1629a30ebf017a5a486
   },
   {
     "class":"firrtl.EmitCircuitAnnotation",

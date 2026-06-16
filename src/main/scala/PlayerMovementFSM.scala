@@ -35,6 +35,7 @@ class PlayerMovementFSM() extends Module {
     
     val done = Output(Bool())
     val isCatching = Output(Bool())
+    val beerPour = Output(Bool())
   })
   ///////////////////////////////////////////////////
   // REGISTERS
@@ -109,12 +110,13 @@ class PlayerMovementFSM() extends Module {
   io.spriteAnimationFrame := animFrameReg
   io.spriteVisible        := true.B
   io.spriteFlipVertical   := false.B
-  
   // OTHER
   io.beerSpeed  := beerSpeedReg
   io.beerLeft   := beerLeftReg
   io.done       := false.B
   io.isCatching := catchingReg
+  io.beerPour := false.B
+
   ////////////////////////////////////////////////////////
   //FSMD switch
   ////////////////////////////////////////////////////////
@@ -205,6 +207,7 @@ class PlayerMovementFSM() extends Module {
           animFrameReg := 3.U
           beerReady := true.B
           beerLeftReg := beerLeftReg - 1.U
+          io.beerPour := true.B
         }
       } .elsewhen(catchingReg){
         animFrameReg := 1.U
