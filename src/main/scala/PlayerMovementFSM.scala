@@ -158,7 +158,7 @@ class PlayerMovementFSM() extends Module {
       }
 
       // BEER CATCH
-      when (io.btnL) {// && canBeCatched
+      when(io.btnL) {// && canBeCatched
         catchCount := 0.U
         idleFpsCount := 0.U
         catchingReg := true.B
@@ -180,6 +180,8 @@ class PlayerMovementFSM() extends Module {
         btnDownPressed := true.B
         when(spriteYReg < (480 - 64 - 24).S && !btnDownPressed) {
           spriteYReg := spriteYReg + 64.S
+        }.elsewhen(beerLeftReg === 0.U && !btnDownPressed){
+          beerLeftReg := 10.U
         }
       } .elsewhen(io.btnU && throwStrength === 0.S){
         btnUpPressed := true.B
