@@ -3,23 +3,32 @@ import chisel3.util._
 
 class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   val io = IO(new Bundle {
+    // STATUS
     val work = Input(Bool())
     val beerDone = Input(Bool())
+
     val customer1Scored = Input(Bool())
     val customer2Scored = Input(Bool())
-    val done = Output(Bool())
-    val customer1PosX = Output(SInt(11.W))
-    val customer1PosY = Output(SInt(10.W))
-    val customer2PosX = Output(SInt(11.W))
-    val customer2PosY = Output(SInt(10.W))
-    val customer1IdleVisible = Output(Bool())
-    val customer2IdleVisible = Output(Bool())
-    val customer1DrinkingVisible = Output(Bool())
-    val customer2DrinkingVisible = Output(Bool())
-    val customer1Flipped = Output(Bool())
-    val customer2Flipped = Output(Bool())
+    
+    val resetIn = Input(Bool())
+
     val customer1ScoreDone = Output(Bool())
     val customer2ScoreDone = Output(Bool())
+    
+    val done = Output(Bool())
+    
+    // SPRITES
+    val customer1PosX = Output(SInt(11.W))
+    val customer1PosY = Output(SInt(10.W))
+    val customer1IdleVisible = Output(Bool())
+    val customer1DrinkingVisible = Output(Bool())
+    val customer1Flipped = Output(Bool())
+
+    val customer2PosX = Output(SInt(11.W))
+    val customer2PosY = Output(SInt(10.W))
+    val customer2IdleVisible = Output(Bool())
+    val customer2DrinkingVisible = Output(Bool())
+    val customer2Flipped = Output(Bool())
   })
 
   ///////////////////////////////////////////
@@ -67,6 +76,20 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
 
   /////////////////////////////////////////////////////
   //
+  // RESET
+  //
+  /////////////////////////////////////////////////////
+
+  when (io.resetIn) {
+    customer1IdleVisibleReg := (false.B)
+    customer1DrinkingVisibleReg := (false.B)
+
+    customer2IdleVisibleReg := (false.B)
+    customer2DrinkingVisibleReg := (false.B)
+  }
+
+  /////////////////////////////////////////////////////
+  //
   // io connections
   //
   /////////////////////////////////////////////////////
@@ -82,18 +105,17 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   io.customer2IdleVisible :=customer2IdleVisibleReg
   io.customer2DrinkingVisible := customer2DrinkingVisibleReg
   io.customer2ScoreDone := customer2ScoreDoneReg
-
-  customer1ScoreDoneReg := false.B
-  customer2ScoreDoneReg := false.B
-  
   io.customer1Flipped := customer1FlippedReg
   io.customer2Flipped := customer2FlippedReg
 
+  customer1ScoreDoneReg := false.B
+  customer2ScoreDoneReg := false.B
 
-
-
-
+  ///////////////////////////////////////////////////////
+  //
   // statemachine
+  //
+  ///////////////////////////////////////////////////////
   val idle :: spawn :: despawn :: delays :: animate :: done :: Nil = Enum(6)
   val stateReg = RegInit(idle)
 
