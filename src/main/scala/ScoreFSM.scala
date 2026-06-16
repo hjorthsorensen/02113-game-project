@@ -33,7 +33,7 @@ class ScoreFSM extends Module {
     val score = Output(UInt(16.W))
     val beerCatched = Output(Bool())
 
-    val hitboxValidTemp = Output(Bool())
+
   })
 
   // Registers
@@ -65,7 +65,7 @@ class ScoreFSM extends Module {
   val hitBoxYEmptyBeer = (io.playerY === io.beerEmptyY)
   val hitBoxValid = hitBoxXEmptyBeer && hitBoxYEmptyBeer
   val beerCatchAttempt = RegInit(false.B)
-  io.hitboxValidTemp := hitBoxValid
+
 
   // State definitions
   val idleState :: waitingForBeerState :: glassReturn :: doneState :: Nil =
@@ -138,7 +138,7 @@ class ScoreFSM extends Module {
         beerCatched := true.B
         beerCatchAttempt := true.B
       }.elsewhen(
-        io.emptyBeerValid && ((scoreReg - 1.U) > 0.U) && !beerCatchAttempt && hitBoxXEmptyBeer && (!hitBoxYEmptyBeer || !io.playerReadyToCatch) 
+        io.emptyBeerValid && ((scoreReg - 1.U) > 0.U) && !beerCatchAttempt && hitBoxXEmptyBeer && (!hitBoxYEmptyBeer || !io.playerReadyToCatch)
       ) {
         beerCatchAttempt := true.B
         scoreReg := scoreReg - 1.U
