@@ -85,11 +85,10 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val scoreBoardFSM = Module(new ScoreBoardDisplayFSM())
   val returnBeerFSM = Module(new ReturnBeerFSM())
   val brokenGlassFSM = Module(new BrokenGlassDisplayFSM())
-  val beerLeftFSM = Module(new beerLeftFSM())
+  val beerLeftFSM = Module(new BeerLeftFSM())
   val AudioHandlerFSM = Module(new AudioHandlerFSM())
   val audioGen = Module(new AudioGenerator())
   val I2SDriver = Module(new I2SDriver())
-  val beerLeftFSM = Module(new BeerLeftFSM())
   val multiplierFSM = Module(new MultiplierDisplayFSM())
   val viewBoxFSM = Module(new AnimateViewBoxFSM())
 
