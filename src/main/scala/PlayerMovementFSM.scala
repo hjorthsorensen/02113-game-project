@@ -15,6 +15,8 @@ class PlayerMovementFSM() extends Module {
     val btnR = Input(Bool())
     val btnD = Input(Bool())
 
+    val resetIn = Input(Bool())
+
     //SpriteA
     val spriteXPosition = Output(SInt(11.W)) //-1024 to 1023
     val spriteYPosition = Output(SInt(10.W)) //-512 to 511
@@ -29,8 +31,9 @@ class PlayerMovementFSM() extends Module {
 
     //Status
     val work = Input(Bool())
-    val done = Output(Bool())
     val beerReady = Input(Bool())
+    
+    val done = Output(Bool())
     val isCatching = Output(Bool())
     val beerPour = Output(Bool())
   })
@@ -60,7 +63,42 @@ class PlayerMovementFSM() extends Module {
   val btnDownPressed = RegInit(false.B)
   val frameCount     = RegInit(0.U(2.W))
   val catchingReg    = RegInit(false.B)
-  val catchCount     = RegInit(0.U(7.W))
+  val catchCount     = RegInit(120.U(7.W))
+  val canBeCatched   = RegInit(true.B)
+  val idleFpsCount   = RegInit(0.U(7.W))
+
+  ////////////////////////////////////////////
+  // RESET
+  ///////////////////////////////////////////
+
+
+  when (io.resetIn) {
+    spriteYReg              := 160.S
+    spriteXReg              := 512.S
+    spriteFlipHorizontalReg := false.B
+    spriteYRegOld           := 160.S
+    animFrameReg            := 0.U
+    spriteAnimationY        := false.B
+  
+    // BEER
+    beerSpeedReg  := 0.S
+    throwStrength := 0.S //-16 to 15
+    beerReady     := false.B
+    beerLeftReg   := 10.U
+
+    // OTHER
+    btnUpPressed   := false.B
+    btnDownPressed := false.B
+    frameCount     := 0.U
+    catchingReg    := false.B
+    catchCount     := 120.U
+    canBeCatched   := true.B
+    idleFpsCount   := 0.U
+
+    io.spriteVisible := false.B
+
+    stateReg := done
+  }
 
   ////////////////////////////////////////////
   //IO Connections
@@ -122,13 +160,20 @@ class PlayerMovementFSM() extends Module {
       }
 
       // BEER CATCH
-      when (io.btnL) {
-        catchCount := 64.U
+      when(io.btnL) {// && canBeCatched
+        catchCount := 0.U
+        idleFpsCount := 0.U
         catchingReg := true.B
+        // canBeCatched := false.B
       }
-
-      catchCount := catchCount + 1.U
-      when (catchCount < 64.U) {
+      when(catchCount >= 100.U){
+        canBeCatched := true.B
+      }
+      
+      when(catchingReg || (catchCount < 120.U)){
+        catchCount := catchCount + 1.U
+      }
+      when (catchCount > 60.U) {
         catchingReg := false.B
       }
 
@@ -137,6 +182,8 @@ class PlayerMovementFSM() extends Module {
         btnDownPressed := true.B
         when(spriteYReg < (480 - 64 - 24).S && !btnDownPressed) {
           spriteYReg := spriteYReg + 64.S
+        }.elsewhen(beerLeftReg === 0.U && !btnDownPressed){
+          beerLeftReg := 10.U
         }
       } .elsewhen(io.btnU && throwStrength === 0.S){
         btnUpPressed := true.B
@@ -167,7 +214,7 @@ class PlayerMovementFSM() extends Module {
       } .elsewhen(io.btnC && beerReady) {
         animFrameReg := 2.U
       } .otherwise {
-        when (catchCount < 32.U) {
+        when (idleFpsCount < 32.U) {
           animFrameReg := 0.U
         } .otherwise {
           animFrameReg := 4.U
@@ -178,6 +225,7 @@ class PlayerMovementFSM() extends Module {
     }
 
     is(done) {
+      idleFpsCount := idleFpsCount + 1.U
       frameCount := frameCount + 1.U
       io.done := true.B
       stateReg := idle

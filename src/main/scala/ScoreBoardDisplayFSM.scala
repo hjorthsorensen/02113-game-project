@@ -37,14 +37,14 @@ class ScoreBoardDisplayFSM extends Module{
     for (i <- 0 until 16) {
       val bcd = shiftReg(31, 16)
     
-      val ones      = bcd(3, 0)
-      val tens      = bcd(7, 4)
-      val hundreds  = bcd(11, 8)
+      val ones = bcd(3, 0)
+      val tens = bcd(7, 4)
+      val hundreds = bcd(11, 8)
       val thousands = bcd(15, 12)
     
-      val onesAdj      = Mux(ones      >= 5.U, ones      + 3.U, ones)
-      val tensAdj      = Mux(tens      >= 5.U, tens      + 3.U, tens)
-      val hundredsAdj  = Mux(hundreds  >= 5.U, hundreds  + 3.U, hundreds)
+      val onesAdj = Mux(ones >= 5.U, ones + 3.U, ones)
+      val tensAdj = Mux(tens >= 5.U, tens + 3.U, tens)
+      val hundredsAdj = Mux(hundreds  >= 5.U, hundreds + 3.U, hundreds)
       val thousandsAdj = Mux(thousands >= 5.U, thousands + 3.U, thousands)
     
       val newBcd = Cat(thousandsAdj, hundredsAdj, tensAdj, onesAdj)
@@ -53,10 +53,10 @@ class ScoreBoardDisplayFSM extends Module{
     }
     val result = shiftReg(31, 16)
     (// Return the 4 base10 digits.
-      result(3, 0),    // ones
-      result(7, 4),    // tens
-      result(11, 8),   // hundreds
-      result(15, 12)   // thousands
+      result(3, 0), // ones
+      result(7, 4), // tens
+      result(11, 8), // hundreds
+      result(15, 12) // thousands
     )
     }
     
