@@ -36,6 +36,12 @@ class GameTop extends Module {
     val missingFrameError = Output(Bool())
     val backBufferWriteError = Output(Bool())
     val viewBoxOutOfRangeError = Output(Bool())
+
+    //audio pins
+    val DIN = Output(Bool())
+    val BCLK = Output(Bool())
+    val LRC = Output(Bool())
+    
   })
 
   val SPRITE_NUMBER = 32
@@ -135,6 +141,11 @@ class GameTop extends Module {
   gameLogic.io.newFrame := graphicEngineVGA.io.newFrame
   graphicEngineVGA.io.frameUpdateDone := gameLogic.io.frameUpdateDone
 
+
+  //Audio
+  io.BCLK := gameLogic.io.BCLK
+  io.DIN  := gameLogic.io.DIN
+  io.LRC  := gameLogic.io.LRC
 }
 
 //////////////////////////////////////////////////////////////////////////////
