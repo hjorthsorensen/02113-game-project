@@ -29,7 +29,7 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   //
   ///////////////////////////////////////////
 
-  // CUSTOMER 1
+  // CUSTOMER VECTORS
   val customerXReg               = RegInit(VecInit.fill(Customers)(0.S(11.W)))
   val customerYReg               = RegInit(VecInit.fill(Customers)(0.S(10.W)))
   val customerIdleVisibleReg     = RegInit(VecInit.fill(Customers)(false.B))
@@ -38,40 +38,39 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   val customerAnimCycleReg       = RegInit(VecInit.fill(Customers)(0.U(7.W)))
   val customerAnimDirReg         = RegInit(VecInit.fill(Customers)(true.B))
   val customerScoreDoneReg       = RegInit(VecInit.fill(Customers)(false.B))
-  val customerSeatXReg           = RegInit(VecInit.fill(Customers)(1.U(4.W)))
+  
+  val customerSeatXReg           = RegInit(VecInit.fill(Customers)(1.U(2.W)))
   val customerSeatYReg           = RegInit(VecInit.fill(Customers)(2.U(2.W)))
+  
   val customerSpawnDelayReg      = RegInit(VecInit.fill(Customers)(0.U(9.W)))
   val customerFlippedReg         = RegInit(VecInit.fill(Customers)(false.B))
 
-  // common / shared regs
-  val customerToSpawnReg = RegInit(0.U(2.W))
-  val customerToDespawnReg = RegInit(0.U(2.W))
-  val customerDrinkingDelayReg = RegInit(0.U(8.W))
+  // SHARED RAGISTERS
+  val customerToSpawnReg           = RegInit(0.U(2.W))
+  val customerToDespawnReg         = RegInit(0.U(2.W))
+  val customerDrinkingDelayReg     = RegInit(0.U(8.W))
   val customerDrinkingAnimCycleReg = RegInit(0.U(2.W))
-  val customerBegunScoringReg = RegInit(0.U(2.W))
-  val xSpawnValues = VecInit(128.S, 200.S, 275.S, 352.S)
-  val ySpawnValues = VecInit(192.S, 256.S, 320.S, 384.S)
+  val customerBegunScoringReg      = RegInit(0.U(2.W))
 
+  val xSpawnValues = VecInit(128.S(11.W), 200.S(11.W), 275.S(11.W), 352.S(11.W))
+  val ySpawnValues = VecInit(192.S(10.W), 256.S(10.W), 320.S(10.W), 384.S(11.W))
 
+  val noise = random.LFSR(degreeOfRandom, true.B)
+
+  /////////////////////////////////////////////////////
+  //
+  // RESET & IO CONNECTIONS
+  //
+  /////////////////////////////////////////////////////
   for (i <- 0 until Customers) {
-    /////////////////////////////////////////////////////
-    //
-    // RESET
-    //
-    /////////////////////////////////////////////////////
     when(io.resetIn) {
-      customerIdleVisibleReg(i) := (false.B)
+      customerIdleVisibleReg(i)     := (false.B)
       customerDrinkingVisibleReg(i) := (false.B)
     }.elsewhen(io.resetIn && !RegNext(io.resetIn)) {
-      customerIdleVisibleReg(i) := (true.B)
+      customerIdleVisibleReg(i)     := (true.B)
       customerDrinkingVisibleReg(i) := (true.B)
     }
 
-    /////////////////////////////////////////////////////
-    //
-    // io connections
-    //
-    /////////////////////////////////////////////////////
     io.customerPosX(i) := customerXReg(i)
     io.customerPosY(i) := customerYReg(i)
     io.customerIdleVisible(i) := customerIdleVisibleReg(i)
@@ -92,7 +91,6 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   val stateReg = RegInit(idle)
 
   switch(stateReg) {
-
     is(idle) {
       when(io.work) {
         stateReg := spawn
@@ -103,22 +101,24 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
       for (i <- 0 until Customers) {
         // if customer not spawned, and customer delay is 0, spawn customer.
         when(!customerSpawnedReg(i) && (customerSpawnDelayReg(i) === 0.U)) {
-          customerSeatXReg(i) := customerSeatXReg(i) + random.LFSR(
-            degreeOfRandom,
-            true.B
-          )
+          val randX = noise(1 + i, 0 + i)
+          val randY = noise(3 + i, 2 + i)
+
+          val nextSeatX = customerSeatXReg(i) + randX
+          val nextSeatY = customerSeatYReg(i) + randY
           
-          customerSeatYReg(i) := customerSeatYReg(i) + random.LFSR(
-            degreeOfRandom,
-            true.B
-          )
+          customerSeatXReg(i) := nextSeatX
 
-          when(customerSeatYReg(0) === customerSeatYReg(1)) {
-            // if they are at the same seat, just wrap around and pick a new lane.
-            // also move one two to the right, to make it seem more random.
-            customerSeatYReg(i) := customerSeatYReg(i) + 1.U
-
+          if (i > 0) {
+            when (nextSeatY === customerSeatYReg(i - 1)) {
+              customerSeatYReg(i) := nextSeatY + 1.U
+            } .otherwise {
+              customerSeatYReg(i) := nextSeatY
+            }
+          } else {
+            customerSeatYReg(i) := nextSeatY
           }
+        
 
           customerXReg(i) := xSpawnValues(customerSeatXReg(i))
           customerYReg(i) := ySpawnValues(customerSeatYReg(i))
