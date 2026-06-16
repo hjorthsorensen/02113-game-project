@@ -32,6 +32,8 @@ class ScoreFSM extends Module {
     val done = Output(Bool())
     val score = Output(UInt(16.W))
     val beerCatched = Output(Bool())
+
+    val hitboxValidTemp = Output(Bool())
   })
 
   // Registers
@@ -57,6 +59,13 @@ class ScoreFSM extends Module {
   distanceX2 := io.beerPositionX - io.customerTwoPositionX
   distanceY2 := io.beerPositionY - io.customerTwoPositionY
 
+  val hitBoxEmptyBeer = (io.beerEmptyX >= (512 - 32).S) && (io.beerEmptyX <= 512.S) && (io.playerY === io.beerEmptyY)
+
+  // val hitBoxXEmptyBeer = (io.beerEmptyX >= (512 - 32).S) && (io.beerEmptyX <= 512.S)
+  // val hitBoxYEmptyBeer = (io.playerY === io.beerEmptyY)
+  // val hitBoxValid = hitBoxXEmptyBeer && hitBoxYEmptyBeer
+  io.hitboxValidTemp := hitBoxEmptyBeer
+
   // State definitions
   val idleState :: waitingForBeerState :: glassReturn :: doneState :: Nil =
     Enum(4)
@@ -66,6 +75,7 @@ class ScoreFSM extends Module {
   //     customerOneScoredReg := false.B
   //     customerTwoScoredReg := false.B
   //   }
+
   // FSM
   switch(stateReg) {
 
@@ -117,18 +127,19 @@ class ScoreFSM extends Module {
         beerCatchedIdleCntReg := 0.U
         beerCatched := false.B
       }
+
       when(
-        io.emptyBeerValid && (io.playerY === io.beerEmptyY) && (io.beerEmptyX <= 512.S) && (io.beerEmptyX >= (512 - 32).S) && io.playerReadyToCatch
+        io.emptyBeerValid && hitBoxEmptyBeer && io.playerReadyToCatch && !beerCatched
       ) {
         scoreReg := scoreReg + 1.U
         scoreMultiplier := scoreMultiplier + 1.U
         beerCatched := true.B
       }.elsewhen(
-        io.emptyBeerValid && (!(io.playerY === io.beerEmptyY) || !io.playerReadyToCatch) && (io.beerEmptyX <= 512.S) && (io.beerEmptyX >= (512 - 32).S) && ((scoreReg - 1.U) > 0.U)
+        io.emptyBeerValid && ((scoreReg - 1.U) > 0.U) && (!hitBoxEmptyBeer || !io.playerReadyToCatch) && !beerCatched
       ) {
+        beerCatched := true.B
         scoreReg := scoreReg - 1.U
         scoreMultiplier := 1.U
-        beerCatched := false.B
       }
     }
     is(doneState) {

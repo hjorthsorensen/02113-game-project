@@ -158,11 +158,11 @@ class PlayerMovementFSM() extends Module {
       }
 
       // BEER CATCH
-      when (io.btnL && canBeCatched) {// && (catchCount >= 100.U)
+      when (io.btnL) {// && canBeCatched
         catchCount := 0.U
         idleFpsCount := 0.U
         catchingReg := true.B
-        canBeCatched := false.B
+        // canBeCatched := false.B
       }
       when(catchCount >= 100.U){
         canBeCatched := true.B
