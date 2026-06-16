@@ -122,7 +122,7 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   // statemachine
   //
   ///////////////////////////////////////////////////////
-  val idle :: spawn1 :: spawn2 :: despawn :: delays :: animate :: done :: Nil = Enum(6)
+  val idle :: spawn1 :: spawn2 :: despawn :: delays :: animate :: done :: Nil = Enum(7)
   val stateReg = RegInit(idle)
 
   switch(stateReg) {
@@ -162,6 +162,7 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
         customer1AnimDirReg := true.B
       }
 
+      stateReg := spawn2
     }
 
     is(spawn2) {
@@ -180,7 +181,7 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
           //same here.
           customer2SeatYReg := customer2SeatYReg + 1.U
         }
-        
+
         customer2XReg := xSpawnValues(customer2SeatXReg)
         customer2YReg := ySpawnValues(customer2SeatYReg)
         customer2IdleVisibleReg := true.B
