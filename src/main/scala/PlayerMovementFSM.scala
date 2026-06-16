@@ -31,8 +31,9 @@ class PlayerMovementFSM() extends Module {
 
     //Status
     val work = Input(Bool())
-    val done = Output(Bool())
     val beerReady = Input(Bool())
+    
+    val done = Output(Bool())
     val isCatching = Output(Bool())
   })
   ///////////////////////////////////////////////////
