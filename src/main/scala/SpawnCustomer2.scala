@@ -122,18 +122,18 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   // statemachine
   //
   ///////////////////////////////////////////////////////
-  val idle :: spawn :: despawn :: delays :: animate :: done :: Nil = Enum(6)
+  val idle :: spawn1 :: spawn2 :: despawn :: delays :: animate :: done :: Nil = Enum(6)
   val stateReg = RegInit(idle)
 
   switch(stateReg) {
 
     is(idle) {
       when(io.work) {
-        stateReg := spawn
+        stateReg := spawn1
       }
     }
 
-    is(spawn) {
+    is(spawn1) {
       // if customer not spawned, and customer delay is 0, spawn customer.
       when(!customer1SpawnedReg && (customer1SpawnDelayReg === 0.U)) {
         customer1SeatXReg := customer1SeatXReg + random.LFSR(
@@ -162,6 +162,9 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
         customer1AnimDirReg := true.B
       }
 
+    }
+
+    is(spawn2) {
       when(!customer2SpawnedReg && (customer2SpawnDelayReg === 0.U)) {
         customer2SeatXReg := customer2SeatXReg + random.LFSR(
           degreeOfRandom,
@@ -173,11 +176,11 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
           true.B
         )
 
-        //     when(customer1SeatYReg === customer2SeatYReg){
-        //             //same here.
-        //         customer2SeatYReg := customer2SeatYReg + 1.U
-
-        // }
+        when(customer1SeatYReg === customer2SeatYReg){
+          //same here.
+          customer2SeatYReg := customer2SeatYReg + 1.U
+        }
+        
         customer2XReg := xSpawnValues(customer2SeatXReg)
         customer2YReg := ySpawnValues(customer2SeatYReg)
         customer2IdleVisibleReg := true.B
@@ -188,7 +191,6 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
       }
 
       stateReg := despawn
-
     }
 
     is(despawn) {
@@ -330,7 +332,7 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
       when(!(customer2SpawnDelayReg === 0.U)) {
         customer2SpawnDelayReg := customer2SpawnDelayReg - 1.U
       }
-      
+
       stateReg := done
     }
 
