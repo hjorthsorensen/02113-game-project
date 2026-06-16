@@ -59,12 +59,13 @@ class ScoreFSM extends Module {
   distanceX2 := io.beerPositionX - io.customerTwoPositionX
   distanceY2 := io.beerPositionY - io.customerTwoPositionY
 
-  val hitBoxEmptyBeer = (io.beerEmptyX >= (512 - 32).S) && (io.beerEmptyX <= 512.S) && (io.playerY === io.beerEmptyY)
+  // val hitBoxEmptyBeer = (io.beerEmptyX >= (512 - 32).S) && (io.beerEmptyX <= 512.S) && (io.playerY === io.beerEmptyY)
 
-  // val hitBoxXEmptyBeer = (io.beerEmptyX >= (512 - 32).S) && (io.beerEmptyX <= 512.S)
-  // val hitBoxYEmptyBeer = (io.playerY === io.beerEmptyY)
-  // val hitBoxValid = hitBoxXEmptyBeer && hitBoxYEmptyBeer
-  io.hitboxValidTemp := hitBoxEmptyBeer
+  val hitBoxXEmptyBeer = (io.beerEmptyX >= (512 - 32).S) && (io.beerEmptyX <= 512.S)
+  val hitBoxYEmptyBeer = (io.playerY === io.beerEmptyY)
+  val hitBoxValid = hitBoxXEmptyBeer && hitBoxYEmptyBeer
+  val beerCatchAttempt = RegInit(false.B)
+  io.hitboxValidTemp := hitBoxValid
 
   // State definitions
   val idleState :: waitingForBeerState :: glassReturn :: doneState :: Nil =
@@ -120,24 +121,26 @@ class ScoreFSM extends Module {
     }
     is(glassReturn) {
       stateReg := doneState
-      when(beerCatched){
+      when(beerCatchAttempt){
         beerCatchedIdleCntReg := beerCatchedIdleCntReg + 1.U
       }
       when(beerCatchedIdleCntReg === 30.U){
         beerCatchedIdleCntReg := 0.U
         beerCatched := false.B
+        beerCatchAttempt := false.B
       }
 
       when(
-        io.emptyBeerValid && hitBoxEmptyBeer && io.playerReadyToCatch && !beerCatched
+        io.emptyBeerValid && hitBoxValid && io.playerReadyToCatch && !beerCatchAttempt
       ) {
         scoreReg := scoreReg + 1.U
         scoreMultiplier := scoreMultiplier + 1.U
         beerCatched := true.B
+        beerCatchAttempt := true.B
       }.elsewhen(
-        io.emptyBeerValid && ((scoreReg - 1.U) > 0.U) && (!hitBoxEmptyBeer || !io.playerReadyToCatch) && !beerCatched
+        io.emptyBeerValid && ((scoreReg - 1.U) > 0.U) && !beerCatchAttempt && hitBoxXEmptyBeer && (!hitBoxYEmptyBeer || !io.playerReadyToCatch) 
       ) {
-        beerCatched := true.B
+        beerCatchAttempt := true.B
         scoreReg := scoreReg - 1.U
         scoreMultiplier := 1.U
       }
