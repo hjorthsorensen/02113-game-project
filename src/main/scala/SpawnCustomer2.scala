@@ -55,7 +55,7 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   val customer2SeatYReg = RegInit(0.U(2.W))
   val customer2SpawnDelayReg = RegInit(0.U(9.W))
   val customer2FlippedReg = RegInit(false.B)
-  
+
   //common / shared regs
   val customerToSpawnReg = RegInit(0.U(2.W))
   val customerToDespawnReg = RegInit(0.U(2.W))
@@ -65,20 +65,22 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   val xSpawnValues = VecInit(128.S,200.S,275.S,352.S)
   val ySpawnValues = VecInit(192.S,256.S,320.S,384.S)
 
-  // reg to decide what customer to spawn
-
+  /////////////////////////////////////////////////////
+  //
   // io connections
+  //
+  /////////////////////////////////////////////////////
   io.done := false.B
   io.customer1PosX := customer1XReg
   io.customer1PosY := customer1YReg
-  io.customer2PosX := customer2XReg
-  io.customer2PosY := customer2YReg
   io.customer1IdleVisible :=customer1IdleVisibleReg
   io.customer1DrinkingVisible := customer1DrinkingVisibleReg
+  io.customer1ScoreDone := customer1ScoreDoneReg
+
+  io.customer2PosX := customer2XReg
+  io.customer2PosY := customer2YReg
   io.customer2IdleVisible :=customer2IdleVisibleReg
   io.customer2DrinkingVisible := customer2DrinkingVisibleReg
-
-  io.customer1ScoreDone := customer1ScoreDoneReg
   io.customer2ScoreDone := customer2ScoreDoneReg
 
   customer1ScoreDoneReg := false.B
