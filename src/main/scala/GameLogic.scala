@@ -234,8 +234,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.viewBoxX := viewBoxFSM.io.viewBoxX
   io.viewBoxY := viewBoxFSM.io.viewBoxY
 
-  test what the fuck
-  
+  test  
   // DEBUG CONNECTION
   // io.led(0) := scoreFSM.io.customerOneScored
   // io.led(1) := scoreFSM.io.customerTwoScored
