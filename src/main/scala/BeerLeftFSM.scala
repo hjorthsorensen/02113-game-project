@@ -15,6 +15,7 @@ class BeerLeftFSM extends Module{
         val writingScore = Output(Bool())
         
         val done = Output(Bool())
+        
 
     })
 
@@ -31,7 +32,7 @@ class BeerLeftFSM extends Module{
    def doubleDabble(score: UInt): (UInt, UInt) = {
     val shiftRegInit = Cat(0.U(8.W), score(7, 0)) // 16bit digits + 16bit input
     var shiftReg = shiftRegInit
-    
+
     for (i <- 0 until 8) {
       val bcd = shiftReg(15, 8)
     
