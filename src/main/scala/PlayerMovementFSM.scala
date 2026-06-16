@@ -89,6 +89,8 @@ class PlayerMovementFSM() extends Module {
     catchingReg    = (false.B)
     catchCount     = (0.U)
 
+    io.spriteVisible := false.B
+
     stateReg := done
   }
 
