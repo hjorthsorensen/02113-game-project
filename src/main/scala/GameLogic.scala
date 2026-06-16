@@ -70,6 +70,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // (you might need to change the initialization values above)
   /////////////////////////////////////////////////////////////////
 
+  // DEBUG RESET
+  val resetIn = WireDefault(io.sw(2))
+
   /////////////////////////////////////////////////////////////////////////
   ///// FSM modules instantiation
   /////////////////////////////////////////////////////////////////////////
@@ -86,7 +89,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val AudioHandlerFSM = Module(new AudioHandlerFSM())
   val audioGen = Module(new AudioGenerator())
   val I2SDriver = Module(new I2SDriver())
-
+  val beerLeftFSM = Module(new BeerLeftFSM())
+  val multiplierFSM = Module(new MultiplierDisplayFSM())
+  val viewBoxFSM = Module(new AnimateViewBoxFSM())
 
   /////////////////////////////////////////////////////////////////////////
   ///// FSM modules connections
@@ -96,7 +101,12 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   scoreFSM.io.work := false.B
   spawnCustomer.io.work := false.B
   playerMovementFSM.io.work := false.B
+  backgroundHandler.io.work := false.B
   returnBeerFSM.io.work := false.B
+  viewBoxFSM.io.work := false.B
+
+  playerMovementFSM.io.resetIn := resetIn
+  spawnCustomer.io.resetIn     := resetIn
 
   // Connecting to beer movement
   beerMovement.io.speed := playerMovementFSM.io.beerSpeed
@@ -116,12 +126,12 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   scoreFSM.io.beerPositionY := beerMovement.io.beerYPos
   scoreFSM.io.beerValid := beerMovement.io.beerValid
 
-  scoreFSM.io.customerOneScoredInp := spawnCustomer.io.customer1ScoreDone
-  scoreFSM.io.customerTwoScoredInp := spawnCustomer.io.customer2ScoreDone
-  scoreFSM.io.customerOnePositionX := spawnCustomer.io.customer1PosX
-  scoreFSM.io.customerOnePositionY := spawnCustomer.io.customer1PosY
-  scoreFSM.io.customerTwoPositionX := spawnCustomer.io.customer2PosX
-  scoreFSM.io.customerTwoPositionY := spawnCustomer.io.customer2PosY
+  scoreFSM.io.customerOneScoredInp := spawnCustomer.io.customerScoreDone(0)
+  scoreFSM.io.customerTwoScoredInp := spawnCustomer.io.customerScoreDone(1)
+  scoreFSM.io.customerOnePositionX := spawnCustomer.io.customerPosX(0)
+  scoreFSM.io.customerOnePositionY := spawnCustomer.io.customerPosY(0)
+  scoreFSM.io.customerTwoPositionX := spawnCustomer.io.customerPosX(1)
+  scoreFSM.io.customerTwoPositionY := spawnCustomer.io.customerPosY(1)
 
   scoreFSM.io.playerReadyToCatch := playerMovementFSM.io.isCatching
   scoreFSM.io.playerY := playerMovementFSM.io.spriteYPosition
@@ -130,30 +140,37 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   scoreFSM.io.emptyBeerValid := returnBeerFSM.io.beerReturnValid
   scoreFSM.io.beerBroken := beerMovement.io.beerBroken
 
+
   // Connecting to scoreboard
   scoreBoardFSM.io.score := scoreFSM.io.score
   scoreBoardFSM.io.work := backgroundHandler.io.scoreWork
 
   // Connecting beer left
   beerLeftFSM.io.score := playerMovementFSM.io.beerLeft
-  beerLeftFSM.io.work  := backgroundHandler.io.beerWork
+  beerLeftFSM.io.work := backgroundHandler.io.beerWork
 
   // Connecting to brokenGlassDisplayFSM
   brokenGlassFSM.io.beerBroken := beerMovement.io.beerBroken
   brokenGlassFSM.io.work := backgroundHandler.io.brokenGlassWork
   brokenGlassFSM.io.tableID := beerMovement.io.tableID
 
+  // Connecting to MultiplierFSM
+  multiplierFSM.io.multiplier := scoreFSM.io.currentMultiplier
+  multiplierFSM.io.work := backgroundHandler.io.multiplierWork
+
   // Connecting to spawn customer
-  spawnCustomer.io.customer1Scored := scoreFSM.io.customerOneScored
-  spawnCustomer.io.customer2Scored := scoreFSM.io.customerTwoScored
+  spawnCustomer.io.customerScored(0) := scoreFSM.io.customerOneScored
+  spawnCustomer.io.customerScored(1) := scoreFSM.io.customerTwoScored
   spawnCustomer.io.beerDone := beerMovement.io.beerValid
+  
   // Connecting to return beer FSM
-  returnBeerFSM.io.customer1XPos := spawnCustomer.io.customer1PosX
-  returnBeerFSM.io.customer1YPos := spawnCustomer.io.customer1PosY
-  returnBeerFSM.io.customer2XPos := spawnCustomer.io.customer2PosX
-  returnBeerFSM.io.customer2YPos := spawnCustomer.io.customer2PosY
-  returnBeerFSM.io.returnCustomer1 := spawnCustomer.io.customer1ScoreDone
-  returnBeerFSM.io.returnCustomer2 := spawnCustomer.io.customer2ScoreDone
+  returnBeerFSM.io.customer1XPos := spawnCustomer.io.customerPosX(0)
+  returnBeerFSM.io.customer1YPos := spawnCustomer.io.customerPosY(0)
+  returnBeerFSM.io.customer2XPos := spawnCustomer.io.customerPosX(1)
+  returnBeerFSM.io.customer2YPos := spawnCustomer.io.customerPosY(1)
+  returnBeerFSM.io.returnCustomer1 := spawnCustomer.io.customerScoreDone(0)
+  returnBeerFSM.io.returnCustomer2 := spawnCustomer.io.customerScoreDone(1)
+
   returnBeerFSM.io.isBeerCatched := scoreFSM.io.beerCatched
 
   //connecting to audio handler
@@ -173,13 +190,13 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
     I2SDriver.io.generatedAudio := audioGen.io.audioDataOut
 
   // Connecting tp background handler
-  backgroundHandler.io.work := false.B
   backgroundHandler.io.inputAdress := 0.U
   backgroundHandler.io.inputTileID := 26.U
 
   backgroundHandler.io.scoreDone := scoreBoardFSM.io.done
   backgroundHandler.io.brokenGlassDone := brokenGlassFSM.io.done
   backgroundHandler.io.beerDone := beerLeftFSM.io.done
+  backgroundHandler.io.multiplierDone := multiplierFSM.io.done
 
   io.backBufferWriteAddress := backgroundHandler.io.writeAdress
   io.backBufferWriteData := backgroundHandler.io.writeTileID
@@ -189,14 +206,24 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   when(scoreBoardFSM.io.writingScore) {
     backgroundHandler.io.inputAdress := scoreBoardFSM.io.writeAdress
     backgroundHandler.io.inputTileID := scoreBoardFSM.io.writeTileID
+  }.elsewhen {multiplierFSM.io.writingMultiplier } {
+    backgroundHandler.io.inputAdress := multiplierFSM.io.writeAdress
+    backgroundHandler.io.inputTileID := multiplierFSM.io.writeTileID
   }.elsewhen(brokenGlassFSM.io.writingBrokenGlass) {
     backgroundHandler.io.inputAdress := brokenGlassFSM.io.writeAdress
     backgroundHandler.io.inputTileID := brokenGlassFSM.io.writeTileID
-  } .elsewhen(beerLeftFSM.io.writingScore) {
+  }.elsewhen(beerLeftFSM.io.writingScore) {
     backgroundHandler.io.inputAdress := beerLeftFSM.io.writeAdress
     backgroundHandler.io.inputTileID := beerLeftFSM.io.writeTileID
   }
-    // add .elsewhen if you want to write other things to the background as well
+  // add .elsewhen if you want to write other things to the background as well
+  
+  // ViewBox connections
+  viewBoxFSM.io.stageID := Cat(io.sw(1),io.sw(0))
+  io.viewBoxX := viewBoxFSM.io.viewBoxX
+  io.viewBoxY := viewBoxFSM.io.viewBoxY
+
+
 
   // DEBUG CONNECTION
   // io.led(0) := scoreFSM.io.customerOneScored
@@ -232,23 +259,23 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.spriteFlipVertical(11) := playerMovementFSM.io.spriteFlipVertical
 
   // CUSTOMERS
-  io.spriteXPosition(4) := spawnCustomer.io.customer1PosX
-  io.spriteXPosition(5) := spawnCustomer.io.customer1PosX
-  io.spriteXPosition(6) := spawnCustomer.io.customer2PosX
-  io.spriteXPosition(7) := spawnCustomer.io.customer2PosX
+  io.spriteXPosition(4) := spawnCustomer.io.customerPosX(0)
+  io.spriteXPosition(5) := spawnCustomer.io.customerPosX(0)
+  io.spriteXPosition(6) := spawnCustomer.io.customerPosX(1)
+  io.spriteXPosition(7) := spawnCustomer.io.customerPosX(1)
 
-  io.spriteYPosition(4) := spawnCustomer.io.customer1PosY
-  io.spriteYPosition(5) := spawnCustomer.io.customer1PosY
-  io.spriteYPosition(6) := spawnCustomer.io.customer2PosY
-  io.spriteYPosition(7) := spawnCustomer.io.customer2PosY
+  io.spriteYPosition(4) := spawnCustomer.io.customerPosY(0)
+  io.spriteYPosition(5) := spawnCustomer.io.customerPosY(0)
+  io.spriteYPosition(6) := spawnCustomer.io.customerPosY(1)
+  io.spriteYPosition(7) := spawnCustomer.io.customerPosY(1)
 
-  io.spriteFlipHorizontal(4) := spawnCustomer.io.customer1Flipped
-  io.spriteFlipHorizontal(5) := spawnCustomer.io.customer2Flipped
+  io.spriteFlipHorizontal(4) := spawnCustomer.io.customerFlipped(0)
+  io.spriteFlipHorizontal(5) := spawnCustomer.io.customerFlipped(1)
 
-  io.spriteVisible(4) := spawnCustomer.io.customer1IdleVisible
-  io.spriteVisible(5) := spawnCustomer.io.customer1DrinkingVisible
-  io.spriteVisible(6) := spawnCustomer.io.customer2IdleVisible
-  io.spriteVisible(7) := spawnCustomer.io.customer2DrinkingVisible
+  io.spriteVisible(4) := spawnCustomer.io.customerIdleVisible(0)
+  io.spriteVisible(5) := spawnCustomer.io.customerDrinkingVisible(0)
+  io.spriteVisible(6) := spawnCustomer.io.customerIdleVisible(1)
+  io.spriteVisible(7) := spawnCustomer.io.customerDrinkingVisible(1)
 
   // BEER
   io.spriteXPosition(8) := beerMovement.io.beerXPos
@@ -296,12 +323,20 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
     }
     is(4.U) {
-      io.spriteVisible(0)  := false.B
-      io.spriteVisible(1)  := true.B //TRUE
-      io.spriteVisible(2)  := false.B
-      io.spriteVisible(3)  := false.B 
+      io.spriteVisible(0) := false.B
+      io.spriteVisible(1) := true.B // TRUE
+      io.spriteVisible(2) := false.B
+      io.spriteVisible(3) := false.B
       io.spriteVisible(11) := false.B
     }
+  }
+
+  when (!playerMovementFSM.io.spriteVisible) {
+    io.spriteVisible(0) := false.B
+      io.spriteVisible(1) := false.B // TRUE
+      io.spriteVisible(2) := false.B
+      io.spriteVisible(3) := false.B
+      io.spriteVisible(11) := false.B
   }
 
   /////////////////////////////////////////////////////////////////////////
@@ -316,6 +351,8 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val spawnCustomerReg = RegInit(false.B)
   val backgroundDoneReg = RegInit(false.B)
   val returnBeerDoneReg = RegInit(false.B)
+  val viewBoxDoneReg = RegInit(false.B)
+
 
   switch(stateReg) {
     is(idle) {
@@ -327,6 +364,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
         spawnCustomer.io.work := true.B
         backgroundHandler.io.work := true.B
         returnBeerFSM.io.work := true.B
+        viewBoxFSM.io.work := true.B
 
         playerDoneReg := false.B
         beerDoneReg := false.B
@@ -334,6 +372,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
         spawnCustomerReg := false.B
         backgroundDoneReg := false.B
         returnBeerDoneReg := false.B
+        viewBoxDoneReg := false.B
       }
     }
     is(compute1) {
@@ -353,13 +392,15 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
       when(backgroundHandler.io.done) {
         backgroundDoneReg := true.B
       }
-
       when(returnBeerFSM.io.done) {
         returnBeerDoneReg := true.B
       }
+      when(viewBoxFSM.io.done){
+        viewBoxDoneReg := true.B
+      }
 
       when(
-        playerDoneReg && beerDoneReg && scoreFSMDoneReg && spawnCustomerReg && backgroundDoneReg && returnBeerDoneReg
+        playerDoneReg && beerDoneReg && scoreFSMDoneReg && spawnCustomerReg && backgroundDoneReg && returnBeerDoneReg && viewBoxDoneReg
       ) {
         stateReg := done
       }
