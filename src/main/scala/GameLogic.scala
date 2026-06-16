@@ -102,6 +102,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   viewBoxFSM.io.work := false.B
 
   playerMovementFSM.io.resetIn := resetIn
+  spawnCustomer.io.resetIn     := resetIn
 
   // Connecting to beer movement
   beerMovement.io.speed := playerMovementFSM.io.beerSpeed
@@ -306,6 +307,14 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
       io.spriteVisible(3) := false.B
       io.spriteVisible(11) := false.B
     }
+  }
+
+  when (!playerMovementFSM.io.spriteVisible) {
+    io.spriteVisible(0) := false.B
+      io.spriteVisible(1) := false.B // TRUE
+      io.spriteVisible(2) := false.B
+      io.spriteVisible(3) := false.B
+      io.spriteVisible(11) := false.B
   }
 
   /////////////////////////////////////////////////////////////////////////
