@@ -194,8 +194,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   viewBoxFSM.io.stageID := Cat(io.sw(1),io.sw(0))
   io.viewBoxX := viewBoxFSM.io.viewBoxX
   io.viewBoxY := viewBoxFSM.io.viewBoxY
-  io.led(6) := viewBoxFSM.io.stageIDOut(0)
-  io.led(7) := viewBoxFSM.io.stageIDOut(1)
+
 
 
   // DEBUG CONNECTION
