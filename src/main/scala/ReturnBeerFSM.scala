@@ -70,12 +70,18 @@ class ReturnBeerFSM extends Module{
 
 
     def risingEdge(signal: Bool): Bool = signal && !RegNext(signal)
-    when(risingEdge(io.returnCustomer1)){
+    when(io.returnCustomer1 && !returnCustomer1RegQueue){
         returnCustomer1RegQueue := true.B
     }
-    when(risingEdge(io.returnCustomer2)){
+    when(io.returnCustomer2 && !returnCustomer2RegQueue){
         returnCustomer2RegQueue := true.B
     }
+    // when(risingEdge(io.returnCustomer1)){
+    //    returnCustomer1RegQueue := true.B
+    // }
+    // when(risingEdge(io.returnCustomer2)){
+    //     returnCustomer2RegQueue := true.B
+    // }
 
     //.io connections and default outputs
     io.done := false.B
@@ -132,12 +138,14 @@ class ReturnBeerFSM extends Module{
             }
             when(!beerVisibleReg){
                 idleC := idleC + 1.U
-                when(idleC === 180.U){
+                when(idleC === 60.U){
                     idleC := 0.U
-                    returnCustomer2RegQueue := false.B
+                    // returnCustomer2RegQueue := false.B
                     returningCustomer2 := false.B
-                    returnCustomer1RegQueue := false.B
+                    // returnCustomer1RegQueue := false.B
                     returningCustomer1 := false.B
+                    returnBeerXPosReg := 500.S
+                    beerReturnValidReg := false.B
 
                 }
             }

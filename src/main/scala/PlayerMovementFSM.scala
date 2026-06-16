@@ -63,6 +63,7 @@ class PlayerMovementFSM() extends Module {
   val frameCount     = RegInit(0.U(2.W))
   val catchingReg    = RegInit(false.B)
   val catchCount     = RegInit(0.U(7.W))
+  val idleFpsCount   = RegInit(0.U(7.W))
 
   ////////////////////////////////////////////
   // RESET
@@ -89,6 +90,7 @@ class PlayerMovementFSM() extends Module {
     frameCount     := 0.U
     catchingReg    := false.B
     catchCount     := 0.U
+    idleFpsCount   := 0.U
 
     io.spriteVisible := false.B
 
@@ -155,12 +157,13 @@ class PlayerMovementFSM() extends Module {
 
       // BEER CATCH
       when (io.btnL) {
-        catchCount := 64.U
+        catchCount := 0.U
         catchingReg := true.B
       }
-
-      catchCount := catchCount + 1.U
-      when (catchCount < 64.U) {
+      when(catchingReg){
+        catchCount := catchCount + 1.U
+      }
+      when (catchCount > 60.U) {
         catchingReg := false.B
       }
 
@@ -198,7 +201,7 @@ class PlayerMovementFSM() extends Module {
       } .elsewhen(io.btnC && beerReady) {
         animFrameReg := 2.U
       } .otherwise {
-        when (catchCount < 32.U) {
+        when (idleFpsCount < 32.U) {
           animFrameReg := 0.U
         } .otherwise {
           animFrameReg := 4.U
@@ -209,6 +212,7 @@ class PlayerMovementFSM() extends Module {
     }
 
     is(done) {
+      idleFpsCount := idleFpsCount + 1.U
       frameCount := frameCount + 1.U
       io.done := true.B
       stateReg := idle
