@@ -339,23 +339,33 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
       when(io.newFrame) {
         stateReg := compute1
         playerMovementFSM.io.work := true.B
-        beerMovement.io.work := true.B
-        scoreFSM.io.work := true.B
-        spawnCustomer.io.work := true.B
+        beerMovement.io.work      := true.B
+        scoreFSM.io.work          := true.B
+        spawnCustomer.io.work     := true.B
         backgroundHandler.io.work := true.B
-        returnBeerFSM.io.work := true.B
-        viewBoxFSM.io.work := true.B
+        returnBeerFSM.io.work     := true.B
+        viewBoxFSM.io.work        := true.B
 
-        playerDoneReg := false.B
-        beerDoneReg := false.B
-        scoreFSMDoneReg := false.B
-        spawnCustomerReg := false.B
+        playerDoneReg     := false.B
+        beerDoneReg       := false.B
+        scoreFSMDoneReg   := false.B
+        spawnCustomerReg  := false.B
         backgroundDoneReg := false.B
         returnBeerDoneReg := false.B
-        viewBoxDoneReg := false.B
+        viewBoxDoneReg    := false.B
       }
     }
     is(compute1) {
+      playerMovementFSM.io.work := !playerDoneReg
+      beerMovement.io.work      := !beerDoneReg
+      scoreFSM.io.work          := !scoreFSMDoneReg
+      spawnCustomer.io.work     := !spawnCustomerReg
+      backgroundHandler.io.work := !backgroundDoneReg
+      returnBeerFSM.io.work     := !returnBeerDoneReg
+      viewBoxFSM.io.work        := !viewBoxDoneReg
+
+
+
       when(playerMovementFSM.io.done) {
         playerDoneReg := true.B
       }

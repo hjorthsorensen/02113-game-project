@@ -54,26 +54,8 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
 
   val xSpawnValues = VecInit(128.S(11.W), 200.S(11.W), 275.S(11.W), 352.S(11.W))
   val ySpawnValues = VecInit(192.S(10.W), 256.S(10.W), 320.S(10.W), 384.S(11.W))
-
-
-  // RANDOM GENERATION
-  val seedCounter = RegInit(1.U(degreeOfRandom.W))
-  seedCounter := seedCounter + 1.U
-
-  val seedReg   = RegInit(1.U(degreeOfRandom.W))
-  val seedReady = RegInit(false.B)
   
   val noise = random.LFSR(degreeOfRandom, true.B)
-  when(io.work && !seedReady) {
-    seedReg   := seedCounter
-    seedReady := true.B
-  }
-  
-  when(seedReady && seedReg =/= 0.U) {
-    noise := random.LFSR(degreeOfRandom, true.B, seedReg)
-  }
-
-
   
   /////////////////////////////////////////////////////
   //
