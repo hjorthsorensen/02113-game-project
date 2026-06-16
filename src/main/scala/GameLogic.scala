@@ -17,6 +17,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
     val btnR = Input(Bool())
     val btnD = Input(Bool())
 
+
     // Switches
     val sw = Input(Vec(8, Bool()))
 
@@ -43,6 +44,11 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
     // Status
     val newFrame = Input(Bool())
     val frameUpdateDone = Output(Bool())
+
+    //Audio
+    val DIN = Output(Bool()) //JA1 pin
+    val BCLK = Output(Bool()) //JA2 pin
+    val LRC = Output(Bool()) // JA3 pin
   })
 
   // Setting all led outputs to zero
@@ -55,7 +61,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.spriteVisible := Seq.fill(SpriteNumber)(false.B)
   io.spriteFlipHorizontal := Seq.fill(SpriteNumber)(false.B)
   io.spriteFlipVertical := Seq.fill(SpriteNumber)(false.B)
-
+  
   // Setting the viewbox control outputs to zero
   io.viewBoxX := 0.U
   io.viewBoxY := 0.U
@@ -80,7 +86,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val playerMovementFSM = Module(new PlayerMovementFSM())
   val beerMovement = Module(new BeerMovement())
   val scoreFSM = Module(new ScoreFSM())
-  val spawnCustomer = Module(new SpawnCustomer(16,2))
+  val spawnCustomer = Module(new SpawnCustomer2(16,2))
   val backgroundHandler = Module(new BackgroundHandler())
   val scoreBoardFSM = Module(new ScoreBoardDisplayFSM())
   val returnBeerFSM = Module(new ReturnBeerFSM())
@@ -187,6 +193,12 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   //connections to I2S driver
     I2SDriver.io.BCLKInput := audioGen.io.clkOut
     I2SDriver.io.generatedAudio := audioGen.io.audioDataOut
+
+
+  //connecting audio io out
+  io.BCLK := I2SDriver.io.BCLKOutput
+  io.LRC := I2SDriver.io.LRC
+  io.DIN := I2SDriver.io.DIN
 
   // Connecting tp background handler
   backgroundHandler.io.inputAdress := 0.U

@@ -1,6 +1,22 @@
 import chisel3._
 import chisel3.util._
 
+
+//checks to see what not work
+
+/*
+hardcode events to a certain value to ensure that it sends correctly.
+if it works, it is the signals we receive that we dont hold for long enough.
+
+
+hardcode audio generator to make one sound only. if it works, something in audiogen is wrong.
+
+hardcode I2S to play a certain note on a switch flip.
+
+
+maybe connect to some switches?
+
+*/
 class AudioHandlerFSM extends Module {
   val io = IO(new Bundle {
     /*events:

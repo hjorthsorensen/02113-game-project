@@ -36,10 +36,19 @@ class Top extends Module {
     val missingFrameError = Output(Bool())
     val backBufferWriteError = Output(Bool())
     val viewBoxOutOfRangeError = Output(Bool())
+
+    //Audio
+    
+    val DIN = Output(Bool())
+    val BCLK = Output(Bool())
+    val LRC = Output(Bool())
   })
 
   val gameTop = Module(new GameTop())
 
+  io.BCLK := gameTop.io.BCLK
+  io.DIN := gameTop.io.DIN
+  io.LRC := gameTop.io.LRC
   //Reset syncronization (and negation if needed)
   //Reset is active high in Chisel (reset = 1 means reset, reset = 0 means run)
   //Uncomment one of the following lines to select the reset mode of your FPGA pin
