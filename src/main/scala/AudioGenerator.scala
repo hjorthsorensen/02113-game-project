@@ -7,6 +7,7 @@ class AudioGenerator extends Module{
         val sampleReady = Input(Bool())
         val audioDataOut = Output(SInt(16.W))
         val readyNewEvent = Output(Bool())
+        val clkOut = Output(Bool())
         /*events:
             0) nothing.
             1) beer thrown
@@ -32,7 +33,7 @@ class AudioGenerator extends Module{
   5.U  -> 25.U    // A4       (440.0 Hz)
 ))
 
-val I2SDriver = Module (new I2SDriver())
+// val I2SDriver = Module (new I2SDriver())
 
 val data = RegInit(0.S(16.W))
 
@@ -41,7 +42,6 @@ val toneFlipReg = RegInit(false.B)
 
     //clock divider (make in-program)
 
-    val clockOut = RegInit(Bool())
 
     val ToggleLimit = 2273.U
 
@@ -60,15 +60,14 @@ val toneFlipReg = RegInit(false.B)
 
 
 val stateReg = RegInit(0.U(4.W))
-    io.readyNewEvent := false.B
-    io.audioDataOut := 0.S
-
-
-
+   
 //io assignments
 
-    I2SDriver.io.BCLKInput := clockOut
-    I2SDriver.io.generatedAudio := data
+    io.readyNewEvent := false.B
+io.audioDataOut := data
+io.clkOut := clkReg
+
+
 
 
 //we only reassign readyNewEvent when noteRepeats is 0.
@@ -118,6 +117,8 @@ when(noteRepeats === 0.U && io.event =/= 0.U){
     }.elsewhen(noteRepeats === 0.U){
         io.readyNewEvent := true.B
         noteSelector := 0.U
+        io.audioDataOut := 0.S
+
     }
 
 

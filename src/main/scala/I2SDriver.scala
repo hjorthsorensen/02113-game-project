@@ -17,7 +17,8 @@ class I2SDriver extends Module{
     //signal to audio generator that we want new audio.
     //only high when bit_counter is 63 (we are done with the data)
     io.sampleReady := false.B
-    
+    io.LRC := false.B
+    io.DIN := false.B
     val bclkReg = RegNext(io.BCLKInput)
     val bclkPosEdge = io.BCLKInput && !bclkReg
 
@@ -43,11 +44,10 @@ class I2SDriver extends Module{
         when(bit_counter === 0.U){
             audioShiftReg := io.generatedAudio
             audioShiftCounterReg := 15.U
-        }.elsewhen(bit_counter >= 1.U && bit_counter <= 15.U){
+        }.elsewhen(bit_counter >= 1.U && bit_counter <= 16.U){
 
-            io.DIN := audioShiftReg(audioShiftCounterReg)
-            audioShiftCounterReg := audioShiftCounterReg - 1.U
-            audioShiftReg := audioShiftReg << 1
+            io.DIN := audioShiftReg(16.U(6.W) - bit_counter)
+            //audioShiftReg := audioShiftReg << 1
 
         }.otherwise{
             io.DIN := false.B

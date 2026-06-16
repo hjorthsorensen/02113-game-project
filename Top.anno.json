@@ -24,30 +24,6 @@
     "index":0.6093023255813953
   },
   {
-    "class":"firrtl.transforms.DedupedResult",
-    "original":"~Top|MaxPeriodFibonacciLFSR",
-    "duplicate":"~Top|Top/gameTop:GameTop/gameLogic:GameLogic/spawnCustomer:SpawnCustomer2/customer1SeatXReg_prng:MaxPeriodFibonacciLFSR",
-    "index":0.9441860465116279
-  },
-  {
-    "class":"firrtl.transforms.DedupedResult",
-    "original":"~Top|MaxPeriodFibonacciLFSR_1",
-    "duplicate":"~Top|Top/gameTop:GameTop/gameLogic:GameLogic/spawnCustomer:SpawnCustomer2/customer1SeatYReg_prng:MaxPeriodFibonacciLFSR",
-    "index":0.9488372093023256
-  },
-  {
-    "class":"firrtl.transforms.DedupedResult",
-    "original":"~Top|MaxPeriodFibonacciLFSR_2",
-    "duplicate":"~Top|Top/gameTop:GameTop/gameLogic:GameLogic/spawnCustomer:SpawnCustomer2/customer2SeatXReg_prng:MaxPeriodFibonacciLFSR",
-    "index":0.9534883720930233
-  },
-  {
-    "class":"firrtl.transforms.DedupedResult",
-    "original":"~Top|MaxPeriodFibonacciLFSR_3",
-    "duplicate":"~Top|Top/gameTop:GameTop/gameLogic:GameLogic/spawnCustomer:SpawnCustomer2/customer2SeatYReg_prng:MaxPeriodFibonacciLFSR",
-    "index":0.958139534883721
-  },
-  {
     "class":"firrtl.EmitCircuitAnnotation",
     "emitter":"firrtl.VerilogEmitter"
   },

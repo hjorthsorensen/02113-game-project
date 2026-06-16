@@ -77,12 +77,16 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val playerMovementFSM = Module(new PlayerMovementFSM())
   val beerMovement = Module(new BeerMovement())
   val scoreFSM = Module(new ScoreFSM())
-  val spawnCustomer = Module(new SpawnCustomer2(16,2))
+  val spawnCustomer = Module(new SpawnCustomer(16,2))
   val backgroundHandler = Module(new BackgroundHandler())
   val scoreBoardFSM = Module(new ScoreBoardDisplayFSM())
   val returnBeerFSM = Module(new ReturnBeerFSM())
   val brokenGlassFSM = Module(new BrokenGlassDisplayFSM())
   val beerLeftFSM = Module(new beerLeftFSM())
+  val AudioHandlerFSM = Module(new AudioHandlerFSM())
+  val audioGen = Module(new AudioGenerator())
+  val I2SDriver = Module(new I2SDriver())
+
 
   /////////////////////////////////////////////////////////////////////////
   ///// FSM modules connections
@@ -150,9 +154,23 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   returnBeerFSM.io.customer2YPos := spawnCustomer.io.customer2PosY
   returnBeerFSM.io.returnCustomer1 := spawnCustomer.io.customer1ScoreDone
   returnBeerFSM.io.returnCustomer2 := spawnCustomer.io.customer2ScoreDone
-  
-  
   returnBeerFSM.io.isBeerCatched := scoreFSM.io.beerCatched
+
+  //connecting to audio handler
+  AudioHandlerFSM.io.beerCaught :=  scoreFSM.io.beerCatched
+  AudioHandlerFSM.io.beerFalling := beerMovement.io.beerBroken
+  AudioHandlerFSM.io.beerPouring := playerMovementFSM.io.beerPour
+  AudioHandlerFSM.io.beerThrown := Mux(beerMovement.io.speed =/= 0.S, true.B,false.B)
+  AudioHandlerFSM.io.pointScoring := scoreFSM.io.customerOneScored || scoreFSM.io.customerTwoScored
+  AudioHandlerFSM.io.readyNewEvent := audioGen.io.readyNewEvent
+
+  //connecting to audio generator
+  audioGen.io.event := AudioHandlerFSM.io.events
+  audioGen.io.sampleReady := I2SDriver.io.sampleReady
+
+  //connections to I2S driver
+    I2SDriver.io.BCLKInput := audioGen.io.clkOut
+    I2SDriver.io.generatedAudio := audioGen.io.audioDataOut
 
   // Connecting tp background handler
   backgroundHandler.io.work := false.B

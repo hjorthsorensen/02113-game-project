@@ -20,6 +20,8 @@ class AudioHandlerFSM extends Module {
     val beerPouring = Input(Bool())
   })
 
+
+io.events := 0.U
 //when we are ready for a new event in the audio generator, we check all possible events.
   when(io.readyNewEvent) {
 
@@ -38,5 +40,7 @@ class AudioHandlerFSM extends Module {
     }
 
   }
+
+
 
 }
