@@ -52,49 +52,37 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   val xSpawnValues = VecInit(128.S, 200.S, 275.S, 352.S)
   val ySpawnValues = VecInit(192.S, 256.S, 320.S, 384.S)
 
-  /////////////////////////////////////////////////////
-  //
-  // RESET
-  //
-  /////////////////////////////////////////////////////
 
-  when(io.resetIn) {
-    customerIdleVisibleReg(0) := (false.B)
-    customerDrinkingVisibleReg(0) := (false.B)
+  for (i <- 0 until Customers) {
+    /////////////////////////////////////////////////////
+    //
+    // RESET
+    //
+    /////////////////////////////////////////////////////
+    when(io.resetIn) {
+      customerIdleVisibleReg(i) := (false.B)
+      customerDrinkingVisibleReg(i) := (false.B)
+    }.elsewhen(io.resetIn && !RegNext(io.resetIn)) {
+      customerIdleVisibleReg(i) := (true.B)
+      customerDrinkingVisibleReg(i) := (true.B)
+    }
 
-    customerIdleVisibleReg(1) := (false.B)
-    customerDrinkingVisibleReg(1) := (false.B)
-  }.elsewhen(io.resetIn && !RegNext(io.resetIn)) {
-    customerIdleVisibleReg(0) := (true.B)
-    customerDrinkingVisibleReg(0) := (true.B)
-
-    customerIdleVisibleReg(1) := (true.B)
-    customerDrinkingVisibleReg(1) := (true.B)
+    /////////////////////////////////////////////////////
+    //
+    // io connections
+    //
+    /////////////////////////////////////////////////////
+    io.customerPosX(i) := customerXReg(i)
+    io.customerPosY(i) := customerYReg(i)
+    io.customerIdleVisible(i) := customerIdleVisibleReg(i)
+    io.customerDrinkingVisible(i) := customerDrinkingVisibleReg(i)
+    io.customerScoreDone(i) := customerScoreDoneReg(i)
+    io.customerFlipped(i) := customerFlippedReg(i)
+    
+    customerScoreDoneReg(i) := false.B
   }
 
-  /////////////////////////////////////////////////////
-  //
-  // io connections
-  //
-  /////////////////////////////////////////////////////
   io.done := false.B
-  io.customerPosX(0) := customerXReg(0)
-  io.customerPosY(0) := customerYReg(0)
-  io.customerIdleVisible(0) := customerIdleVisibleReg(0)
-  io.customerDrinkingVisible(0) := customerDrinkingVisibleReg(0)
-  io.customerScoreDone(0) := customerScoreDoneReg(0)
-  io.customerFlipped(0) := customerFlippedReg(0)
-
-  io.customerPosX(1) := customerXReg(1)
-  io.customerPosY(1) := customerYReg(1)
-  io.customerIdleVisible(1) := customerIdleVisibleReg(1)
-  io.customerDrinkingVisible(1) := customerDrinkingVisibleReg(1)
-  io.customerScoreDone(1) := customerScoreDoneReg(1)
-  io.customerFlipped(1) := customerFlippedReg(1)
-
-  customerScoreDoneReg(0) := false.B
-  customerScoreDoneReg(1) := false.B
-
   ///////////////////////////////////////////////////////
   //
   // statemachine
@@ -112,59 +100,35 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
     }
 
     is(spawn) {
-      // if customer not spawned, and customer delay is 0, spawn customer.
-      when(!customerSpawnedReg(0) && (customerSpawnDelayReg(0) === 0.U)) {
-        customerSeatXReg(0) := customerSeatXReg(0) + random.LFSR(
-          degreeOfRandom,
-          true.B
-        )
-        
-        customerSeatYReg(0) := customerSeatYReg(0) + random.LFSR(
-          degreeOfRandom,
-          true.B
-        )
+      for (i <- 0 until Customers) {
+        // if customer not spawned, and customer delay is 0, spawn customer.
+        when(!customerSpawnedReg(i) && (customerSpawnDelayReg(i) === 0.U)) {
+          customerSeatXReg(i) := customerSeatXReg(i) + random.LFSR(
+            degreeOfRandom,
+            true.B
+          )
+          
+          customerSeatYReg(i) := customerSeatYReg(i) + random.LFSR(
+            degreeOfRandom,
+            true.B
+          )
 
-        when(customerSeatYReg(0) === customerSeatYReg(0)) {
-          // if they are at the same seat, just wrap around and pick a new lane.
-          // also move one two to the right, to make it seem more random.
-          customerSeatYReg(0) := customerSeatYReg(0) + 1.U
+          when(customerSeatYReg(0) === customerSeatYReg(1)) {
+            // if they are at the same seat, just wrap around and pick a new lane.
+            // also move one two to the right, to make it seem more random.
+            customerSeatYReg(i) := customerSeatYReg(i) + 1.U
 
+          }
+
+          customerXReg(i) := xSpawnValues(customerSeatXReg(i))
+          customerYReg(i) := ySpawnValues(customerSeatYReg(i))
+          customerIdleVisibleReg(i) := true.B
+          customerSpawnedReg(i) := true.B
+          customerSpawnDelayReg(i) := 240.U
+          customerAnimCycleReg(i) := 0.U
+          customerAnimDirReg(i) := true.B
         }
-
-        customerXReg(0) := xSpawnValues(customerSeatXReg(0))
-        customerYReg(0) := ySpawnValues(customerSeatYReg(0))
-        customerIdleVisibleReg(0) := true.B
-        customerSpawnedReg(0) := true.B
-        customerSpawnDelayReg(0) := 240.U
-        customerAnimCycleReg(0) := 0.U
-        customerAnimDirReg(0) := true.B
       }
-
-      when(!customerSpawnedReg(1) && (customerSpawnDelayReg(1) === 0.U)) {
-        customerSeatXReg(1) := customerSeatXReg(1) + random.LFSR(
-          degreeOfRandom,
-          true.B
-        )
-
-        customerSeatYReg(1) := customerSeatYReg(1) + random.LFSR(
-          degreeOfRandom,
-          true.B
-        )
-
-        when(customerSeatYReg(0) === customerSeatYReg(1)){
-          //same here.
-          customerSeatYReg(1) := customerSeatYReg(1) + 1.U
-        }
-
-        customerXReg(1) := xSpawnValues(customerSeatXReg(1))
-        customerYReg(1) := ySpawnValues(customerSeatYReg(1))
-        customerIdleVisibleReg(1) := true.B
-        customerSpawnedReg(1) := true.B
-        customerSpawnDelayReg(1) := 240.U
-        customerAnimCycleReg(1) := 0.U
-        customerAnimDirReg(1) := true.B
-      }
-
 
       stateReg := despawn
     }
@@ -177,7 +141,6 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
       when(io.customerScored(1)) {
         customerBegunScoringReg := 2.U
       }
-
 
       when(customerBegunScoringReg === 1.U) {
         customerDrinkingVisibleReg(0) := true.B
@@ -217,7 +180,9 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
           customerDrinkingDelayReg := 0.U
           customerSpawnDelayReg(0) := 240.U
         }
-      } .elsewhen(customerBegunScoringReg === 2.U) {
+      } 
+      
+      when(customerBegunScoringReg === 2.U) {
         customerDrinkingVisibleReg(1) := true.B
         customerIdleVisibleReg(1) := false.B
         
@@ -262,31 +227,19 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
     }
 
     is(animate) {
-      when(customerSpawnedReg(0)) {
-        when(customerAnimCycleReg(0) > 59.U) {
-          customerAnimCycleReg(0) := 0.U
+      for (i <- 0 until Customers) {
+        when(customerSpawnedReg(i)) {
+          when(customerAnimCycleReg(i) > 59.U) {
+            customerAnimCycleReg(i) := 0.U
 
-          when(customerAnimDirReg(0)) {
-            customerYReg(0) := customerYReg(0) + 2.S
-          }.otherwise {
-            customerYReg(0) := customerYReg(0) - 2.S
+            when(customerAnimDirReg(i)) {
+              customerYReg(i) := customerYReg(i) + 2.S
+            }.otherwise {
+              customerYReg(i) := customerYReg(i) - 2.S
+            }
+
+            customerAnimDirReg(i) := !customerAnimDirReg(i)
           }
-
-          customerAnimDirReg(0) := !customerAnimDirReg(0)
-        }
-      }
-
-      when(customerSpawnedReg(1)) {
-        when(customerAnimCycleReg(1) === 60.U) {
-          customerAnimCycleReg(1) := 0.U
-
-          when(customerAnimDirReg(1)) {
-            customerYReg(1) := customerYReg(1) + 2.S
-          }.otherwise {
-            customerYReg(1) := customerYReg(1) - 2.S
-          }
-
-          customerAnimDirReg(1) := !customerAnimDirReg(1)
         }
       }
 
@@ -294,20 +247,14 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
     }
 
     is(delays) {
-      when(customerSpawnedReg(0)) {
-        customerAnimCycleReg(0) := customerAnimCycleReg(0) + 1.U
-      }
+      for (i <- 0 until Customers) {
+        when(customerSpawnedReg(i)) {
+          customerAnimCycleReg(i) := customerAnimCycleReg(i) + 1.U
+        }
 
-      when(customerSpawnedReg(1)) {
-        customerAnimCycleReg(1) := customerAnimCycleReg(1) + 1.U
-      }
-
-      when(!(customerSpawnDelayReg(0) === 0.U)) {
-        customerSpawnDelayReg(0) := customerSpawnDelayReg(0) - 1.U
-      }
-
-      when(!(customerSpawnDelayReg(1) === 0.U)) {
-        customerSpawnDelayReg(1) := customerSpawnDelayReg(1) - 1.U
+        when(!(customerSpawnDelayReg(i) === 0.U)) {
+          customerSpawnDelayReg(i) := customerSpawnDelayReg(i) - 1.U
+        }
       }
 
       stateReg := done
