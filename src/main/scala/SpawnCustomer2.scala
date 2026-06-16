@@ -86,6 +86,12 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
 
     customer2IdleVisibleReg := (false.B)
     customer2DrinkingVisibleReg := (false.B)
+  } .elsewhen (!io.resetIn && !RegNext(io.resetIn)) {
+    customer1IdleVisibleReg := (true.B)
+    customer1DrinkingVisibleReg := (true.B)
+
+    customer2IdleVisibleReg := (true.B)
+    customer2DrinkingVisibleReg := (true.B)
   }
 
   /////////////////////////////////////////////////////
@@ -125,9 +131,6 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
       when(io.work) {
         stateReg := spawn
       }
-      //   .elsewhen(!(customerToDespawn === 0.U)) {
-      //     stateReg := despawn
-      //   }
     }
 
     is(spawn) {
