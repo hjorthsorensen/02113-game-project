@@ -65,11 +65,11 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   
   val noise = random.LFSR(degreeOfRandom, true.B)
   when(io.work && !seedReady) {
-    seedReg   := entropyCounter
+    seedReg   := seedCounter
     seedReady := true.B
   }
   
-  when(seedReady && seedReg =/= 0) {
+  when(seedReady && seedReg =/= 0.U) {
     noise := random.LFSR(degreeOfRandom, true.B, seedReg)
   }
 
