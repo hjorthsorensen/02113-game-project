@@ -39,6 +39,7 @@ class ScoreFSM extends Module {
   val customerOneScoredReg = RegInit(false.B)
   val customerTwoScoredReg = RegInit(false.B)
   val beerCatched = RegInit(false.B)
+  val beerCatchedIdleCntReg = RegInit(0.U(6.W))
   val scoreMultiplier = RegInit(1.U(8.W))
   customerOneScoredReg := false.B
   customerTwoScoredReg := false.B
@@ -109,6 +110,13 @@ class ScoreFSM extends Module {
     }
     is(glassReturn) {
       stateReg := doneState
+      when(beerCatched){
+        beerCatchedIdleCntReg := beerCatchedIdleCntReg + 1.U
+      }
+      when(beerCatchedIdleCntReg === 30.U){
+        beerCatchedIdleCntReg := 0.U
+        beerCatched := false.B
+      }
       when(
         io.emptyBeerValid && (io.playerY === io.beerEmptyY) && (io.beerEmptyX <= 512.S) && (io.beerEmptyX >= (512 - 32).S) && io.playerReadyToCatch
       ) {
@@ -116,7 +124,7 @@ class ScoreFSM extends Module {
         scoreMultiplier := scoreMultiplier + 1.U
         beerCatched := true.B
       }.elsewhen(
-        io.emptyBeerValid && (!(io.playerY === io.beerEmptyY) || !io.playerReadyToCatch) && (io.beerEmptyX <= 512.S) && (io.beerEmptyX >= (512 - 32).S) && scoreReg - 1.U > 0.U
+        io.emptyBeerValid && (!(io.playerY === io.beerEmptyY) || !io.playerReadyToCatch) && (io.beerEmptyX <= 512.S) && (io.beerEmptyX >= (512 - 32).S) && ((scoreReg - 1.U) > 0.U)
       ) {
         scoreReg := scoreReg - 1.U
         scoreMultiplier := 1.U
@@ -124,6 +132,7 @@ class ScoreFSM extends Module {
       }
     }
     is(doneState) {
+      
       stateReg := idleState
     }
   }
