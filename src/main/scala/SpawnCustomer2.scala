@@ -80,19 +80,19 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   //
   /////////////////////////////////////////////////////
 
-  when(io.resetIn) {
-    customer1IdleVisibleReg := (false.B)
-    customer1DrinkingVisibleReg := (false.B)
+  // when(io.resetIn) {
+  //   customer1IdleVisibleReg := (false.B)
+  //   customer1DrinkingVisibleReg := (false.B)
 
-    customer2IdleVisibleReg := (false.B)
-    customer2DrinkingVisibleReg := (false.B)
-  }.elsewhen(!io.resetIn && !RegNext(io.resetIn)) {
-    customer1IdleVisibleReg := (true.B)
-    customer1DrinkingVisibleReg := (true.B)
+  //   customer2IdleVisibleReg := (false.B)
+  //   customer2DrinkingVisibleReg := (false.B)
+  // }.elsewhen(!io.resetIn && !RegNext(io.resetIn)) {
+  //   customer1IdleVisibleReg := (true.B)
+  //   customer1DrinkingVisibleReg := (true.B)
 
-    customer2IdleVisibleReg := (true.B)
-    customer2DrinkingVisibleReg := (true.B)
-  }
+  //   customer2IdleVisibleReg := (true.B)
+  //   customer2DrinkingVisibleReg := (true.B)
+  // }
 
   /////////////////////////////////////////////////////
   //
@@ -129,7 +129,7 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
 
     is(idle) {
       when(io.work) {
-        stateReg := spawn1
+        stateReg := spawn
       }
     }
 
