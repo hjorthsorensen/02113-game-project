@@ -102,19 +102,19 @@ class BrokenGlassDisplayFSM extends Module{
                 tile2Cnt := 0.U
                 io.writeAdress := table2
                 io.writeTileID := 13.U
-                tile1BrokenReg := false.B
+                tile2BrokenReg := false.B
             }
             when(tile3Cnt === 180.U){
                 tile3Cnt := 0.U
                 io.writeAdress := table3
                 io.writeTileID := 13.U
-                tile1BrokenReg := false.B
+                tile3BrokenReg := false.B
             }
             when(tile4Cnt === 180.U){
                 tile4Cnt := 0.U
                 io.writeAdress := table4
                 io.writeTileID := 13.U
-                tile1BrokenReg := false.B
+                tile4BrokenReg := false.B
             }
             stateReg := finished
 
@@ -133,7 +133,7 @@ class BrokenGlassDisplayFSM extends Module{
             when(tile4BrokenReg){
                 tile4Cnt := tile4Cnt + 1.U
             }
-            
+
             brokenGlassWriteDoneReg := true.B
             stateReg := idle
         }
