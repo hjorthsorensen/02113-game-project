@@ -28,6 +28,8 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   // REGISTERS
   //
   ///////////////////////////////////////////
+  val idle :: spawn :: despawn :: delays :: animate :: done :: Nil = Enum(6)
+  val stateReg = RegInit(idle)
 
   // CUSTOMER VECTORS
   val customerXReg               = RegInit(VecInit.fill(Customers)(0.S(11.W)))
@@ -63,13 +65,6 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   //
   /////////////////////////////////////////////////////
   for (i <- 0 until Customers) {
-    when(io.resetIn) {
-      customerIdleVisibleReg(i)     := (false.B)
-      customerDrinkingVisibleReg(i) := (false.B)
-    }.elsewhen(io.resetIn && !RegNext(io.resetIn)) {
-      customerIdleVisibleReg(i)     := (true.B)
-      customerDrinkingVisibleReg(i) := (true.B)
-    }
 
     io.customerPosX(i) := customerXReg(i)
     io.customerPosY(i) := customerYReg(i)
@@ -79,6 +74,14 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
     io.customerFlipped(i) := customerFlippedReg(i)
     
     customerScoreDoneReg(i) := false.B
+    
+    when(io.resetIn) {
+      io.customerIdleVisible(i) := false.B  
+      
+      io.customerDrinkingVisible(i) := false.B
+
+      stateReg := done
+    }
   }
 
   io.done := false.B
@@ -87,8 +90,6 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   // statemachine
   //
   ///////////////////////////////////////////////////////
-  val idle :: spawn :: despawn :: delays :: animate :: done :: Nil = Enum(6)
-  val stateReg = RegInit(idle)
 
   switch(stateReg) {
     is(idle) {
