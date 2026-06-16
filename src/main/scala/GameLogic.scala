@@ -82,8 +82,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val scoreBoardFSM = Module(new ScoreBoardDisplayFSM())
   val returnBeerFSM = Module(new ReturnBeerFSM())
   val brokenGlassFSM = Module(new BrokenGlassDisplayFSM())
-  val beerLeftFSM = Module(new beerLeftFSM())
+  val beerLeftFSM = Module(new BeerLeftFSM())
   val multiplierFSM = Module(new MultiplierDisplayFSM())
+  val viewBoxFSM = Module(new AnimateViewBoxFSM())
 
   /////////////////////////////////////////////////////////////////////////
   ///// FSM modules connections
@@ -93,7 +94,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   scoreFSM.io.work := false.B
   spawnCustomer.io.work := false.B
   playerMovementFSM.io.work := false.B
+  backgroundHandler.io.work := false.B
   returnBeerFSM.io.work := false.B
+  viewBoxFSM.io.work := false.B
 
   // Connecting to beer movement
   beerMovement.io.speed := playerMovementFSM.io.beerSpeed
@@ -159,7 +162,6 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   returnBeerFSM.io.isBeerCatched := scoreFSM.io.beerCatched
 
   // Connecting tp background handler
-  backgroundHandler.io.work := false.B
   backgroundHandler.io.inputAdress := 0.U
   backgroundHandler.io.inputTileID := 26.U
 
@@ -176,7 +178,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   when(scoreBoardFSM.io.writingScore) {
     backgroundHandler.io.inputAdress := scoreBoardFSM.io.writeAdress
     backgroundHandler.io.inputTileID := scoreBoardFSM.io.writeTileID
-  }.elsewhen { multiplierFSM.io.writingMultiplier } {
+  }.elsewhen {multiplierFSM.io.writingMultiplier } {
     backgroundHandler.io.inputAdress := multiplierFSM.io.writeAdress
     backgroundHandler.io.inputTileID := multiplierFSM.io.writeTileID
   }.elsewhen(brokenGlassFSM.io.writingBrokenGlass) {
@@ -187,6 +189,14 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
     backgroundHandler.io.inputTileID := beerLeftFSM.io.writeTileID
   }
   // add .elsewhen if you want to write other things to the background as well
+  
+  // ViewBox connections
+  viewBoxFSM.io.stageID := Cat(io.sw(1),io.sw(0))
+  io.viewBoxX := viewBoxFSM.io.viewBoxX
+  io.viewBoxY := viewBoxFSM.io.viewBoxY
+  io.led(6) := viewBoxFSM.io.stageIDOut(0)
+  io.led(7) := viewBoxFSM.io.stageIDOut(1)
+
 
   // DEBUG CONNECTION
   // io.led(0) := scoreFSM.io.customerOneScored
@@ -306,6 +316,8 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val spawnCustomerReg = RegInit(false.B)
   val backgroundDoneReg = RegInit(false.B)
   val returnBeerDoneReg = RegInit(false.B)
+  val viewBoxDoneReg = RegInit(false.B)
+
 
   switch(stateReg) {
     is(idle) {
@@ -317,6 +329,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
         spawnCustomer.io.work := true.B
         backgroundHandler.io.work := true.B
         returnBeerFSM.io.work := true.B
+        viewBoxFSM.io.work := true.B
 
         playerDoneReg := false.B
         beerDoneReg := false.B
@@ -324,6 +337,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
         spawnCustomerReg := false.B
         backgroundDoneReg := false.B
         returnBeerDoneReg := false.B
+        viewBoxDoneReg := false.B
       }
     }
     is(compute1) {
@@ -343,13 +357,15 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
       when(backgroundHandler.io.done) {
         backgroundDoneReg := true.B
       }
-
       when(returnBeerFSM.io.done) {
         returnBeerDoneReg := true.B
       }
+      when(viewBoxFSM.io.done){
+        viewBoxDoneReg := true.B
+      }
 
       when(
-        playerDoneReg && beerDoneReg && scoreFSMDoneReg && spawnCustomerReg && backgroundDoneReg && returnBeerDoneReg
+        playerDoneReg && beerDoneReg && scoreFSMDoneReg && spawnCustomerReg && backgroundDoneReg && returnBeerDoneReg && viewBoxDoneReg
       ) {
         stateReg := done
       }

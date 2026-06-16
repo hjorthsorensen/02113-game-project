@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util._
 
-class beerLeftFSM extends Module{
+class BeerLeftFSM extends Module{
     val io = IO(new Bundle {
         //Inputs
         val score = Input(UInt(8.W))
@@ -35,11 +35,11 @@ class beerLeftFSM extends Module{
     for (i <- 0 until 8) {
       val bcd = shiftReg(15, 8)
     
-      val ones      = bcd(3, 0)
-      val tens      = bcd(7, 4)
+      val ones = bcd(3, 0)
+      val tens = bcd(7, 4)
     
-      val onesAdj      = Mux(ones      >= 5.U, ones      + 3.U, ones)
-      val tensAdj      = Mux(tens      >= 5.U, tens      + 3.U, tens)
+      val onesAdj = Mux(ones >= 5.U, ones + 3.U, ones)
+      val tensAdj = Mux(tens >= 5.U, tens + 3.U, tens)
     
       val newBcd = Cat(tensAdj, onesAdj)
     
@@ -47,8 +47,8 @@ class beerLeftFSM extends Module{
     }
     val result = shiftReg(15, 8)
     (// Return the 4 base10 digits.
-      result(3, 0),    // ones
-      result(7, 4)    // tens
+      result(3, 0), // ones
+      result(7, 4) // tens
     )
     }
     
