@@ -98,7 +98,11 @@ class ReturnBeerFSM extends Module{
                 when(!beerVisibleReg && returnCustomer1RegQueue){
                     beerVisibleReg := true.B
                     beerReturnValidReg := true.B
-                    returnBeerSpeedReg := 28.S
+                    when(returnBeerX1PosPrevReg < 280.S){
+                        returnBeerSpeedReg := 28.S
+                    }.otherwise{
+                        returnBeerSpeedReg := 20.S
+                    }
                     returnBeerXPosReg := returnBeerX1PosPrevReg
                     returnBeerYPosReg := returnBeerY1PosPrevReg
                     returningCustomer1 := true.B
@@ -107,7 +111,12 @@ class ReturnBeerFSM extends Module{
                     beerReturnValidReg := true.B
                     returnBeerXPosReg := returnBeerX2PosPrevReg
                     returnBeerYPosReg := returnBeerY2PosPrevReg
-                    returnBeerSpeedReg := 28.S
+                    when(returnBeerX2PosPrevReg < 280.S){
+                        returnBeerSpeedReg := 28.S
+                    }.otherwise{
+                        returnBeerSpeedReg := 20.S
+                    }
+                    // returnBeerSpeedReg := 28.S
                     returningCustomer2 := true.B
                 }
             }
