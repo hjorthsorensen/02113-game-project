@@ -77,11 +77,11 @@ class MultiplierDisplayFSM extends Module {
       io.writingMultiplier := true.B
       when(multiplierIDReg === 0.U) {
         multiplierIDReg := multiplierIDReg + 1.U
-        io.writeAdress := (16 + 40 + 64).U
+        io.writeAdress := (59).U
         io.writeTileID := rightDigitReg + 16.U
       }.elsewhen(multiplierIDReg === 1.U) {
         multiplierIDReg := multiplierIDReg + 1.U
-        io.writeAdress := (15 + 40 + 64).U
+        io.writeAdress := (58).U
         io.writeTileID := leftDigitReg + 16.U
         stateReg := doneState 
       }
