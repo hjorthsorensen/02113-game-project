@@ -22,7 +22,13 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
     val customer2ScoreDone = Output(Bool())
   })
 
-  // customers default spawn is (0,0); position is picked in spawn state
+  ///////////////////////////////////////////
+  //
+  // REGISTERS
+  //
+  ///////////////////////////////////////////
+
+  // CUSTOMER 1
   val customer1XReg = RegInit(0.S(11.W))
   val customer1YReg = RegInit(0.S(10.W))
   val customer1IdleVisibleReg = RegInit(false.B)
@@ -34,8 +40,9 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   val customer1SeatXReg = RegInit(1.U(4.W))
   val customer1SeatYReg = RegInit(2.U(2.W))
   val customer1SpawnDelayReg = RegInit(0.U(9.W))
+  val customer1FlippedReg = RegInit(false.B)
 
-
+  // CUSTOMER 2
   val customer2XReg = RegInit(0.S(11.W))
   val customer2YReg = RegInit(0.S(10.W))
   val customer2IdleVisibleReg = RegInit(false.B)
@@ -47,10 +54,9 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   val customer2SeatXReg = RegInit(3.U(4.W))
   val customer2SeatYReg = RegInit(0.U(2.W))
   val customer2SpawnDelayReg = RegInit(0.U(9.W))
-
-  val customer1FlippedReg = RegInit(false.B)
   val customer2FlippedReg = RegInit(false.B)
-    //common / shared regs
+  
+  //common / shared regs
   val customerToSpawnReg = RegInit(0.U(2.W))
   val customerToDespawnReg = RegInit(0.U(2.W))
   val customerDrinkingDelayReg = RegInit(0.U(8.W))

@@ -94,6 +94,8 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   playerMovementFSM.io.work := false.B
   returnBeerFSM.io.work := false.B
 
+  playerMovementFSM.reset := false.B
+
   // Connecting to beer movement
   beerMovement.io.speed := playerMovementFSM.io.beerSpeed
   beerMovement.io.beerYPosInp := playerMovementFSM.io.spriteYPosition
