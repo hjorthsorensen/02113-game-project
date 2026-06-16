@@ -136,6 +136,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   scoreFSM.io.emptyBeerValid := returnBeerFSM.io.beerReturnValid
   scoreFSM.io.beerBroken := beerMovement.io.beerBroken
 
+
   // Connecting to scoreboard
   scoreBoardFSM.io.score := scoreFSM.io.score
   scoreBoardFSM.io.work := backgroundHandler.io.scoreWork

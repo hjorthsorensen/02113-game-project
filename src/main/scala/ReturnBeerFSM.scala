@@ -136,19 +136,19 @@ class ReturnBeerFSM extends Module{
                 }
 
             }
-            when(!beerVisibleReg){
-                idleC := idleC + 1.U
-                when(idleC === 60.U){
-                    idleC := 0.U
-                    // returnCustomer2RegQueue := false.B
-                    returningCustomer2 := false.B
-                    // returnCustomer1RegQueue := false.B
-                    returningCustomer1 := false.B
-                    returnBeerXPosReg := 500.S
-                    beerReturnValidReg := false.B
+            // when(!beerVisibleReg){
+            //     idleC := idleC + 1.U
+            //     when(idleC === 60.U){
+            //         idleC := 0.U
+            //         // returnCustomer2RegQueue := false.B
+            //         returningCustomer2 := false.B
+            //         // returnCustomer1RegQueue := false.B
+            //         returningCustomer1 := false.B
+            //         returnBeerXPosReg := 0.S
+            //         beerReturnValidReg := false.B
 
-                }
-            }
+            //     }
+            // }
             stateReg := done
         }
         is(done){
