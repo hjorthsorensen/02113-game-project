@@ -30,18 +30,18 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   ///////////////////////////////////////////
 
   // CUSTOMER 1
-  val customerXReg               = Vec(Customers, RegInit(0.S(11.W)))
-  val customerYReg               = Vec(Customers, RegInit(0.S(10.W)))
-  val customerIdleVisibleReg     = Vec(Customers, RegInit(false.B))
-  val customerDrinkingVisibleReg = Vec(Customers, RegInit(false.B))
-  val customerSpawnedReg         = Vec(Customers, RegInit(false.B))
-  val customerAnimCycleReg       = Vec(Customers, RegInit(0.U(7.W)))
-  val customerAnimDirReg         = Vec(Customers, RegInit(true.B))
-  val customerScoreDoneReg       = Vec(Customers, RegInit(false.B))
-  val customerSeatXReg           = Vec(Customers, RegInit(1.U(4.W)))
-  val customerSeatYReg           = Vec(Customers, RegInit(2.U(2.W)))
-  val customerSpawnDelayReg      = Vec(Customers, RegInit(0.U(9.W)))
-  val customerFlippedReg         = Vec(Customers, RegInit(false.B))
+  val customerXReg               = RegInit(VecInit.fill(Customers)(0.S(11.W)))
+  val customerYReg               = RegInit(VecInit.fill(Customers)(0.S(10.W)))
+  val customerIdleVisibleReg     = RegInit(VecInit.fill(Customers)(false.B))
+  val customerDrinkingVisibleReg = RegInit(VecInit.fill(Customers)(false.B))
+  val customerSpawnedReg         = RegInit(VecInit.fill(Customers)(false.B))
+  val customerAnimCycleReg       = RegInit(VecInit.fill(Customers)(0.U(7.W)))
+  val customerAnimDirReg         = RegInit(VecInit.fill(Customers)(true.B))
+  val customerScoreDoneReg       = RegInit(VecInit.fill(Customers)(false.B))
+  val customerSeatXReg           = RegInit(VecInit.fill(Customers)(1.U(4.W)))
+  val customerSeatYReg           = RegInit(VecInit.fill(Customers)(2.U(2.W)))
+  val customerSpawnDelayReg      = RegInit(VecInit.fill(Customers)(0.U(9.W)))
+  val customerFlippedReg         = RegInit(VecInit.fill(Customers)(false.B))
 
   // common / shared regs
   val customerToSpawnReg = RegInit(0.U(2.W))
