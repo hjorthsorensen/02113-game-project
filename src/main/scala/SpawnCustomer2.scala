@@ -122,7 +122,7 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   // statemachine
   //
   ///////////////////////////////////////////////////////
-  val idle :: spawn1 :: spawn2 :: despawn1 :: despawn2 :: delays :: animate :: done :: Nil = Enum(8)
+  val idle :: spawn :: despawn :: delays :: animate :: done :: Nil = Enum(6)
   val stateReg = RegInit(idle)
 
   switch(stateReg) {
@@ -133,7 +133,7 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
       }
     }
 
-    is(spawn1) {
+    is(spawn) {
       // if customer not spawned, and customer delay is 0, spawn customer.
       when(!customer1SpawnedReg && (customer1SpawnDelayReg === 0.U)) {
         customer1SeatXReg := customer1SeatXReg + random.LFSR(
@@ -162,13 +162,44 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
         customer1AnimDirReg := true.B
       }
 
-      stateReg := despawn1
+      when(!customer2SpawnedReg && (customer2SpawnDelayReg === 0.U)) {
+        customer2SeatXReg := customer2SeatXReg + random.LFSR(
+          degreeOfRandom,
+          true.B
+        )
+
+        customer2SeatYReg := customer2SeatYReg + random.LFSR(
+          degreeOfRandom,
+          true.B
+        )
+
+        when(customer1SeatYReg === customer2SeatYReg){
+          //same here.
+          customer2SeatYReg := customer2SeatYReg + 1.U
+        }
+
+        customer2XReg := xSpawnValues(customer2SeatXReg)
+        customer2YReg := ySpawnValues(customer2SeatYReg)
+        customer2IdleVisibleReg := true.B
+        customer2SpawnedReg := true.B
+        customer2SpawnDelayReg := 240.U
+        customer2AnimCycleReg := 0.U
+        customer2AnimDirReg := true.B
+      }
+
+
+      stateReg := despawn
     }
 
-    is (despawn1) {
+    is (despawn) {
       when(io.customer1Scored) {
         customerBegunScoringReg := 1.U
       }
+
+      when(io.customer2Scored) {
+        customerBegunScoringReg := 2.U
+      }
+
 
       when(customerBegunScoringReg === 1.U) {
         customer1DrinkingVisibleReg := true.B
@@ -208,46 +239,7 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
           customerDrinkingDelayReg := 0.U
           customer1SpawnDelayReg := 240.U
         }
-      }
-
-      stateReg := spawn2
-    }
-
-    is(spawn2) {
-      when(!customer2SpawnedReg && (customer2SpawnDelayReg === 0.U)) {
-        customer2SeatXReg := customer2SeatXReg + random.LFSR(
-          degreeOfRandom,
-          true.B
-        )
-
-        customer2SeatYReg := customer2SeatYReg + random.LFSR(
-          degreeOfRandom,
-          true.B
-        )
-
-        when(customer1SeatYReg === customer2SeatYReg){
-          //same here.
-          customer2SeatYReg := customer2SeatYReg + 1.U
-        }
-
-        customer2XReg := xSpawnValues(customer2SeatXReg)
-        customer2YReg := ySpawnValues(customer2SeatYReg)
-        customer2IdleVisibleReg := true.B
-        customer2SpawnedReg := true.B
-        customer2SpawnDelayReg := 240.U
-        customer2AnimCycleReg := 0.U
-        customer2AnimDirReg := true.B
-      }
-
-      stateReg := despawn2
-    }
-
-    is(despawn2) {
-      when(io.customer2Scored) {
-        customerBegunScoringReg := 2.U
-      }
-
-      when(customerBegunScoringReg === 2.U) {
+      } .elsewhen(customerBegunScoringReg === 2.U) {
         customer2DrinkingVisibleReg := true.B
         customer2IdleVisibleReg := false.B
         
