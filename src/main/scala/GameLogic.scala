@@ -122,12 +122,12 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   scoreFSM.io.beerPositionY := beerMovement.io.beerYPos
   scoreFSM.io.beerValid := beerMovement.io.beerValid
 
-  scoreFSM.io.customerOneScoredInp := spawnCustomer.io.customer1ScoreDone
-  scoreFSM.io.customerTwoScoredInp := spawnCustomer.io.customer2ScoreDone
-  scoreFSM.io.customerOnePositionX := spawnCustomer.io.customer1PosX
-  scoreFSM.io.customerOnePositionY := spawnCustomer.io.customer1PosY
-  scoreFSM.io.customerTwoPositionX := spawnCustomer.io.customer2PosX
-  scoreFSM.io.customerTwoPositionY := spawnCustomer.io.customer2PosY
+  scoreFSM.io.customerOneScoredInp := spawnCustomer.io.customerScoreDone(0)
+  scoreFSM.io.customerTwoScoredInp := spawnCustomer.io.customerScoreDone(1)
+  scoreFSM.io.customerOnePositionX := spawnCustomer.io.customerPosX(0)
+  scoreFSM.io.customerOnePositionY := spawnCustomer.io.customerPosY(0)
+  scoreFSM.io.customerTwoPositionX := spawnCustomer.io.customerPosX(1)
+  scoreFSM.io.customerTwoPositionY := spawnCustomer.io.customerPosY(1)
 
   scoreFSM.io.playerReadyToCatch := playerMovementFSM.io.isCatching
   scoreFSM.io.playerY := playerMovementFSM.io.spriteYPosition
@@ -155,16 +155,17 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   multiplierFSM.io.work := backgroundHandler.io.multiplierWork
 
   // Connecting to spawn customer
-  spawnCustomer.io.customer1Scored := scoreFSM.io.customerOneScored
-  spawnCustomer.io.customer2Scored := scoreFSM.io.customerTwoScored
+  spawnCustomer.io.customerScored(0) := scoreFSM.io.customerOneScored
+  spawnCustomer.io.customerScored(1) := scoreFSM.io.customerTwoScored
   spawnCustomer.io.beerDone := beerMovement.io.beerValid
+  
   // Connecting to return beer FSM
-  returnBeerFSM.io.customer1XPos := spawnCustomer.io.customer1PosX
-  returnBeerFSM.io.customer1YPos := spawnCustomer.io.customer1PosY
-  returnBeerFSM.io.customer2XPos := spawnCustomer.io.customer2PosX
-  returnBeerFSM.io.customer2YPos := spawnCustomer.io.customer2PosY
-  returnBeerFSM.io.returnCustomer1 := spawnCustomer.io.customer1ScoreDone
-  returnBeerFSM.io.returnCustomer2 := spawnCustomer.io.customer2ScoreDone
+  returnBeerFSM.io.customer1XPos := spawnCustomer.io.customerPosX(0)
+  returnBeerFSM.io.customer1YPos := spawnCustomer.io.customerPosY(0)
+  returnBeerFSM.io.customer2XPos := spawnCustomer.io.customerPosX(1)
+  returnBeerFSM.io.customer2YPos := spawnCustomer.io.customerPosY(1)
+  returnBeerFSM.io.returnCustomer1 := spawnCustomer.io.customerScoreDone(0)
+  returnBeerFSM.io.returnCustomer2 := spawnCustomer.io.customerScoreDone(1)
 
   returnBeerFSM.io.isBeerCatched := scoreFSM.io.beerCatched
 
@@ -238,23 +239,23 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.spriteFlipVertical(11) := playerMovementFSM.io.spriteFlipVertical
 
   // CUSTOMERS
-  io.spriteXPosition(4) := spawnCustomer.io.customer1PosX
-  io.spriteXPosition(5) := spawnCustomer.io.customer1PosX
-  io.spriteXPosition(6) := spawnCustomer.io.customer2PosX
-  io.spriteXPosition(7) := spawnCustomer.io.customer2PosX
+  io.spriteXPosition(4) := spawnCustomer.io.customerPosX(0)
+  io.spriteXPosition(5) := spawnCustomer.io.customerPosX(0)
+  io.spriteXPosition(6) := spawnCustomer.io.customerPosX(1)
+  io.spriteXPosition(7) := spawnCustomer.io.customerPosX(1)
 
-  io.spriteYPosition(4) := spawnCustomer.io.customer1PosY
-  io.spriteYPosition(5) := spawnCustomer.io.customer1PosY
-  io.spriteYPosition(6) := spawnCustomer.io.customer2PosY
-  io.spriteYPosition(7) := spawnCustomer.io.customer2PosY
+  io.spriteYPosition(4) := spawnCustomer.io.customerPosY(0)
+  io.spriteYPosition(5) := spawnCustomer.io.customerPosY(0)
+  io.spriteYPosition(6) := spawnCustomer.io.customerPosY(1)
+  io.spriteYPosition(7) := spawnCustomer.io.customerPosY(1)
 
-  io.spriteFlipHorizontal(4) := spawnCustomer.io.customer1Flipped
-  io.spriteFlipHorizontal(5) := spawnCustomer.io.customer2Flipped
+  io.spriteFlipHorizontal(4) := spawnCustomer.io.customerFlipped(0)
+  io.spriteFlipHorizontal(5) := spawnCustomer.io.customerFlipped(1)
 
-  io.spriteVisible(4) := spawnCustomer.io.customer1IdleVisible
-  io.spriteVisible(5) := spawnCustomer.io.customer1DrinkingVisible
-  io.spriteVisible(6) := spawnCustomer.io.customer2IdleVisible
-  io.spriteVisible(7) := spawnCustomer.io.customer2DrinkingVisible
+  io.spriteVisible(4) := spawnCustomer.io.customerIdleVisible(0)
+  io.spriteVisible(5) := spawnCustomer.io.customerDrinkingVisible(0)
+  io.spriteVisible(6) := spawnCustomer.io.customerIdleVisible(1)
+  io.spriteVisible(7) := spawnCustomer.io.customerDrinkingVisible(1)
 
   // BEER
   io.spriteXPosition(8) := beerMovement.io.beerXPos
