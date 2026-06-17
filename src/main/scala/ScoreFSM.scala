@@ -70,8 +70,7 @@ class ScoreFSM extends Module {
 
 
   // State definitions
-  val idleState :: waitingForBeerState :: glassReturn :: doneState :: Nil =
-    Enum(4)
+  val idleState :: waitingForBeerState :: glassReturn :: doneState :: Nil = Enum(4)
   val stateReg = RegInit(idleState)
   // This fixes a bug where it adds 60 numbers a sec, but appearently it didn't look good so now it runs with an intentional bug.
   // when(validFallingEdge){
@@ -84,7 +83,7 @@ class ScoreFSM extends Module {
     scoreMultiplier := 1.U
 
     stateReg := doneState
-   }
+  }
 
   // FSM
   switch(stateReg) {

@@ -67,10 +67,28 @@ class PlayerMovementFSM() extends Module {
   val canBeCatched   = RegInit(true.B)
   val idleFpsCount   = RegInit(0.U(7.W))
 
+
+
+  ////////////////////////////////////////////
+  //IO Connections
+  ///////////////////////////////////////////
+  // SPRITE
+  io.spriteXPosition      := spriteXReg
+  io.spriteYPosition      := spriteYReg
+  io.spriteFlipHorizontal := spriteFlipHorizontalReg
+  io.spriteAnimationFrame := animFrameReg
+  io.spriteVisible        := true.B
+  io.spriteFlipVertical   := false.B
+  // OTHER
+  io.beerSpeed  := beerSpeedReg
+  io.beerLeft   := beerLeftReg
+  io.done       := false.B
+  io.isCatching := catchingReg
+  io.beerPour := false.B
+
   ////////////////////////////////////////////
   // RESET
   ///////////////////////////////////////////
-
 
   when (io.resetIn) {
     spriteYReg              := 160.S
@@ -99,24 +117,6 @@ class PlayerMovementFSM() extends Module {
 
     stateReg := done
   }
-
-  ////////////////////////////////////////////
-  //IO Connections
-  ///////////////////////////////////////////
-  // SPRITE
-  io.spriteXPosition      := spriteXReg
-  io.spriteYPosition      := spriteYReg
-  io.spriteFlipHorizontal := spriteFlipHorizontalReg
-  io.spriteAnimationFrame := animFrameReg
-  io.spriteVisible        := true.B
-  io.spriteFlipVertical   := false.B
-  // OTHER
-  io.beerSpeed  := beerSpeedReg
-  io.beerLeft   := beerLeftReg
-  io.done       := false.B
-  io.isCatching := catchingReg
-  io.beerPour := false.B
-
   ////////////////////////////////////////////////////////
   //FSMD switch
   ////////////////////////////////////////////////////////
