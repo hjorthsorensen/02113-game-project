@@ -78,26 +78,25 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
   // DEBUG RESET
   val resetIn = WireDefault(io.sw(2))
-
   /////////////////////////////////////////////////////////////////////////
   ///// FSM modules instantiation
   /////////////////////////////////////////////////////////////////////////
 
   val playerMovementFSM = Module(new PlayerMovementFSM())
-  val beerMovement = Module(new BeerMovement())
-  val scoreFSM = Module(new ScoreFSM())
-  val spawnCustomer = Module(new SpawnCustomer2(16,2))
+  val beerMovement      = Module(new BeerMovement())
+  val scoreFSM          = Module(new ScoreFSM())
+  val spawnCustomer     = Module(new SpawnCustomer2(16,2))
   val backgroundHandler = Module(new BackgroundHandler())
-  val scoreBoardFSM = Module(new ScoreBoardDisplayFSM())
-  val returnBeerFSM = Module(new ReturnBeerFSM())
-  val brokenGlassFSM = Module(new BrokenGlassDisplayFSM())
-  val beerLeftFSM = Module(new BeerLeftFSM())
-  val AudioHandlerFSM = Module(new AudioHandlerFSM())
-  val audioGen = Module(new AudioGenerator())
-  val I2SDriver = Module(new I2SDriver())
-  val multiplierFSM = Module(new MultiplierDisplayFSM())
-  val viewBoxFSM = Module(new AnimateViewBoxFSM())
-
+  val scoreBoardFSM     = Module(new ScoreBoardDisplayFSM())
+  val returnBeerFSM     = Module(new ReturnBeerFSM())
+  val brokenGlassFSM    = Module(new BrokenGlassDisplayFSM())
+  val beerLeftFSM       = Module(new BeerLeftFSM())
+  val AudioHandlerFSM   = Module(new AudioHandlerFSM())
+  val audioGen          = Module(new AudioGenerator())
+  val I2SDriver         = Module(new I2SDriver())
+  val multiplierFSM     = Module(new MultiplierDisplayFSM())
+  val viewBoxFSM        = Module(new AnimateViewBoxFSM())
+  val menuFSM           = Module(new MenuControlFSM) 
   /////////////////////////////////////////////////////////////////////////
   ///// FSM modules connections
   /////////////////////////////////////////////////////////////////////////
@@ -109,6 +108,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   backgroundHandler.io.work := false.B
   returnBeerFSM.io.work := false.B
   viewBoxFSM.io.work := false.B
+  menuFSM.io.work    := false.B
+
+  resetIn := !menuFSM.io.outOfMenu
 
   playerMovementFSM.io.resetIn := resetIn
   spawnCustomer.io.resetIn     := resetIn
@@ -192,8 +194,8 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   audioGen.io.sampleReady := I2SDriver.io.sampleReady
 
   //connections to I2S driver
-    I2SDriver.io.BCLKInput := audioGen.io.clkOut
-    I2SDriver.io.generatedAudio := audioGen.io.audioDataOut
+  I2SDriver.io.BCLKInput := audioGen.io.clkOut
+  I2SDriver.io.generatedAudio := audioGen.io.audioDataOut
 
 
   //connecting audio io out
@@ -231,9 +233,14 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // add .elsewhen if you want to write other things to the background as well
   
   // ViewBox connections
-  viewBoxFSM.io.stageID := Cat(io.sw(1),io.sw(0))
+  viewBoxFSM.io.stageID := menuFSM.io.stageID
   io.viewBoxX := viewBoxFSM.io.viewBoxX
   io.viewBoxY := viewBoxFSM.io.viewBoxY
+
+  // Menu
+  menuFSM.io.btnC := io.btnC
+  menuFSM.io.btnU := io.btnU
+  menuFSM.io.btnD := io.btnD
 
   // DEBUG CONNECTION
   // io.led(0) := scoreFSM.io.customerOneScored
@@ -362,6 +369,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val backgroundDoneReg = RegInit(false.B)
   val returnBeerDoneReg = RegInit(false.B)
   val viewBoxDoneReg = RegInit(false.B)
+  val menuDoneReg = RegInit(false.B)
 
 
   switch(stateReg) {
@@ -375,6 +383,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
         backgroundHandler.io.work := true.B
         returnBeerFSM.io.work     := true.B
         viewBoxFSM.io.work        := true.B
+        menuFSM.io.work           := !menuFSM.io.outOfMenu
 
         playerDoneReg     := false.B
         beerDoneReg       := false.B
@@ -383,6 +392,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
         backgroundDoneReg := false.B
         returnBeerDoneReg := false.B
         viewBoxDoneReg    := false.B
+        menuDoneReg       := false.B
       }
     }
     is(compute1) {
@@ -393,6 +403,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
       backgroundHandler.io.work := !backgroundDoneReg
       returnBeerFSM.io.work     := !returnBeerDoneReg
       viewBoxFSM.io.work        := !viewBoxDoneReg
+      menuFSM.io.work           := !menuDoneReg
 
 
 
@@ -418,9 +429,12 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
       when(viewBoxFSM.io.done){
         viewBoxDoneReg := true.B
       }
+      when(menuFSM.io.done) {
+        menuDoneReg := true.B
+      }
 
       when(
-        playerDoneReg && beerDoneReg && scoreFSMDoneReg && spawnCustomerReg && backgroundDoneReg && returnBeerDoneReg && viewBoxDoneReg
+        playerDoneReg && beerDoneReg && scoreFSMDoneReg && spawnCustomerReg && backgroundDoneReg && returnBeerDoneReg && viewBoxDoneReg && menuDoneReg
       ) {
         stateReg := done
       }

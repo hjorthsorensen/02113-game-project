@@ -1,0 +1,51 @@
+import chisel3._
+import chisel3.util._
+
+class MenuControlFSM extends Module {
+    val io = IO(new Bundle {
+        val work = Input(Bool())
+        val btnC = Input(Bool())
+        val btnU = Input(Bool())
+        val btnD = Input(Bool())
+
+        val stageID = Output(UInt(2.W))
+        val outOfMenu = Output(Bool())
+        val done = Output(Bool())
+    })
+
+
+    val idle :: busy :: finished :: Nil = Enum(3)
+    val stateReg = RegInit(idle)
+    val stageIDReg = RegInit(3.U(2.W))
+
+    val outOfMenuReg = RegInit(false.B)
+    io.outOfMenu := outOfMenuReg
+
+
+    when (outOfMenuReg) {
+        stateReg := finished
+    }
+
+    io.stageID := stageIDReg
+    io.done := false.B
+
+
+    switch(stateReg){
+        is(idle){
+            when(io.work){
+                stateReg := busy
+            }
+        }
+        is(busy){
+            when (io.btnC) {
+                stageIDReg := 0.U
+                outOfMenuReg := true.B
+            }
+            stateReg := finished
+        }
+        is(finished){
+            stateReg := idle
+            io.done := true.B
+        }
+    }
+}
