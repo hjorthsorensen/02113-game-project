@@ -41,7 +41,7 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   val customerAnimDirReg         = RegInit(VecInit.fill(Customers)(true.B))
   val customerScoreDoneReg       = RegInit(VecInit.fill(Customers)(false.B))
   
-  val customerSeatXReg           = RegInit(VecInit.fill(Customers)(1.U(2.W)))
+  val customerSeatXReg           = RegInit(VecInit.fill(Customers)(1.U(3.W)))
   val customerSeatYReg           = RegInit(VecInit.fill(Customers)(2.U(2.W)))
   
   val customerSpawnDelayReg      = RegInit(VecInit.fill(Customers)(0.U(9.W)))
@@ -57,20 +57,28 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
 
   val noise = random.LFSR(degreeOfRandom, true.B)
 
-  val xSpawnValues = VecInit(128.S(11.W), 200.S(11.W), 275.S(11.W), 352.S(11.W))
+  val xSpawnValues = VecInit(128.S(11.W), 200.S(11.W), 275.S(11.W), 352.S(11.W),160.S(11.W), 232.S(11.W), 307.S(11.W), 384.S(11.W))
   val ySpawnValues = VecInit(192.S(10.W), 256.S(10.W), 320.S(10.W), 384.S(11.W))
 
   when (isFirstSpawn) {
     isFirstSpawn := false.B
     for (i <- 0 until Customers) {
-      val randX = noise(1 + i, 0 + i)
-      val randY = noise(3 + i, 2 + i)
+      val randX = noise(2 + i, 0 + i)
+      val randY = noise(4 + i, 3 + i)
 
       val nextSeatX = customerSeatXReg(i) + randX
       val nextSeatY = customerSeatYReg(i) + randY
       
       customerSeatXReg(i) := nextSeatX
-      customerSeatYReg(i) := nextSeatY
+      if (i > 0) {
+        when (nextSeatY === customerSeatYReg(i - 1)) {
+          customerSeatYReg(i) := nextSeatY + 1.U
+        } .otherwise {
+          customerSeatYReg(i) := nextSeatY
+        }
+      } else {
+        customerSeatYReg(i) := nextSeatY
+      }
     
       customerXReg(i) := xSpawnValues(customerSeatXReg(i))
       customerYReg(i) := ySpawnValues(customerSeatYReg(i))
@@ -122,8 +130,8 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
         // if customer not spawned, and customer delay is 0, spawn customer.
         when((!customerSpawnedReg(i) && (customerSpawnDelayReg(i) === 0.U))) {
 
-          val randX = noise(1 + i, 0 + i)
-          val randY = noise(3 + i, 2 + i)
+          val randX = noise(2 + i, 0 + i)
+          val randY = noise(4 + i, 3 + i)
 
           val nextSeatX = customerSeatXReg(i) + randX
           val nextSeatY = customerSeatYReg(i) + randY
