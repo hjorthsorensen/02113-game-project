@@ -53,11 +53,29 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   val customerDrinkingDelayReg     = RegInit(0.U(8.W))
   val customerDrinkingAnimCycleReg = RegInit(0.U(2.W))
   val customerBegunScoringReg      = RegInit(0.U(2.W))
+  val isFirstSpawn                 = RegInit(true.B)
+
+  val noise = random.LFSR(degreeOfRandom, true.B)
 
   val xSpawnValues = VecInit(128.S(11.W), 200.S(11.W), 275.S(11.W), 352.S(11.W))
   val ySpawnValues = VecInit(192.S(10.W), 256.S(10.W), 320.S(10.W), 384.S(11.W))
-  
-  val noise = random.LFSR(degreeOfRandom, true.B)
+
+  when (isFirstSpawn) {
+    isFirstSpawn := false.B
+    for (i <- 0 until Customers) {
+      val randX = noise(1 + i, 0 + i)
+      val randY = noise(3 + i, 2 + i)
+
+      val nextSeatX = customerSeatXReg(i) + randX
+      val nextSeatY = customerSeatYReg(i) + randY
+      
+      customerSeatXReg(i) := nextSeatX
+      customerSeatYReg(i) := nextSeatY
+    
+      customerXReg(i) := xSpawnValues(customerSeatXReg(i))
+      customerYReg(i) := ySpawnValues(customerSeatYReg(i))
+    }
+  }
   
   /////////////////////////////////////////////////////
   //
@@ -101,7 +119,8 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
     is(spawn) {
       for (i <- 0 until Customers) {
         // if customer not spawned, and customer delay is 0, spawn customer.
-        when(!customerSpawnedReg(i) && (customerSpawnDelayReg(i) === 0.U)) {
+        when((!customerSpawnedReg(i) && (customerSpawnDelayReg(i) === 0.U))) {
+
           val randX = noise(1 + i, 0 + i)
           val randY = noise(3 + i, 2 + i)
 
@@ -135,6 +154,7 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
     }
 
     is (despawn) {
+
       for (i <- 0 until Customers) {
         when(io.customerScored(i)) {
           customerBegunScoringReg := (i + 1).U
