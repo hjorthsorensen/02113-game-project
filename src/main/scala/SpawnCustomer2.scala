@@ -99,6 +99,7 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
       io.customerDrinkingVisible(i) := false.B
 
       stateReg := done
+      isFirstSpawn := true.B
     }
   }
 
