@@ -112,6 +112,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
   playerMovementFSM.io.resetIn := resetIn
   spawnCustomer.io.resetIn     := resetIn
+  scoreFSM.io.resetIn          := resetIn
 
   // Connecting to beer movement
   beerMovement.io.speed := playerMovementFSM.io.beerSpeed

@@ -25,6 +25,8 @@ class ScoreFSM extends Module {
     val playerReadyToCatch = Input(Bool())
     val beerBroken = Input(Bool())
 
+    val resetIn = Input(Bool())
+
     // Outputs
     val customerOneScored = Output(Bool())
     val customerTwoScored = Output(Bool())
@@ -76,6 +78,13 @@ class ScoreFSM extends Module {
   //     customerOneScoredReg := false.B
   //     customerTwoScoredReg := false.B
   //   }
+
+  when (io.resetIn) {
+    scoreReg := 0.U
+    scoreMultiplier := 1.U
+
+    stateReg := doneState
+   }
 
   // FSM
   switch(stateReg) {
