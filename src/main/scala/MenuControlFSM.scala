@@ -24,6 +24,7 @@ class MenuControlFSM extends Module {
     val outOfMenuReg  = RegInit(false.B)
     io.outOfMenu     := outOfMenuReg
 
+    val gameOver = io.scoreDone && (io.beersLeft === 0.U)
 
     when (outOfMenuReg) {
         stateReg := finished
@@ -45,7 +46,10 @@ class MenuControlFSM extends Module {
             }
         }
         is(busy){
-            when (io.btnC) {
+            when(gameOver) {
+                stageIDReg := 2.U
+                outOfMenuReg := true.B
+            }.elsewhen (io.btnC) {
                 stageIDReg := 0.U
                 outOfMenuReg := true.B
             }

@@ -12,6 +12,7 @@ class BeerMovementFSM extends Module{
         val beerXPos        = Output(SInt(11.W))
         val beerYPos        = Output(SInt(10.W))
         val beerVisible     = Output(Bool())
+        val beerMoving   = Output(Bool())
         
         //Ready and valid signals for beer
         val beerValid       = Output(Bool())
@@ -54,6 +55,7 @@ class BeerMovementFSM extends Module{
     io.beerXPos       := beerXReg
     io.beerYPos       := beerYReg
     io.tableID        := tableIDReg
+    io.beerMoving := remainSpeed =/= 0.S
 
     //Calculating when the beer movement is done
     val doneCalc = remainSpeed === 0.S

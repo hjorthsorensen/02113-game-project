@@ -44,7 +44,7 @@ class AudioHandlerFSM extends Module {
   })
 
 //definitions
-  val event = RegInit(0.U(3.W))
+  val event = RegInit(0.U(4.W))
 
   val idle :: newEvent :: done :: Nil = Enum(3)
   val stateReg = RegInit(idle)
@@ -82,6 +82,7 @@ class AudioHandlerFSM extends Module {
     }
     is(done){
         io.done := true.B
+        stateReg := idle
     }
   }
 
