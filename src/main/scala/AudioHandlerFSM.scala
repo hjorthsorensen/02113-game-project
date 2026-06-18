@@ -34,7 +34,7 @@ class AudioHandlerFSM extends Module {
     val done = Output(Bool())
   })
 
-
+io.done := true.B
 io.events := 0.U
     /*events:
             0) nothing.

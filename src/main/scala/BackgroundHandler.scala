@@ -6,10 +6,14 @@ class BackgroundHandler extends Module {
     // Inputs
 
     val work = Input(Bool())
+
     val scoreDone = Input(Bool())
     val brokenGlassDone = Input(Bool())
     val beerDone = Input(Bool())
     val multiplierDone = Input(Bool())
+    val loadingDone = Input(Bool())
+
+
     val inputAdress = Input(UInt(10.W))
     val inputTileID = Input(UInt(5.W))
 
@@ -22,12 +26,14 @@ class BackgroundHandler extends Module {
     val brokenGlassWork = Output(Bool())
     val beerWork = Output(Bool())
     val multiplierWork = Output(Bool())
+    val loadingWork = Output(Bool())
+
     val done = Output(Bool())
 
   })
 
-  val idle :: scoreBoard :: multiplier :: brokenGlass :: beerLeft :: done :: Nil =
-    Enum(6)
+  val idle :: scoreBoard :: multiplier :: brokenGlass :: beerLeft :: loading :: done :: Nil =
+    Enum(7)
   val stateReg = RegInit(idle)
 
   io.writeAdress := io.inputAdress
@@ -39,6 +45,7 @@ class BackgroundHandler extends Module {
   io.beerWork := false.B
   io.multiplierWork := false.B
   io.done := false.B
+  io.loadingWork := false.B
 
   switch(stateReg) {
     is(idle) {
@@ -75,8 +82,16 @@ class BackgroundHandler extends Module {
       io.writeEnable := true.B
 
       when(io.beerDone) {
-        stateReg := done
+        io.loadingWork := true.B
+        stateReg := loading
       }
+    }
+    is(loading){
+        io.writeEnable := true.B
+        when(io.loadingDone){
+            stateReg := done
+        }
+
     }
     is(done) {
       io.done := true.B
