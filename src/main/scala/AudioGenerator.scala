@@ -3,7 +3,7 @@ import chisel3.util._
 
 class AudioGenerator extends Module{
     val io = IO(new Bundle{
-        val beerSliding = Input(Bool())
+        val beerSpeed = Input(SInt(8.W))
 
         val sampleReady = Input(Bool())
         val audioDataOut = Output(SInt(16.W))
@@ -11,6 +11,8 @@ class AudioGenerator extends Module{
      })
 
     val noteSelector = RegInit(0.U(4.W))
+    val frequencyReg = RegInit(0.U(12.W))
+    frequencyReg := io.beerSpeed.asUInt
     val tonePeriodLUT = MuxLookup(noteSelector, 0.U(12.W))(Seq(
   0.U  -> 0.U,    // Mute / Rest
   1.U  -> 42.U,   // Middle C (261.6 Hz)
@@ -25,18 +27,18 @@ val data = RegInit(32000.S(16.W))
 
 val tonePeriodCountReg = RegInit(0.U(8.W))
 val toneFlipReg = RegInit(false.B)
-
+val beerSliding = RegInit(io.beerSpeed =/= 0.S)
     //io assignments.
-    io.debugEvent := io.beerSliding === true.B
+    io.debugEvent := beerSliding === true.B
     io.audioDataOut := data
 
 
-    switch(io.beerSliding){
+    switch(beerSliding){
         is(false.B){
             noteSelector := 0.U
         }
         is(true.B){
-            noteSelector := 2.U
+            noteSelector := frequencyReg
         }
     }
 
