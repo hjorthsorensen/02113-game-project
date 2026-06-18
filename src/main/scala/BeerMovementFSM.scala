@@ -4,22 +4,23 @@ import chisel3.util._
 class BeerMovementFSM extends Module{
     val io = IO(new Bundle {
         //Inputs
-        val speed = Input(SInt(8.W))
-        val work = Input(Bool())
-        val beerYPosInp = Input(SInt(10.W))
+        val speed           = Input(SInt(8.W))
+        val work            = Input(Bool())
+        val beerYPosInp     = Input(SInt(10.W))
         
         //Outputs for beer movement
-        val beerXPos = Output(SInt(11.W))
-        val beerYPos = Output(SInt(10.W))
-        val beerVisible = Output(Bool())
+        val beerXPos        = Output(SInt(11.W))
+        val beerYPos        = Output(SInt(10.W))
+        val beerVisible     = Output(Bool())
         
         //Ready and valid signals for beer
-        val beerValid = Output(Bool())
-        val beerReady = Output(Bool())
-        val beerBroken = Output(Bool())
-        val tableID = Output(UInt(2.W))
+        val beerValid       = Output(Bool())
+        val beerReady       = Output(Bool())
+        val beerBroken      = Output(Bool())
+        val tableID         = Output(UInt(2.W))
 
-        val done = Output(Bool())
+        //Done signal to main FSMD
+        val done            = Output(Bool())
     })
     //FSMD states
     val idle :: busy :: doneMovement :: Nil = Enum(3)
@@ -29,30 +30,30 @@ class BeerMovementFSM extends Module{
     val inCalc = RegInit(false.B)
     
     //Registers for beer movement
-    val remainSpeed = RegInit(0.S(8.W))
-    val beerXReg = RegInit(500.S(11.W))
-    val beerYReg = RegInit(200.S(10.W))
-    val beerVisibleReg = RegInit(false.B)
+    val remainSpeed           = RegInit(0.S(8.W))
+    val beerXReg              = RegInit(500.S(11.W))
+    val beerYReg              = RegInit(200.S(10.W))
+    val beerVisibleReg        = RegInit(false.B)
     
-    val beerReadyReg = RegInit(true.B)
-    val beerValidReg = RegInit(false.B)
-    val beerBrokenReg = RegInit(false.B)
-    val tableIDReg = RegInit(0.U(2.W))
+    val beerReadyReg          = RegInit(true.B)
+    val beerValidReg          = RegInit(false.B)
+    val beerBrokenReg         = RegInit(false.B)
+    val tableIDReg            = RegInit(0.U(2.W))
 
-    val beerFallingSpeedReg = RegInit(0.S(8.W))
-    val beerFallingReg = RegInit(false.B)
+    val beerFallingSpeedReg   = RegInit(0.S(8.W))
+    val beerFallingReg        = RegInit(false.B)
 
 
     //.io connections and default outputs
-    io.done := false.B
-    io.beerValid := beerValidReg
-    io.beerBroken := beerBrokenReg
+    io.done           := false.B
+    io.beerValid      := beerValidReg
+    io.beerBroken     := beerBrokenReg
 
-    io.beerReady := beerReadyReg
-    io.beerVisible := beerVisibleReg
-    io.beerXPos := beerXReg
-    io.beerYPos := beerYReg
-    io.tableID := tableIDReg
+    io.beerReady      := beerReadyReg
+    io.beerVisible    := beerVisibleReg
+    io.beerXPos       := beerXReg
+    io.beerYPos       := beerYReg
+    io.tableID        := tableIDReg
 
     //Calculating when the beer movement is done
     val doneCalc = remainSpeed === 0.S
@@ -72,12 +73,12 @@ class BeerMovementFSM extends Module{
             when(io.work){
                 //When the beer has been thrown and the movement is done, make the beer invisible and set it ready for the next throw
                 when(!inCalc && doneCalc && (fpsReg === 45.U)){
-                    beerVisibleReg := false.B
-                    beerReadyReg := true.B   
-                    beerValidReg := false.B
-                    beerFallingReg := false.B
-                    beerBrokenReg := false.B
-                    beerXReg := 500.S
+                    beerVisibleReg   := false.B
+                    beerReadyReg     := true.B   
+                    beerValidReg     := false.B
+                    beerFallingReg   := false.B
+                    beerBrokenReg    := false.B
+                    beerXReg         := 500.S
                 }
                 when(!inCalc && doneCalc && (fpsReg === 100.U)){
                     beerBrokenReg := false.B
@@ -95,14 +96,14 @@ class BeerMovementFSM extends Module{
 
                 when(!inCalc && (io.speed =/= 0.S) && beerReadyReg){
                     //Initialize the values for the beer movement based on the input speed and the sprite's Y position
-                    beerBrokenReg := false.B
-                    fpsReg := 0.U
-                    beerVisibleReg := true.B
-                    beerReadyReg := false.B
-                    inCalc := true.B
-                    remainSpeed := io.speed
-                    beerXReg := 500.S
-                    beerYReg := io.beerYPosInp
+                    beerBrokenReg    := false.B
+                    fpsReg           := 0.U
+                    beerVisibleReg   := true.B
+                    beerReadyReg     := false.B
+                    inCalc           := true.B
+                    remainSpeed      := io.speed
+                    beerXReg         := 500.S
+                    beerYReg         := io.beerYPosInp
                 }
                 stateReg := busy
             }
@@ -118,9 +119,9 @@ class BeerMovementFSM extends Module{
         }            
         
         is(doneMovement){
-            fpsReg := fpsReg + 1.U
-            stateReg := idle
-            io.done := true.B
+            fpsReg    := fpsReg + 1.U
+            stateReg  := idle
+            io.done   := true.B
             //Only send the beer valid signal for one cycle when the movement is done and we are still in calculation 
             //(to avoid multiple score increments for the same beer)
             when(doneCalc && inCalc){
