@@ -3,6 +3,7 @@ import chisel3.util._
 
 class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
   val io = IO(new Bundle {
+    //inputs
     // STATUS
     val work = Input(Bool())
     val beerDone = Input(Bool())
@@ -10,7 +11,8 @@ class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
     val customerScored = Input(Vec(Customers, Bool()))
 
     val resetIn = Input(Bool())
-
+    //outputs
+    //STATUS
     val customerScoreDone = Output(Vec(Customers, Bool()))
 
     val done = Output(Bool())
