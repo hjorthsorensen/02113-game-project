@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util._
 
-class BeerMovement extends Module{
+class BeerMovementFSM extends Module{
     val io = IO(new Bundle {
         //Inputs
         val speed = Input(SInt(8.W))

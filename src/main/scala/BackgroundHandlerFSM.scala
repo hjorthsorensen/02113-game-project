@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util._
 
-class BackgroundHandler extends Module {
+class BackgroundHandlerFSM extends Module {
   val io = IO(new Bundle {
     // Inputs
 
