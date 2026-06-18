@@ -70,7 +70,7 @@ io.clkOut := clkReg
 
 
 
-//we only reassign readyNewEvent when noteRepeats is 0.
+//we only reassign readyNewEvent when noteRepeats is 0 and event is something other than silence.
 when(noteRepeats === 0.U && io.event =/= 0.U){
         //decide what signals to drive depending on the events.
     switch(io.event){ 
