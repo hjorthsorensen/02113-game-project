@@ -258,7 +258,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // io.led(1) := scoreFSM.io.customerTwoScored
   io.led(0):= Mux(beerMovement.io.speed =/= 0.S, true.B,false.B)
   // io.led(1) := audioHandlerFSM.io.events === 1.U
-  io.led(2) := audioGen.io.debugEvent
+  // io.led(1) := audioGen.io.debugEvent
 
   /////////////////////////////////////////////////////////////////////////
   ///// Positional and visibility logic for sprites
@@ -385,12 +385,14 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val returnBeerDoneReg   = RegInit(false.B)
   val viewBoxDoneReg      = RegInit(false.B)
   val menuDoneReg         = RegInit(false.B)
-  val audioDoneReg        = RegInit(false.B)
+
+
+
 
   //Collection of done signals
   val doneAll = (playerDoneReg && beerDoneReg && scoreFSMDoneReg && 
                 spawnCustomerDoneReg && backgroundDoneReg && returnBeerDoneReg && 
-                viewBoxDoneReg && menuDoneReg && audioDoneReg)
+                viewBoxDoneReg && menuDoneReg)
 
 
 //FSMD
@@ -407,7 +409,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
         returnBeerFSM.io.work     := true.B
         viewBoxFSM.io.work        := true.B
         menuFSM.io.work           := !menuFSM.io.outOfMenu
-        // audioHandlerFSM.io.work   := true.B
+
 
         //Registers all assigned false
         playerDoneReg             := false.B
@@ -418,7 +420,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
         returnBeerDoneReg         := false.B
         viewBoxDoneReg            := false.B
         menuDoneReg               := false.B
-        audioDoneReg              := false.B
+        
       }
     }
     is(compute1) {
@@ -458,9 +460,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
       when(menuFSM.io.done) {
         menuDoneReg := true.B
       }
-      // when(audioHandlerFSM.io.done){
-      //   audioDoneReg := true.B
-      // }
+      
 
       when(doneAll) {
         stateReg := done
