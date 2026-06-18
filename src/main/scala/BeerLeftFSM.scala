@@ -27,8 +27,8 @@ class BeerLeftFSM extends Module{
 
     val RightDigitReg = RegInit(0.U(4.W))
     val MiddleDigitReg = RegInit(0.U(4.W))
-    // val wireScore = cat(LeftLeftDigitReg, LeftDigitReg, MiddleDigitReg, RightDigitReg,scoreReg)
-
+    
+//Double Dabble method for 2 digits
    def doubleDabble(score: UInt): (UInt, UInt) = {
     val shiftRegInit = Cat(0.U(8.W), score(7, 0)) // 16bit digits + 16bit input
     var shiftReg = shiftRegInit

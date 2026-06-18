@@ -5,24 +5,23 @@ class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
   val io = IO(new Bundle {
     //inputs
     // STATUS
-    val work = Input(Bool())
-    val beerDone = Input(Bool())
-
-    val customerScored = Input(Vec(Customers, Bool()))
-
-    val resetIn = Input(Bool())
+    val work                       = Input(Bool())
+    val beerDone                   = Input(Bool())
+    val customerScored             = Input(Vec(Customers, Bool()))
+    //Reset
+    val resetIn                    = Input(Bool())
     //outputs
     //STATUS
-    val customerScoreDone = Output(Vec(Customers, Bool()))
+    val customerScoreDone          = Output(Vec(Customers, Bool()))
+    //Done signal to main FSMD
+    val done                       = Output(Bool())
 
-    val done = Output(Bool())
-
-    // SPRITES
-    val customerPosX = Output(Vec(Customers, SInt(11.W)))
-    val customerPosY = Output(Vec(Customers, SInt(10.W)))
-    val customerIdleVisible = Output(Vec(Customers, Bool()))
-    val customerDrinkingVisible = Output(Vec(Customers, Bool()))
-    val customerFlipped = Output(Vec(Customers, Bool()))
+    // SPRITES OUTPUT
+    val customerPosX               = Output(Vec(Customers, SInt(11.W)))
+    val customerPosY               = Output(Vec(Customers, SInt(10.W)))
+    val customerIdleVisible        = Output(Vec(Customers, Bool()))
+    val customerDrinkingVisible    = Output(Vec(Customers, Bool()))
+    val customerFlipped            = Output(Vec(Customers, Bool()))
   })
 
   ///////////////////////////////////////////
@@ -94,14 +93,14 @@ class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
   /////////////////////////////////////////////////////
   for (i <- 0 until Customers) {
 
-    io.customerPosX(i) := customerXReg(i)
-    io.customerPosY(i) := customerYReg(i)
-    io.customerIdleVisible(i) := customerIdleVisibleReg(i)
-    io.customerDrinkingVisible(i) := customerDrinkingVisibleReg(i)
-    io.customerScoreDone(i) := customerScoreDoneReg(i)
-    io.customerFlipped(i) := customerFlippedReg(i)
+    io.customerPosX(i)             := customerXReg(i)
+    io.customerPosY(i)             := customerYReg(i)
+    io.customerIdleVisible(i)      := customerIdleVisibleReg(i)
+    io.customerDrinkingVisible(i)  := customerDrinkingVisibleReg(i)
+    io.customerScoreDone(i)        := customerScoreDoneReg(i)
+    io.customerFlipped(i)          := customerFlippedReg(i)
     
-    customerScoreDoneReg(i) := false.B
+    customerScoreDoneReg(i)        := false.B
     
     when(io.resetIn) {
       io.customerIdleVisible(i) := false.B  
@@ -151,13 +150,13 @@ class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
           }
         
 
-          customerXReg(i) := xSpawnValues(customerSeatXReg(i))
-          customerYReg(i) := ySpawnValues(customerSeatYReg(i))
-          customerIdleVisibleReg(i) := true.B
-          customerSpawnedReg(i) := true.B
-          customerSpawnDelayReg(i) := 240.U
-          customerAnimCycleReg(i) := 0.U
-          customerAnimDirReg(i) := true.B
+          customerXReg(i)            := xSpawnValues(customerSeatXReg(i))
+          customerYReg(i)            := ySpawnValues(customerSeatYReg(i))
+          customerIdleVisibleReg(i)  := true.B
+          customerSpawnedReg(i)      := true.B
+          customerSpawnDelayReg(i)   := 240.U
+          customerAnimCycleReg(i)    := 0.U
+          customerAnimDirReg(i)      := true.B
         }
       }
 
@@ -198,16 +197,16 @@ class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
           when(!(customerDrinkingDelayReg === 45.U) && customerDrinkingAnimCycleReg === 2.U) {
             customerDrinkingDelayReg := customerDrinkingDelayReg + 1.U
           } .elsewhen(customerDrinkingDelayReg === 45.U && customerDrinkingAnimCycleReg === 2.U) {
-            customerXReg(i) := 0.S
-            customerYReg(i) := 0.S
-            customerIdleVisibleReg(i) := false.B
-            customerDrinkingVisibleReg(i) := false.B
-            customerSpawnedReg(i) := false.B
-            customerScoreDoneReg(i) := true.B
-            customerBegunScoringReg := 0.U
-            customerDrinkingAnimCycleReg := 0.U
-            customerDrinkingDelayReg := 0.U
-            customerSpawnDelayReg(i) := 240.U
+            customerXReg(i)                 := 0.S
+            customerYReg(i)                 := 0.S
+            customerIdleVisibleReg(i)       := false.B
+            customerDrinkingVisibleReg(i)   := false.B
+            customerSpawnedReg(i)           := false.B
+            customerScoreDoneReg(i)         := true.B
+            customerBegunScoringReg         := 0.U
+            customerDrinkingAnimCycleReg    := 0.U
+            customerDrinkingDelayReg        := 0.U
+            customerSpawnDelayReg(i)        := 240.U
           }
         } 
       }

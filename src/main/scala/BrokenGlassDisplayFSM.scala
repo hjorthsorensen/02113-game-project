@@ -4,18 +4,18 @@ import chisel3.util._
 class BrokenGlassDisplayFSM extends Module{
     val io = IO(new Bundle {
         //Inputs
-        val work = Input(Bool())
-        val beerBroken = Input(Bool())
-        val tableID = Input(UInt(2.W))
+        val work                = Input(Bool())
+        val beerBroken          = Input(Bool())
+        val tableID             = Input(UInt(2.W))
         
         
         //Outputs for background
         // val scoreTileAmount = Output(UInt(4.W))
-        val writeAdress = Output(UInt(10.W))
-        val writeTileID = Output(UInt(6.W))
-        val writingBrokenGlass = Output(Bool())
+        val writeAdress         = Output(UInt(10.W))
+        val writeTileID         = Output(UInt(6.W))
+        val writingBrokenGlass  = Output(Bool())
         
-        val done = Output(Bool())
+        val done                = Output(Bool())
 
     })
 
@@ -23,7 +23,7 @@ class BrokenGlassDisplayFSM extends Module{
     val stateReg = RegInit(idle)
     // val tile1 :: tile2 :: tile3 :: Nil = Enum(3)
     // val tileReg = RegInit(tile1)
-    val brokenGlassReg = RegInit(false.B)
+    val brokenGlassReg          = RegInit(false.B)
     val brokenGlassWriteDoneReg = RegInit(false.B)
 
     def risingEdge(signal: Bool): Bool = signal && !RegNext(signal)
@@ -36,10 +36,10 @@ class BrokenGlassDisplayFSM extends Module{
         brokenGlassReg := true.B
     }
 
-    io.done := brokenGlassWriteDoneReg
-    io.writeAdress := 0.U
-    io.writeTileID := 0.U
-    io.writingBrokenGlass := false.B
+    io.done                := brokenGlassWriteDoneReg
+    io.writeAdress         := 0.U
+    io.writeTileID         := 0.U
+    io.writingBrokenGlass  := false.B
 
     val tile1BrokenReg = RegInit(false.B)
     val tile2BrokenReg = RegInit(false.B) 

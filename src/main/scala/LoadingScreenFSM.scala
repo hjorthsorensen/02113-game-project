@@ -3,21 +3,25 @@ import chisel3.util._
 
 class LoadingScreenFSM extends Module{
     val io = IO(new Bundle {
+        //work signal from backgroundHandler
         val work = Input(Bool())
 
+        //Adress and tileID to bgHandler
         val writeAdress = Output(UInt(10.W))
         val writeTileID = Output(UInt(6.W))
         val writingLoading = Output(Bool())
-
+        
+        //Done signal to bgHandler
         val done = Output(Bool())
 
     })
     
-    val loadingStateReg = RegInit(VecInit.fill(8)(false.B))
-    val loadIconID = (56).U
-    val loadIconBackID = (57).U
-    val defaultAdressLoad = 305.U
+    val loadingStateReg    = RegInit(VecInit.fill(8)(false.B))
+    val loadIconID         = (56).U
+    val loadIconBackID     = (57).U
+    val defaultAdressLoad  = 305.U
 
+    //Method to determine empty or filled dot for loading screen
     def whichTileID(ID : Bool):(UInt) = {
         // val result = WireDefault(0.U(5.W))
         // when(ID){
@@ -31,13 +35,13 @@ class LoadingScreenFSM extends Module{
     }
 
     //Registers
-    val writingTile = RegInit(0.U(3.W))
-    val fpsCount = RegInit(0.U(7.W))
+    val writingTile     = RegInit(0.U(3.W))
+    val fpsCount        = RegInit(0.U(7.W))
 
-    io.writeAdress := 0.U
-    io.writeTileID := 0.U
-    io.writingLoading := false.B
-    io.done := false.B
+    io.writeAdress     := 0.U
+    io.writeTileID     := 0.U
+    io.writingLoading  := false.B
+    io.done            := false.B
 
 
 
@@ -149,12 +153,12 @@ class LoadingScreenFSM extends Module{
             when(fpsCount > 100.U){
                 fpsCount := 0.U
             }
-            stateReg := done
+            stateReg  := done
         }
         is(done){
-            fpsCount := fpsCount + 1.U
-            io.done := true.B
-            stateReg := idle
+            fpsCount  := fpsCount + 1.U
+            io.done   := true.B
+            stateReg  := idle
         }
     }
   

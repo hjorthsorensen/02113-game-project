@@ -8,45 +8,53 @@ import chisel3.util._
 class ScoreFSM extends Module {
   val io = IO(new Bundle {
     // Inputs
-    val work = Input(Bool())
-    val customerOnePositionX = Input(SInt(11.W))
-    val customerOnePositionY = Input(SInt(10.W))
-    val customerTwoPositionX = Input(SInt(11.W))
-    val customerTwoPositionY = Input(SInt(10.W))
-    val beerPositionX = Input(SInt(11.W))
-    val beerPositionY = Input(SInt(10.W))
-    val beerEmptyY = Input(SInt(10.W))
-    val beerEmptyX = Input(SInt(11.W))
-    val emptyBeerValid = Input(Bool())
-    val beerValid = Input(Bool())
-    val customerOneScoredInp = Input(Bool())
-    val customerTwoScoredInp = Input(Bool())
-    val playerY = Input(SInt(10.W))
-    val playerReadyToCatch = Input(Bool())
-    val beerBroken = Input(Bool())
+    val work                    = Input(Bool())
+    //Customer
+    val customerOnePositionX    = Input(SInt(11.W))
+    val customerOnePositionY    = Input(SInt(10.W))
+    val customerTwoPositionX    = Input(SInt(11.W))
+    val customerTwoPositionY    = Input(SInt(10.W))
 
-    val resetIn = Input(Bool())
+    //Beer
+    val beerPositionX           = Input(SInt(11.W))
+    val beerPositionY           = Input(SInt(10.W))
+    val beerEmptyY              = Input(SInt(10.W))
+    val beerEmptyX              = Input(SInt(11.W))
+    val emptyBeerValid          = Input(Bool())
+    val beerValid               = Input(Bool())
+
+    //Customer scoring
+    val customerOneScoredInp    = Input(Bool())
+    val customerTwoScoredInp    = Input(Bool())
+
+    //Playerinput
+    val playerY                 = Input(SInt(10.W))
+    val playerReadyToCatch      = Input(Bool())
+    val beerBroken              = Input(Bool())
+
+    //Reset signal
+    val resetIn                 = Input(Bool())
 
     // Outputs
-    val customerOneScored = Output(Bool())
-    val customerTwoScored = Output(Bool())
-    val currentMultiplier = Output(UInt(5.W))
-    val done = Output(Bool())
-    val score = Output(UInt(16.W))
-    val beerCatched = Output(Bool())
+    val customerOneScored       = Output(Bool())
+    val customerTwoScored       = Output(Bool())
+    val currentMultiplier       = Output(UInt(5.W))
+    val done                    = Output(Bool())
+    val score                   = Output(UInt(16.W))
+    val beerCatched             = Output(Bool())
 
 
   })
 
   // Registers
-  val scoreReg = RegInit(0.U(16.W))
-  val customerOneScoredReg = RegInit(false.B)
-  val customerTwoScoredReg = RegInit(false.B)
-  val beerCatched = RegInit(false.B)
-  val beerCatchedIdleCntReg = RegInit(0.U(6.W))
-  val scoreMultiplier = RegInit(1.U(8.W))
-  customerOneScoredReg := false.B
-  customerTwoScoredReg := false.B
+  val scoreReg                = RegInit(0.U(16.W))
+  val customerOneScoredReg    = RegInit(false.B)
+  val customerTwoScoredReg    = RegInit(false.B)
+  val beerCatched             = RegInit(false.B)
+  val beerCatchedIdleCntReg   = RegInit(0.U(6.W))
+  val scoreMultiplier         = RegInit(1.U(8.W))
+  customerOneScoredReg       := false.B
+  customerTwoScoredReg       := false.B
 
   def fallingEdge(signal: Bool): Bool = !signal && RegNext(signal)
   val validFallingEdge = fallingEdge(io.beerValid)
@@ -63,10 +71,10 @@ class ScoreFSM extends Module {
 
   // val hitBoxEmptyBeer = (io.beerEmptyX >= (512 - 32).S) && (io.beerEmptyX <= 512.S) && (io.playerY === io.beerEmptyY)
 
-  val hitBoxXEmptyBeer = (io.beerEmptyX >= (512 - 32).S) && (io.beerEmptyX <= 512.S)
-  val hitBoxYEmptyBeer = (io.playerY === io.beerEmptyY)
-  val hitBoxValid = hitBoxXEmptyBeer && hitBoxYEmptyBeer
-  val beerCatchAttempt = RegInit(false.B)
+  val hitBoxXEmptyBeer    = (io.beerEmptyX >= (512 - 32).S) && (io.beerEmptyX <= 512.S)
+  val hitBoxYEmptyBeer    = (io.playerY === io.beerEmptyY)
+  val hitBoxValid         = hitBoxXEmptyBeer && hitBoxYEmptyBeer
+  val beerCatchAttempt    = RegInit(false.B)
 
 
   // State definitions
@@ -79,10 +87,9 @@ class ScoreFSM extends Module {
   //   }
 
   when (io.resetIn) {
-    scoreReg := 0.U
+    scoreReg        := 0.U
     scoreMultiplier := 1.U
-
-    stateReg := doneState
+    stateReg        := doneState
   }
 
   // FSM
@@ -133,24 +140,24 @@ class ScoreFSM extends Module {
         beerCatchedIdleCntReg := beerCatchedIdleCntReg + 1.U
       }
       when(beerCatchedIdleCntReg === 30.U){
-        beerCatchedIdleCntReg := 0.U
-        beerCatched := false.B
-        beerCatchAttempt := false.B
+        beerCatchedIdleCntReg   := 0.U
+        beerCatched             := false.B
+        beerCatchAttempt        := false.B
       }
 
       when(
         io.emptyBeerValid && hitBoxValid && io.playerReadyToCatch && !beerCatchAttempt
       ) {
         scoreReg := scoreReg + 1.U
-        scoreMultiplier := scoreMultiplier + 1.U
-        beerCatched := true.B
-        beerCatchAttempt := true.B
+        scoreMultiplier        := scoreMultiplier + 1.U
+        beerCatched            := true.B
+        beerCatchAttempt       := true.B
       }.elsewhen(
         io.emptyBeerValid && ((scoreReg - 1.U) > 0.U) && !beerCatchAttempt && hitBoxXEmptyBeer && (!hitBoxYEmptyBeer || !io.playerReadyToCatch)
       ) {
-        beerCatchAttempt := true.B
-        scoreReg := scoreReg - 1.U
-        scoreMultiplier := 1.U
+        beerCatchAttempt       := true.B
+        scoreReg               := scoreReg - 1.U
+        scoreMultiplier        := 1.U
       }
     }
     is(doneState) {
@@ -159,11 +166,11 @@ class ScoreFSM extends Module {
     }
   }
 
-  // Output the score
-  io.score := scoreReg
-  io.done := stateReg === doneState
-  io.customerOneScored := customerOneScoredReg
-  io.customerTwoScored := customerTwoScoredReg
-  io.beerCatched := beerCatched
-  io.currentMultiplier := scoreMultiplier
+  // Output the score, default io assignments
+  io.score               := scoreReg
+  io.done                := stateReg === doneState
+  io.customerOneScored   := customerOneScoredReg
+  io.customerTwoScored   := customerTwoScoredReg
+  io.beerCatched         := beerCatched
+  io.currentMultiplier   := scoreMultiplier
 }

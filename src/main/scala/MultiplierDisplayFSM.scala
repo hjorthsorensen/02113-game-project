@@ -3,24 +3,27 @@ import chisel3.util._
 
 class MultiplierDisplayFSM extends Module {
   val io = IO(new Bundle {
-    val multiplier = Input(UInt(5.W))
-    val work = Input(Bool())
+    //Input signals from scoreFSM and main FSMD
+    val multiplier          = Input(UInt(5.W))
+    val work                = Input(Bool())
 
-    val writeAdress = Output(UInt(10.W))
-    val writeTileID = Output(UInt(6.W))
-    val writingMultiplier = Output(Bool())
-
-    val done = Output(Bool())
+    //Output to BGHandler
+    val writeAdress         = Output(UInt(10.W))
+    val writeTileID         = Output(UInt(6.W))
+    val writingMultiplier   = Output(Bool())
+    //Done signal to BGHandler
+    val done                = Output(Bool())
   })
 
   val idle :: calcDigits :: busy :: doneState :: Nil = Enum(4)
   val stateReg = RegInit(idle)
   
-  val multiplierReg = RegInit(0.U(8.W))
+  val multiplierReg   = RegInit(0.U(8.W))
+  
+  val rightDigitReg   = RegInit(0.U(4.W)) // ones
+  val leftDigitReg    = RegInit(0.U(4.W))  // tens
 
-  val rightDigitReg = RegInit(0.U(4.W)) // ones
-  val leftDigitReg = RegInit(0.U(4.W))  // tens
-
+  //Double Dabble method for 2 digits
   def doubleDabble(score: UInt): (UInt, UInt) = {
     val shiftRegInit = Cat(0.U(8.W), score(7, 0)) 
     var shiftReg = shiftRegInit
@@ -45,14 +48,14 @@ class MultiplierDisplayFSM extends Module {
     )
   }
 
-  val multiplierIDReg = RegInit(0.U(2.W))
-  val multiplierWriteDoneReg = RegInit(false.B)
-  val waitReg = RegInit(0.U(5.W))
+  val multiplierIDReg          = RegInit(0.U(2.W))
+  val multiplierWriteDoneReg   = RegInit(false.B)
+  val waitReg                  = RegInit(0.U(5.W))
 
-  io.done := multiplierWriteDoneReg
-  io.writeAdress := 0.U
-  io.writeTileID := 0.U
-  io.writingMultiplier := false.B
+  io.done                     := multiplierWriteDoneReg
+  io.writeAdress              := 0.U
+  io.writeTileID              := 0.U
+  io.writingMultiplier        := false.B
 
   switch(stateReg) {
     is(idle) {
@@ -87,9 +90,9 @@ class MultiplierDisplayFSM extends Module {
       }
     }
     is(doneState) {
-      multiplierWriteDoneReg := true.B
-      multiplierIDReg := 0.U
-      stateReg := idle
+      multiplierWriteDoneReg   := true.B
+      multiplierIDReg          := 0.U
+      stateReg                 := idle
     }
   }
 }
