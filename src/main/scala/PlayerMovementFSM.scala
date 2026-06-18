@@ -8,34 +8,37 @@ import chisel3.util._
 
 class PlayerMovementFSM() extends Module {
   val io = IO(new Bundle {
-    //Buttons
+    //inputs
+    //buttons
     val btnC = Input(Bool())
     val btnU = Input(Bool())
     val btnL = Input(Bool())
     val btnR = Input(Bool())
     val btnD = Input(Bool())
-
     val resetIn = Input(Bool())
 
-    //SpriteA
+    //status
+    val work = Input(Bool())
+    val beerReady = Input(Bool())
+
+    //outputs
+    //Sprite
     val spriteXPosition = Output(SInt(11.W)) //-1024 to 1023
     val spriteYPosition = Output(SInt(10.W)) //-512 to 511
     val spriteVisible = Output(Bool())
     val spriteFlipHorizontal = Output(Bool())
     val spriteFlipVertical = Output(Bool())
-
-    val beerSpeed = Output(SInt(8.W))
     val spriteAnimationFrame = Output(UInt(3.W))
 
+
+    //beer
+    val beerSpeed = Output(SInt(8.W))
     val beerLeft = Output(UInt(4.W))
+    val beerPour = Output(Bool())
+    val isCatching = Output(Bool())
 
     //Status
-    val work = Input(Bool())
-    val beerReady = Input(Bool())
-    
     val done = Output(Bool())
-    val isCatching = Output(Bool())
-    val beerPour = Output(Bool())
   })
   ///////////////////////////////////////////////////
   // REGISTERS

@@ -16,10 +16,10 @@ class BeerMovement extends Module{
         //Ready and valid signals for beer
         val beerValid = Output(Bool())
         val beerReady = Output(Bool())
-        val done = Output(Bool())
         val beerBroken = Output(Bool())
         val tableID = Output(UInt(2.W))
 
+        val done = Output(Bool())
     })
     //FSMD states
     val idle :: busy :: doneMovement :: Nil = Enum(3)

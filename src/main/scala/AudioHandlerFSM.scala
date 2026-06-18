@@ -19,14 +19,19 @@ maybe connect to some switches?
 */
 class AudioHandlerFSM extends Module {
   val io = IO(new Bundle {
-
+    
+    //inputs
+    val work = Input(Bool())
     val readyNewEvent = Input(Bool())
     val beerThrown = Input(Bool())
     val pointScoring = Input(Bool())
     val beerCaught = Input(Bool())
     val beerFalling = Input(Bool())
     val beerPouring = Input(Bool())
+
+    //outputs
     val events = Output(UInt(4.W))
+    val done = Output(Bool())
   })
 
 

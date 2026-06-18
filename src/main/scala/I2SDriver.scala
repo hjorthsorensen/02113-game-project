@@ -3,12 +3,15 @@ import chisel3.util._
 
 class I2SDriver extends Module{
     val io = IO(new Bundle{
+        //inputs
         val BCLKInput = Input(Bool())
+        val generatedAudio = Input(SInt(16.W))
+        
+        //outputs
         val BCLKOutput = Output(Bool())
         val DIN = Output(Bool())
         val LRC = Output(Bool())
         val sampleReady = Output(Bool())
-        val generatedAudio = Input(SInt(16.W))
         
     })
     val audioShiftReg = RegInit(0.S(16.W))
