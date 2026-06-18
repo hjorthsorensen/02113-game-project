@@ -83,10 +83,10 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   /////////////////////////////////////////////////////////////////////////
 
   val playerMovementFSM = Module(new PlayerMovementFSM())
-  val beerMovement      = Module(new BeerMovement())
+  val beerMovement      = Module(new BeerMovementFSM())
   val scoreFSM          = Module(new ScoreFSM())
-  val spawnCustomer     = Module(new SpawnCustomer(16,2))
-  val backgroundHandler = Module(new BackgroundHandler())
+  val spawnCustomer     = Module(new SpawnCustomerFSM(16,2))
+  val backgroundHandler = Module(new BackgroundHandlerFSM())
   val scoreBoardFSM     = Module(new ScoreBoardDisplayFSM())
   val returnBeerFSM     = Module(new ReturnBeerFSM())
   val brokenGlassFSM    = Module(new BrokenGlassDisplayFSM())
@@ -250,6 +250,8 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   menuFSM.io.btnC          := io.btnC
   menuFSM.io.btnU          := io.btnU
   menuFSM.io.btnD          := io.btnD
+  menuFSM.io.scoreDone     := scoreFSM.io.done
+  menuFSM.io.beersLeft   := playerMovementFSM.io.beerLeft
 
   // DEBUG CONNECTION
   // io.led(0) := scoreFSM.io.customerOneScored

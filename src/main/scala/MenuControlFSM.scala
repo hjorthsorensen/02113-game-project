@@ -3,21 +3,17 @@ import chisel3.util._
 
 class MenuControlFSM extends Module {
     val io = IO(new Bundle {
-        //Work from main FSMD
-        val work        = Input(Bool())
+        val work       = Input(Bool())
+        val btnC       = Input(Bool())
+        val btnU       = Input(Bool())
+        val btnD       = Input(Bool())
 
-        //Inputs
-        val btnC        = Input(Bool())
-        val btnU        = Input(Bool())
-        val btnD        = Input(Bool())
-        
-        //Output for stage selection
-        val stageID     = Output(UInt(2.W))
-        val outOfMenu   = Output(Bool())
-        //Done signal to main FSMD
-        val done        = Output(Bool())
+        val stageID    = Output(UInt(2.W))
+        val outOfMenu  = Output(Bool())
+        val done       = Output(Bool())
     })
 
+    // GAME OVER = ScoreDone && Ikke flere bajer
 
     val idle :: busy :: finished :: Nil = Enum(3)
     val stateReg = RegInit(idle)
