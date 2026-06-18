@@ -16,19 +16,13 @@ class LoadingScreenFSM extends Module{
 
     })
     
-    val loadingStateReg    = RegInit(VecInit.fill(8)(false.B))
+    val loadingStateReg    = RegInit(VecInit.fill(7)(false.B))
     val loadIconID         = (56).U
     val loadIconBackID     = (57).U
     val defaultAdressLoad  = 305.U
 
     //Method to determine empty or filled dot for loading screen
     def whichTileID(ID : Bool):(UInt) = {
-        // val result = WireDefault(0.U(5.W))
-        // when(ID){
-        //     result := loadIconID
-        // }.otherwise{
-        //     result := loadIconBackID
-        // }
         (
             Mux(ID, loadIconID, loadIconBackID)
         )
@@ -88,17 +82,11 @@ class LoadingScreenFSM extends Module{
                 io.writeTileID := whichTileID(loadingStateReg(5))
             }
             when(writingTile === 6.U){
-                writingTile := writingTile + 1.U
+                writingTile := 0.U
+                stateReg := calc
                 io.writeAdress := (312).U
                 io.writeTileID := whichTileID(loadingStateReg(6))
             }
-            when(writingTile === 7.U){
-                writingTile := 0.U
-                stateReg := calc
-                io.writeAdress := (313).U
-                io.writeTileID := whichTileID(loadingStateReg(7))
-            }
-
 
         }
         is(calc){
@@ -144,11 +132,6 @@ class LoadingScreenFSM extends Module{
                 loadingStateReg(6) := false.B
             }
 
-            when(fpsCount > 80.U){
-                loadingStateReg(7) := true.B
-            }.otherwise{
-                loadingStateReg(7) := false.B
-            }
 
             when(fpsCount > 100.U){
                 fpsCount := 0.U
