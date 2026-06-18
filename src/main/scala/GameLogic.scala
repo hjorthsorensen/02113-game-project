@@ -195,7 +195,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // audioHandlerFSM.io.readyNewEvent   := false.B
 
   //connecting to audio generator
-  audioGen.io.beerSliding            := Mux(beerMovement.io.beerMoving, true.B,false.B)
+  audioGen.io.beerSpeed            := beerMovement.io.beerSpeed
   audioGen.io.sampleReady            := I2SDriver.io.sampleReady
 
   //connections to I2S driver
