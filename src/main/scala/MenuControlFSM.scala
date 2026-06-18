@@ -28,6 +28,10 @@ class MenuControlFSM extends Module {
 
     io.stageID := stageIDReg
     io.done := false.B
+    when(outOfMenuReg && io.btnU && io.btnD){
+        outOfMenuReg := false.B
+        stageIDReg := 1.U
+    }
 
 
     switch(stateReg){
