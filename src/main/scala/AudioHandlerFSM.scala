@@ -19,6 +19,18 @@ maybe connect to some switches?
 */
 class AudioHandlerFSM extends Module {
   val io = IO(new Bundle {
+
+    val readyNewEvent = Input(Bool())
+    val beerThrown = Input(Bool())
+    val pointScoring = Input(Bool())
+    val beerCaught = Input(Bool())
+    val beerFalling = Input(Bool())
+    val beerPouring = Input(Bool())
+    val events = Output(UInt(4.W))
+  })
+
+
+io.events := 0.U
     /*events:
             0) nothing.
             1) beer thrown
@@ -27,17 +39,6 @@ class AudioHandlerFSM extends Module {
             4) beer falls off the edge
             5) beer poured
      */
-    val readyNewEvent = Input(Bool())
-    val events = Output(UInt(4.W))
-    val beerThrown = Input(Bool())
-    val pointScoring = Input(Bool())
-    val beerCaught = Input(Bool())
-    val beerFalling = Input(Bool())
-    val beerPouring = Input(Bool())
-  })
-
-
-io.events := 0.U
 //when we are ready for a new event in the audio generator, we check all possible events.
   when(io.readyNewEvent) {
 

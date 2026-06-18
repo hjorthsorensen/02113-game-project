@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util._
 
-class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
+class SpawnCustomer(degreeOfRandom: Int, Customers: Int) extends Module {
   val io = IO(new Bundle {
     // STATUS
     val work = Input(Bool())
@@ -47,7 +47,7 @@ class SpawnCustomer2(degreeOfRandom: Int, Customers: Int) extends Module {
   val customerSpawnDelayReg      = RegInit(VecInit.fill(Customers)(0.U(9.W)))
   val customerFlippedReg         = RegInit(VecInit.fill(Customers)(false.B))
 
-  // SHARED RAGISTERS
+  // SHARED REGISTERS
   val customerToSpawnReg           = RegInit(0.U(2.W))
   val customerToDespawnReg         = RegInit(0.U(2.W))
   val customerDrinkingDelayReg     = RegInit(0.U(8.W))
