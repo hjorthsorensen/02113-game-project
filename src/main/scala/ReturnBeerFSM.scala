@@ -4,26 +4,29 @@ import chisel3.util._
 class ReturnBeerFSM extends Module{
     val io = IO(new Bundle {
         //Inputs
-        
-        val work = Input(Bool())
-        val isBeerCatched = Input(Bool())
+        //Work signal
+        val work               = Input(Bool())
+        val isBeerCatched      = Input(Bool())
 
-        val returnCustomer1 = Input(Bool())
-        val returnCustomer2 = Input(Bool())
+        //Which costumer is returning
+        val returnCustomer1    = Input(Bool())
+        val returnCustomer2    = Input(Bool())
 
-        val customer1XPos = Input(SInt(11.W))
-        val customer1YPos = Input(SInt(10.W))
-        val customer2XPos = Input(SInt(11.W))
-        val customer2YPos = Input(SInt(10.W))
+        //Positions
+        val customer1XPos      = Input(SInt(11.W))
+        val customer1YPos      = Input(SInt(10.W))
+        val customer2XPos      = Input(SInt(11.W))
+        val customer2YPos      = Input(SInt(10.W))
         
         //Outputs for beer movement
-        val returnBeerXPos = Output(SInt(11.W))
-        val returnBeerYPos = Output(SInt(10.W))
-        val beerVisible = Output(Bool())
+        val returnBeerXPos     = Output(SInt(11.W))
+        val returnBeerYPos     = Output(SInt(10.W))
+        val beerVisible        = Output(Bool())
         
         //Valid signal for beer
-        val beerReturnValid = Output(Bool())
-        val done = Output(Bool())
+        val beerReturnValid    = Output(Bool())
+        //Done signal for main FSMD
+        val done               = Output(Bool())
 
     })
 
@@ -54,18 +57,18 @@ class ReturnBeerFSM extends Module{
     
 
 
-    val beerVisibleReg = RegInit(false.B)
-    val beerReturnValidReg = RegInit(false.B)
-    val returnBeerSpeedReg = RegInit(0.S(8.W))
+    val beerVisibleReg            = RegInit(false.B)
+    val beerReturnValidReg        = RegInit(false.B)
+    val returnBeerSpeedReg        = RegInit(0.S(8.W))
 
-    val returnCustomer1RegQueue = RegInit(false.B)
-    val returnCustomer2RegQueue = RegInit(false.B)
+    val returnCustomer1RegQueue   = RegInit(false.B)
+    val returnCustomer2RegQueue   = RegInit(false.B)
 
-    val returningCustomer1 = RegInit(false.B)
-    val returningCustomer2 = RegInit(false.B)
-
-    val fpsReg = RegInit(0.U(2.W))
-    val idleC = RegInit(0.U(8.W))
+    val returningCustomer1        = RegInit(false.B)
+    val returningCustomer2        = RegInit(false.B)
+       
+    val fpsReg                    = RegInit(0.U(2.W))
+    val idleC                     = RegInit(0.U(8.W))
 
 
 
@@ -76,47 +79,43 @@ class ReturnBeerFSM extends Module{
     when(io.returnCustomer2 && !returnCustomer2RegQueue){
         returnCustomer2RegQueue := true.B
     }
-    // when(risingEdge(io.returnCustomer1)){
-    //    returnCustomer1RegQueue := true.B
-    // }
-    // when(risingEdge(io.returnCustomer2)){
-    //     returnCustomer2RegQueue := true.B
-    // }
+ 
 
     //.io connections and default outputs
-    io.done := false.B
-    io.returnBeerXPos := returnBeerXPosReg
-    io.returnBeerYPos := returnBeerYPosReg
-    io.beerVisible := beerVisibleReg
-    io.beerReturnValid := beerReturnValidReg
+    io.done                := false.B
+    io.returnBeerXPos      := returnBeerXPosReg
+    io.returnBeerYPos      := returnBeerYPosReg
+    io.beerVisible         := beerVisibleReg
+    io.beerReturnValid     := beerReturnValidReg
 
 
     switch(stateReg){
         is(idle){
             when(io.work){
                 stateReg := busy
+                //Default assignment of returning beer based on which costumer is returning
                 when(!beerVisibleReg && returnCustomer1RegQueue){
-                    beerVisibleReg := true.B
-                    beerReturnValidReg := true.B
+                    beerVisibleReg         := true.B
+                    beerReturnValidReg     := true.B
                     when(returnBeerX1PosPrevReg < 280.S){
                         returnBeerSpeedReg := 28.S
                     }.otherwise{
                         returnBeerSpeedReg := 20.S
                     }
-                    returnBeerXPosReg := returnBeerX1PosPrevReg
-                    returnBeerYPosReg := returnBeerY1PosPrevReg
-                    returningCustomer1 := true.B
+                    returnBeerXPosReg      := returnBeerX1PosPrevReg
+                    returnBeerYPosReg      := returnBeerY1PosPrevReg
+                    returningCustomer1     := true.B
+                
                 }.elsewhen(!beerVisibleReg && returnCustomer2RegQueue){
-                    beerVisibleReg := true.B
-                    beerReturnValidReg := true.B
-                    returnBeerXPosReg := returnBeerX2PosPrevReg
-                    returnBeerYPosReg := returnBeerY2PosPrevReg
+                    beerVisibleReg         := true.B
+                    beerReturnValidReg     := true.B
+                    returnBeerXPosReg      := returnBeerX2PosPrevReg
+                    returnBeerYPosReg      := returnBeerY2PosPrevReg
                     when(returnBeerX2PosPrevReg < 280.S){
                         returnBeerSpeedReg := 28.S
                     }.otherwise{
                         returnBeerSpeedReg := 20.S
                     }
-                    // returnBeerSpeedReg := 28.S
                     returningCustomer2 := true.B
                 }
             }
@@ -129,42 +128,26 @@ class ReturnBeerFSM extends Module{
                 }
                 returnBeerSpeedReg := returnBeerSpeedReg - 1.S
                 when((returnBeerXPosReg >= 512.S || io.isBeerCatched) && returningCustomer1){
-                    beerVisibleReg := false.B
-                    beerReturnValidReg := false.B
-                    returnCustomer1RegQueue := false.B
-                    returningCustomer1 := false.B
-                    // returnCustomer2RegQueue := false.B
-                    // returningCustomer2 := false.B
+                    beerVisibleReg             := false.B
+                    beerReturnValidReg         := false.B
+                    returnCustomer1RegQueue    := false.B
+                    returningCustomer1         := false.B
+
                 }.elsewhen((returnBeerXPosReg >= 512.S || io.isBeerCatched) && returningCustomer2){
-                    beerVisibleReg := false.B
-                    beerReturnValidReg := false.B
-                    returnCustomer2RegQueue := false.B
-                    returningCustomer2 := false.B
-                    // returnCustomer1RegQueue := false.B
-                    // returningCustomer1 := false.B
+                    beerVisibleReg             := false.B
+                    beerReturnValidReg         := false.B
+                    returnCustomer2RegQueue    := false.B
+                    returningCustomer2         := false.B
+
                 }
 
             }
-            // when(!beerVisibleReg){
-            //     idleC := idleC + 1.U
-            //     when(idleC === 60.U){
-            //         idleC := 0.U
-            //         // returnCustomer2RegQueue := false.B
-            //         returningCustomer2 := false.B
-            //         // returnCustomer1RegQueue := false.B
-            //         returningCustomer1 := false.B
-            //         returnBeerXPosReg := 0.S
-            //         beerReturnValidReg := false.B
-
-            //     }
-            // }
             stateReg := done
         }
         is(done){
-            fpsReg := fpsReg + 1.U
-            
-            stateReg := idle
-            io.done := true.B
+            fpsReg    := fpsReg + 1.U
+            stateReg  := idle
+            io.done   := true.B
         }
     }
 

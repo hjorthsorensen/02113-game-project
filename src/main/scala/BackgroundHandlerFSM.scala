@@ -1,34 +1,36 @@
 import chisel3._
 import chisel3.util._
 
-class BackgroundHandler extends Module {
+class BackgroundHandlerFSM extends Module {
   val io = IO(new Bundle {
-    // Inputs
-
+    // work input
     val work = Input(Bool())
 
-    val scoreDone = Input(Bool())
-    val brokenGlassDone = Input(Bool())
-    val beerDone = Input(Bool())
-    val multiplierDone = Input(Bool())
-    val loadingDone = Input(Bool())
+    //Done signals sent by the individual FSMs which Backgroundhandler handles
+    val scoreDone        = Input(Bool())
+    val brokenGlassDone  = Input(Bool())
+    val beerDone         = Input(Bool())
+    val multiplierDone   = Input(Bool())
+    val loadingDone      = Input(Bool())
 
+    //Input adress and tileID
+    val inputAdress     = Input(UInt(10.W))
+    val inputTileID     = Input(UInt(6.W))
 
-    val inputAdress = Input(UInt(10.W))
-    val inputTileID = Input(UInt(6.W))
+    // Outputs for background writing 
+    val writeAdress     = Output(UInt(10.W))
+    val writeTileID     = Output(UInt(6.W))
+    val writeEnable     = Output(Bool())
 
-    // Outputs for background
-    val writeAdress = Output(UInt(10.W))
-    val writeTileID = Output(UInt(6.W))
-    val writeEnable = Output(Bool())
-
-    val scoreWork = Output(Bool())
+    //Output signals to start each FSM which Backgroundhandler handles
+    val scoreWork       = Output(Bool())
     val brokenGlassWork = Output(Bool())
-    val beerWork = Output(Bool())
-    val multiplierWork = Output(Bool())
-    val loadingWork = Output(Bool())
+    val beerWork        = Output(Bool())
+    val multiplierWork  = Output(Bool())
+    val loadingWork     = Output(Bool())
 
-    val done = Output(Bool())
+    //Done signal to main FSMD
+    val done            = Output(Bool())
 
   })
 
@@ -39,13 +41,14 @@ class BackgroundHandler extends Module {
   io.writeAdress := io.inputAdress
   io.writeTileID := io.inputTileID
 
-  io.writeEnable := false.B
-  io.scoreWork := false.B
-  io.brokenGlassWork := false.B
-  io.beerWork := false.B
-  io.multiplierWork := false.B
-  io.done := false.B
-  io.loadingWork := false.B
+//Default outputs
+  io.writeEnable       := false.B
+  io.scoreWork         := false.B
+  io.brokenGlassWork   := false.B
+  io.beerWork          := false.B
+  io.multiplierWork    := false.B
+  io.done              := false.B
+  io.loadingWork       := false.B
 
   switch(stateReg) {
     is(idle) {

@@ -75,6 +75,9 @@ class Top extends Module {
 object Top extends App {
   println("Processing Top, I will now generate the Verilog file!")
   emitVerilog(new Top())
+  println("#####################################################")
+  println("#########SUCCESFULLY GENERATED VERILOG FILE##########")
+  println("#####################################################")
 }
 
 //////////////////////////////////////////////////////////////////////////////
