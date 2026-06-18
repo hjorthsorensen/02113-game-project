@@ -6,7 +6,7 @@ class LoadingScreenFSM extends Module{
         val work = Input(Bool())
 
         val writeAdress = Output(UInt(10.W))
-        val writeTileID = Output(UInt(5.W))
+        val writeTileID = Output(UInt(6.W))
         val writingLoading = Output(Bool())
 
         val done = Output(Bool())
@@ -14,8 +14,8 @@ class LoadingScreenFSM extends Module{
     })
     
     val loadingStateReg = RegInit(VecInit.fill(8)(false.B))
-    val loadIconID = 56.U
-    val loadIconBackID = 57.U
+    val loadIconID = (56).U
+    val loadIconBackID = (57).U
     val defaultAdressLoad = 305.U
 
     def whichTileID(ID : Bool):(UInt) = {
@@ -91,7 +91,7 @@ class LoadingScreenFSM extends Module{
             when(writingTile === 7.U){
                 writingTile := 0.U
                 stateReg := calc
-                io.writeAdress := (312).U
+                io.writeAdress := (313).U
                 io.writeTileID := whichTileID(loadingStateReg(7))
             }
 

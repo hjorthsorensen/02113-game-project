@@ -7,7 +7,7 @@ class MultiplierDisplayFSM extends Module {
     val work = Input(Bool())
 
     val writeAdress = Output(UInt(10.W))
-    val writeTileID = Output(UInt(5.W))
+    val writeTileID = Output(UInt(6.W))
     val writingMultiplier = Output(Bool())
 
     val done = Output(Bool())

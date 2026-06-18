@@ -12,7 +12,7 @@ class BrokenGlassDisplayFSM extends Module{
         //Outputs for background
         // val scoreTileAmount = Output(UInt(4.W))
         val writeAdress = Output(UInt(10.W))
-        val writeTileID = Output(UInt(5.W))
+        val writeTileID = Output(UInt(6.W))
         val writingBrokenGlass = Output(Bool())
         
         val done = Output(Bool())

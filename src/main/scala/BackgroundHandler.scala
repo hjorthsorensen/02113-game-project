@@ -15,11 +15,11 @@ class BackgroundHandler extends Module {
 
 
     val inputAdress = Input(UInt(10.W))
-    val inputTileID = Input(UInt(5.W))
+    val inputTileID = Input(UInt(6.W))
 
     // Outputs for background
     val writeAdress = Output(UInt(10.W))
-    val writeTileID = Output(UInt(5.W))
+    val writeTileID = Output(UInt(6.W))
     val writeEnable = Output(Bool())
 
     val scoreWork = Output(Bool())
