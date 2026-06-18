@@ -7,7 +7,7 @@ class AudioGenerator extends Module{
         val sampleReady = Input(Bool())
         val audioDataOut = Output(SInt(16.W))
         val readyNewEvent = Output(Bool())
-        val clkOut = Output(Bool())
+        // val clkOut = Output(Bool())
         /*events:
             0) nothing.
             1) beer thrown
@@ -40,23 +40,7 @@ val data = RegInit(0.S(16.W))
 val tonePeriodCountReg = RegInit(0.U(8.W))
 val toneFlipReg = RegInit(false.B)
 
-    //clock divider (make in-program)
 
-
-    val ToggleLimit = 2273.U
-
-    val counterReg = RegInit(0.U(12.W))
-
-    val clkReg = RegInit(false.B)
-
-    when(counterReg === ToggleLimit - 1.U) {
-        counterReg := 0.U
-        clkReg := !clkReg // Toggle the clock
-    }.otherwise {
-        counterReg := counterReg + 1.U
-    }
-
-    //end of clock divider
 
 
 val stateReg = RegInit(0.U(4.W))
@@ -64,18 +48,19 @@ val stateReg = RegInit(0.U(4.W))
 //io assignments
 
     io.readyNewEvent := false.B
-io.audioDataOut := data
-io.clkOut := clkReg
+    io.audioDataOut := data
+// io.clkOut := clkReg
 
 
 
 
-//we only reassign readyNewEvent when noteRepeats is 0 and event is something other than silence.
-when(noteRepeats === 0.U && io.event =/= 0.U){
+//we only reassign readyNewEvent when noteRepeats is 0.
+when(noteRepeats === 0.U){
         //decide what signals to drive depending on the events.
     switch(io.event){ 
         is(0.U){
-            noteRepeats := 0.U //nothing happening.
+            noteRepeats := 1000.U //nothing happening.
+            noteSelector := 2.U
         }
         is(1.U){
             noteRepeats := 22000.U // sliding the beer. should only take abt a second.
@@ -98,7 +83,8 @@ when(noteRepeats === 0.U && io.event =/= 0.U){
             noteSelector := 2.U
         }
     }
-    data := 32000.S
+    //data to play is 0 (no audio) when event is idle, but this ensures that the chip doesnt fall asleep.
+    data := Mux(io.event === 0.U, 0.S,32000.S)
 }
 
     //decrement noteRepeats if not zero
@@ -106,7 +92,7 @@ when(noteRepeats === 0.U && io.event =/= 0.U){
         when(io.sampleReady){
         noteRepeats := noteRepeats - 1.U
         tonePeriodCountReg := tonePeriodCountReg + 1.U
-        io.audioDataOut := data
+        // io.audioDataOut := data
             when(tonePeriodCountReg === tonePeriodLUT - 1.U){
             data := -data
             tonePeriodCountReg := 0.U
@@ -117,7 +103,6 @@ when(noteRepeats === 0.U && io.event =/= 0.U){
     }.elsewhen(noteRepeats === 0.U){
         io.readyNewEvent := true.B
         noteSelector := 0.U
-        io.audioDataOut := 0.S
 
     }
 

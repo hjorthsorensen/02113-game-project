@@ -200,7 +200,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   audioGen.io.sampleReady := I2SDriver.io.sampleReady
 
   //connections to I2S driver
-  I2SDriver.io.BCLKInput := audioGen.io.clkOut
+  // I2SDriver.io.BCLKInput := audioGen.io.clkOut
   I2SDriver.io.generatedAudio := audioGen.io.audioDataOut
 
 
