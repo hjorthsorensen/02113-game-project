@@ -375,7 +375,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val playerDoneReg       = RegInit(false.B)
   val beerDoneReg         = RegInit(false.B)
   val scoreFSMDoneReg     = RegInit(false.B)
-  val spawnCustomerReg    = RegInit(false.B)
+  val spawnCustomerDoneReg    = RegInit(false.B)
   val backgroundDoneReg   = RegInit(false.B)
   val returnBeerDoneReg   = RegInit(false.B)
   val viewBoxDoneReg      = RegInit(false.B)
@@ -384,7 +384,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
 
   //Collection of done signals
   val doneAll = (playerDoneReg && beerDoneReg && scoreFSMDoneReg && 
-                spawnCustomerReg && backgroundDoneReg && returnBeerDoneReg && 
+                spawnCustomerDoneReg && backgroundDoneReg && returnBeerDoneReg && 
                 viewBoxDoneReg && menuDoneReg && audioDoneReg)
 
 
@@ -405,15 +405,15 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
         audioHandlerFSM.io.work   := true.B
 
         //Registers all assigned false
-        playerDoneReg     := false.B
-        beerDoneReg       := false.B
-        scoreFSMDoneReg   := false.B
-        spawnCustomerReg  := false.B
-        backgroundDoneReg := false.B
-        returnBeerDoneReg := false.B
-        viewBoxDoneReg    := false.B
-        menuDoneReg       := false.B
-        audioDoneReg      := false.B
+        playerDoneReg             := false.B
+        beerDoneReg               := false.B
+        scoreFSMDoneReg           := false.B
+        spawnCustomerDoneReg      := false.B
+        backgroundDoneReg         := false.B
+        returnBeerDoneReg         := false.B
+        viewBoxDoneReg            := false.B
+        menuDoneReg               := false.B
+        audioDoneReg              := false.B
       }
     }
     is(compute1) {
@@ -438,7 +438,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
         scoreFSMDoneReg := true.B
       }
       when(spawnCustomer.io.done) {
-        spawnCustomerReg := true.B
+        spawnCustomerDoneReg := true.B
       }
 
       when(backgroundHandler.io.done) {
