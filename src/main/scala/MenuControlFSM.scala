@@ -7,12 +7,15 @@ class MenuControlFSM extends Module {
         val btnC = Input(Bool())
         val btnU = Input(Bool())
         val btnD = Input(Bool())
+        val beersLeft = Input(UInt(4.W))
+        val scoreDone = Input(Bool())
 
         val stageID = Output(UInt(2.W))
         val outOfMenu = Output(Bool())
         val done = Output(Bool())
     })
 
+    // GAME OVER = ScoreDone && Ikke flere bajer
 
     val idle :: busy :: finished :: Nil = Enum(3)
     val stateReg = RegInit(idle)

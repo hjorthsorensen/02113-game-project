@@ -250,6 +250,8 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   menuFSM.io.btnC          := io.btnC
   menuFSM.io.btnU          := io.btnU
   menuFSM.io.btnD          := io.btnD
+  menuFSM.io.scoreDone     := scoreFSM.io.done
+  menuFSM.io.beersLeft   := playerMovementFSM.io.beerLeft
 
   // DEBUG CONNECTION
   // io.led(0) := scoreFSM.io.customerOneScored
