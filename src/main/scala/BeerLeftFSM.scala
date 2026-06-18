@@ -4,17 +4,17 @@ import chisel3.util._
 class BeerLeftFSM extends Module{
     val io = IO(new Bundle {
         //Inputs
-        val score = Input(UInt(8.W))
-        val work = Input(Bool())
+        val score           = Input(UInt(8.W))
+        val work            = Input(Bool())
         
         
-        //Outputs for background
-        // val scoreTileAmount = Output(UInt(4.W))
-        val writeAdress = Output(UInt(10.W))
-        val writeTileID = Output(UInt(6.W))
-        val writingScore = Output(Bool())
+        //Outputs to backgroundHandler
+        val writeAdress     = Output(UInt(10.W))
+        val writeTileID     = Output(UInt(6.W))
+        val writingScore    = Output(Bool())
         
-        val done = Output(Bool())
+        //Done signal to backgroundHandler
+        val done            = Output(Bool())
         
 
     })
