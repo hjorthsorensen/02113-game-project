@@ -7,6 +7,8 @@ class MenuControlFSM extends Module {
         val btnC       = Input(Bool())
         val btnU       = Input(Bool())
         val btnD       = Input(Bool())
+        val scoreDone  = Input(Bool())
+        val beersLeft  = Input(UInt(4.W))
 
         val stageID    = Output(UInt(2.W))
         val outOfMenu  = Output(Bool())
