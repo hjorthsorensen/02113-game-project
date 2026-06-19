@@ -38,6 +38,10 @@ class MenuControlFSM extends Module {
         outOfMenuReg := false.B
         stageIDReg := 1.U
     }
+    when(outOfMenuReg && gameOver){
+        outOfMenuReg := false.B
+        stageIDReg := 2.U
+    }
 
 
     switch(stateReg){
@@ -47,10 +51,7 @@ class MenuControlFSM extends Module {
             }
         }
         is(busy){
-            when(gameOver) {
-                stageIDReg := 2.U
-                outOfMenuReg := true.B
-            }.elsewhen (io.btnC) {
+            when (io.btnC) {
                 stageIDReg := 0.U
                 outOfMenuReg := true.B
             }
