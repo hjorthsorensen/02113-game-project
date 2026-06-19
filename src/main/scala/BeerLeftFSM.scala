@@ -21,8 +21,7 @@ class BeerLeftFSM extends Module{
 
     val idle :: calcDigits :: busy :: done :: Nil = Enum(4)
     val stateReg = RegInit(idle)
-    // val tile1 :: tile2 :: tile3 :: Nil = Enum(3)
-    // val tileReg = RegInit(tile1)
+
     val scoreReg = RegInit(0.U(8.W))
 
     val RightDigitReg = RegInit(0.U(4.W))
@@ -30,7 +29,7 @@ class BeerLeftFSM extends Module{
     
 //Double Dabble method for 2 digits
    def doubleDabble(score: UInt): (UInt, UInt) = {
-    val shiftRegInit = Cat(0.U(8.W), score(7, 0)) // 16bit digits + 16bit input
+    val shiftRegInit = Cat(0.U(8.W), score(7, 0)) // 8bit digits + 8bit input
     var shiftReg = shiftRegInit
 
     for (i <- 0 until 8) {
@@ -47,7 +46,7 @@ class BeerLeftFSM extends Module{
       shiftReg = Cat(newBcd, shiftReg(7, 0)) << 1
     }
     val result = shiftReg(15, 8)
-    (// Return the 4 base10 digits.
+    (// Return the 2 base10 digits.
       result(3, 0), // ones
       result(7, 4) // tens
     )
@@ -55,16 +54,15 @@ class BeerLeftFSM extends Module{
     
 
     val scoreIDReg = RegInit(0.U(2.W))
-    // val scoreWriteDoneReg = RegInit(false.B)
-    // scoreWriteDoneReg :=
+
     val scoreWriteDoneReg = RegInit(false.B)
     val waitReg = RegInit(0.U(5.W))
 
 
-    io.done := scoreWriteDoneReg
-    io.writeAdress := 0.U
-    io.writeTileID := 0.U
-    io.writingScore := false.B
+    io.done          := scoreWriteDoneReg
+    io.writeAdress   := 0.U
+    io.writeTileID   := 0.U
+    io.writingScore  := false.B
     
 
     switch(stateReg){
