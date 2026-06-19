@@ -258,6 +258,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // io.led(0) := scoreFSM.io.customerOneScored
   // io.led(1) := scoreFSM.io.customerTwoScored
   io.led(0):= Mux(beerMovement.io.speed =/= 0.S, true.B,false.B)
+  io.led(1) := playerMovementFSM.io.beerLeft === 0.U
   // io.led(1) := audioHandlerFSM.io.events === 1.U
   // io.led(1) := audioGen.io.debugEvent
 
