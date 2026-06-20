@@ -13,6 +13,7 @@ class MenuControlFSM extends Module {
 
         val stageID    = Output(UInt(2.W))
         val outOfMenu  = Output(Bool())
+        val changingBar= Output(Bool())
         val done       = Output(Bool())
     })
 
@@ -24,6 +25,12 @@ class MenuControlFSM extends Module {
 
     val outOfMenuReg  = RegInit(false.B)
     io.outOfMenu     := outOfMenuReg
+
+    
+    io.changingBar := false.B
+    when(stageIDReg === 1.U){
+        io.changingBar := true.B
+    }
 
     val gameOver = (io.beersLeft === 0.U) && io.scoreDone
 
@@ -64,7 +71,7 @@ class MenuControlFSM extends Module {
             stateReg := idle
             io.done := true.B
             when(gameOver) {
-                fps = fps + 1.U
+                fps := fps + 1.U
             }
         }
     }

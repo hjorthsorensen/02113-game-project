@@ -12,6 +12,7 @@ class BackgroundHandlerFSM extends Module {
     val beerDone         = Input(Bool())
     val multiplierDone   = Input(Bool())
     val loadingDone      = Input(Bool())
+    val changeBarDone    = Input(Bool())
 
     //Input adress and tileID
     val inputAdress     = Input(UInt(10.W))
@@ -28,14 +29,15 @@ class BackgroundHandlerFSM extends Module {
     val beerWork        = Output(Bool())
     val multiplierWork  = Output(Bool())
     val loadingWork     = Output(Bool())
+    val changeBarWork   = Output(Bool())
 
     //Done signal to main FSMD
     val done            = Output(Bool())
 
   })
 
-  val idle :: scoreBoard :: multiplier :: brokenGlass :: beerLeft :: loading :: done :: Nil =
-    Enum(7)
+  val idle :: scoreBoard :: multiplier :: brokenGlass :: beerLeft :: loading :: changeBar :: done :: Nil =
+    Enum(8)
   val stateReg = RegInit(idle)
 
   io.writeAdress := io.inputAdress
@@ -49,6 +51,7 @@ class BackgroundHandlerFSM extends Module {
   io.multiplierWork    := false.B
   io.done              := false.B
   io.loadingWork       := false.B
+  io.changeBarWork     := false.B
 
   switch(stateReg) {
     is(idle) {
@@ -90,8 +93,16 @@ class BackgroundHandlerFSM extends Module {
       }
     }
     is(loading){
-        io.writeEnable := true.B
-        when(io.loadingDone){
+      io.writeEnable := true.B
+      when(io.loadingDone){
+        io.changeBarWork := true.B
+        stateReg := changeBar
+      }
+
+    }
+    is(changeBar){
+      io.writeEnable := true.B
+      when(io.changeBarDone){
             stateReg := done
         }
 
