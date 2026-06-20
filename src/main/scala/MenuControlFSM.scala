@@ -26,8 +26,10 @@ class MenuControlFSM extends Module {
     val outOfMenuReg  = RegInit(false.B)
     io.outOfMenu     := outOfMenuReg
 
-    
+    val delayReg = RegInit(0.U(8.W))
+    val lockScreen = RegInit(false.B)
     io.changingBar := false.B
+
     when(stageIDReg === 1.U){
         io.changingBar := true.B
     }
@@ -43,10 +45,11 @@ class MenuControlFSM extends Module {
 
     io.stageID  := stageIDReg
     io.done     := false.B
-    //Switch to loading
+    //Switch to loading Not inside FSM cause FSM only active when outOfMenuReg === true.B
     when(outOfMenuReg && io.btnU && io.btnD){
         outOfMenuReg := false.B
         stageIDReg := 1.U
+        lockScreen := true.B
     }
     when(outOfMenuReg && gameOver){
         outOfMenuReg := false.B
@@ -61,13 +64,22 @@ class MenuControlFSM extends Module {
             }
         }
         is(busy){
-            when (io.btnC) {
+            when (io.btnC && !lockScreen) {
+                stageIDReg := 0.U
+                outOfMenuReg := true.B
+            }
+            when(lockScreen){
+                delayReg := delayReg + 1.U
+            }
+            when(delayReg === 240.U){
+                delayReg := 0.U
                 stageIDReg := 0.U
                 outOfMenuReg := true.B
             }
             stateReg := finished
         }
         is(finished){
+            
             stateReg := idle
             io.done := true.B
             when(gameOver) {
