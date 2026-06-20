@@ -29,9 +29,9 @@ class ChangeBarFSM extends Module{
     val tileAdress = (tileAdressInLine + offset)
 
     val tileMapIDCounter = RegInit(0.U(5.W))
-    //NewBar - change value(ID) of walls, floor to new tiles for change in scene
+    //NewBar - change value(ID) of walls, floor to new tiles for change in scene these are random right now except default sky
     val tileIDTable1 = VecInit(Seq(
-        26.U(6.W), //Default sky
+        26.U(6.W), //Default sky -- Important
         2.U(6.W), //Walls (windows)
         5.U(6.W), //Floor (Negroni)
         // 10.U(6.W), //Tables (table)
