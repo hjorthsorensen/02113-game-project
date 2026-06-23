@@ -389,14 +389,14 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val stateReg = RegInit(idle)
 
   //Registers for reading done signals from all the FSMD's
-  val playerDoneReg       = RegInit(false.B)
-  val beerDoneReg         = RegInit(false.B)
-  val scoreFSMDoneReg     = RegInit(false.B)
-  val spawnCustomerDoneReg    = RegInit(false.B)
-  val backgroundDoneReg   = RegInit(false.B)
-  val returnBeerDoneReg   = RegInit(false.B)
-  val viewBoxDoneReg      = RegInit(false.B)
-  val menuDoneReg         = RegInit(false.B)
+  val playerDoneReg        = RegInit(false.B)
+  val beerDoneReg          = RegInit(false.B)
+  val scoreFSMDoneReg      = RegInit(false.B)
+  val spawnCustomerDoneReg = RegInit(false.B)
+  val backgroundDoneReg    = RegInit(false.B)
+  val returnBeerDoneReg    = RegInit(false.B)
+  val viewBoxDoneReg       = RegInit(false.B)
+  val menuDoneReg          = RegInit(false.B)
 
 
 
