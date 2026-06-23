@@ -321,8 +321,8 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.spriteYPosition(8)          := beerMovement.io.beerYPos
   io.spriteYPosition(9)          := returnBeerFSM.io.returnBeerYPos
 
-  io.spriteVisible(8)            := beerMovement.io.beerVisible
-  io.spriteVisible(9)            := returnBeerFSM.io.beerVisible
+  io.spriteVisible(8)            := beerMovement.io.beerVisible && !resetIn
+  io.spriteVisible(9)            := returnBeerFSM.io.beerVisible && !resetIn
 
   /////////////////////////////////////////////////////////////////////////
   ///// Player animation logic
@@ -383,14 +383,14 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val stateReg = RegInit(idle)
 
   //Registers for reading done signals from all the FSMD's
-  val playerDoneReg       = RegInit(false.B)
-  val beerDoneReg         = RegInit(false.B)
-  val scoreFSMDoneReg     = RegInit(false.B)
-  val spawnCustomerDoneReg    = RegInit(false.B)
-  val backgroundDoneReg   = RegInit(false.B)
-  val returnBeerDoneReg   = RegInit(false.B)
-  val viewBoxDoneReg      = RegInit(false.B)
-  val menuDoneReg         = RegInit(false.B)
+  val playerDoneReg        = RegInit(false.B)
+  val beerDoneReg          = RegInit(false.B)
+  val scoreFSMDoneReg      = RegInit(false.B)
+  val spawnCustomerDoneReg = RegInit(false.B)
+  val backgroundDoneReg    = RegInit(false.B)
+  val returnBeerDoneReg    = RegInit(false.B)
+  val viewBoxDoneReg       = RegInit(false.B)
+  val menuDoneReg          = RegInit(false.B)
 
 
 
