@@ -129,7 +129,7 @@ class ScoreBoardDisplayFSM extends Module{
                 io.writeAdress := 848.U
                 io.writeTileID := LeftDigitReg + 16.U
             }.elsewhen(scoreIDReg === 7.U){
-                scoreIDReg := scoreIDReg + 1.U
+                stateReg := done
                 io.writeAdress := 849.U
                 io.writeTileID := LeftLeftDigitReg + 16.U
             }
