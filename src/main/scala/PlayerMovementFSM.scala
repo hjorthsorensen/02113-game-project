@@ -59,7 +59,7 @@ class PlayerMovementFSM() extends Module {
   val beerSpeedReg  = RegInit(0.S(8.W))
   val throwStrength = RegInit(0.S(8.W)) //-16 to 15
   val beerReady     = RegInit(false.B)
-  val beerLeftReg   = RegInit(10.U)
+  val beerLeftReg   = RegInit(15.U)
 
   // OTHER
   val btnUpPressed   = RegInit(false.B)
