@@ -59,6 +59,7 @@ class MenuControlFSM extends Module {
     when(outOfMenuReg && gameOver){
         outOfMenuReg := false.B
         stageIDReg := 2.U
+        stateReg := finished
     }
 
 
@@ -85,7 +86,6 @@ class MenuControlFSM extends Module {
         }
         is(finished){
             
-            stateReg := idle
             io.done := true.B
             when(gameOver) {
                 fps := fps + 1.U
