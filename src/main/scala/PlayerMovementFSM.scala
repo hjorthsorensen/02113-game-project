@@ -105,7 +105,7 @@ class PlayerMovementFSM() extends Module {
     beerSpeedReg  := 0.S
     throwStrength := 0.S //-16 to 15
     beerReady     := false.B
-    beerLeftReg   := 10.U
+    beerLeftReg   := 15.U
 
     // OTHER
     btnUpPressed   := false.B
