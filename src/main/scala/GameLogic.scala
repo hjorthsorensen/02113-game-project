@@ -192,18 +192,12 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   returnBeerFSM.io.returnCustomer2   := spawnCustomer.io.customerScoreDone(1)
   returnBeerFSM.io.isBeerCatched     := scoreFSM.io.beerCatched
 
-  //connecting to audio handler REDUNDANT
-  // audioHandlerFSM.io.beerCaught      := scoreFSM.io.beerCatched
-  // audioHandlerFSM.io.beerFalling     := beerMovement.io.beerBroken
-  // audioHandlerFSM.io.beerPouring     := playerMovementFSM.io.beerPour
-  // audioHandlerFSM.io.beerThrown      := Mux(beerMovement.io.speed =/= 0.S, true.B,false.B)
-  // audioHandlerFSM.io.pointScoring    := scoreFSM.io.customerOneScored || scoreFSM.io.customerTwoScored
-  // audioHandlerFSM.io.readyNewEvent   := false.B
-
   //connecting to audio generator
   audioGen.io.beerSpeed            := beerMovement.io.beerSpeed
   audioGen.io.sampleReady            := I2SDriver.io.sampleReady
-
+  audioGen.io.beerBreaking := beerMovement.io.beerBroken
+  audioGen.io.gameOver := menuFSM.io.gameOver
+  audioGen.io.ptScoring := scoreFSM.io.customerOneScored || scoreFSM.io.customerTwoScored
   //connections to I2S driver
   // I2SDriver.io.BCLKInput := audioGen.io.clkOut
   I2SDriver.io.generatedAudio := audioGen.io.audioDataOut
