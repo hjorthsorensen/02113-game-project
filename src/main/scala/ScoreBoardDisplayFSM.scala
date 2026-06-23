@@ -118,19 +118,19 @@ class ScoreBoardDisplayFSM extends Module{
                 io.writeTileID := LeftLeftDigitReg + 16.U
             }.elsewhen(scoreIDReg === 4.U){
                 scoreIDReg := scoreIDReg + 1.U
-                io.writeadress := 846.U
+                io.writeAdress := 846.U
                 io.writeTileID := RightDigitReg + 16.U
             }.elsewhen(scoreIDReg === 5.U){
                 scoreIDReg := scoreIDReg + 1.U
-                io.writeadress := 847.U
+                io.writeAdress := 847.U
                 io.writeTileID := MiddleDigitReg + 16.U
             }.elsewhen(scoreIDReg === 6.U){
                 scoreIDReg := scoreIDReg + 1.U
-                io.writeadress := 848.U
+                io.writeAdress := 848.U
                 io.writeTileID := LeftDigitReg + 16.U
             }.elsewhen(scoreIDReg === 7.U){
                 scoreIDReg := scoreIDReg + 1.U
-                io.writeadress := 849.U
+                io.writeAdress := 849.U
                 io.writeTileID := LeftLeftDigitReg + 16.U
             }
         }

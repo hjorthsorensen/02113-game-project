@@ -35,7 +35,7 @@ class MenuControlFSM extends Module {
     }
 
     def fallingEdge(signal: Bool): Bool = !signal && RegNext(signal)
-    val beerSpeedFallingEdge = fallingEdge(io.beerSpeed)
+    val beerSpeedFallingEdge = fallingEdge(io.beerSpeed === 0.S)
     
     val gameOver = (io.beersLeft === 0.U) && beerSpeedFallingEdge
 
