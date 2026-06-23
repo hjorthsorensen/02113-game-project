@@ -85,7 +85,7 @@ class MenuControlFSM extends Module {
             stateReg := finished
         }
         is(finished){
-            
+            stateReg := idle
             io.done := true.B
             when(gameOver) {
                 fps := fps + 1.U
