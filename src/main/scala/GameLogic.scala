@@ -327,8 +327,8 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   io.spriteYPosition(8)          := beerMovement.io.beerYPos
   io.spriteYPosition(9)          := returnBeerFSM.io.returnBeerYPos
 
-  io.spriteVisible(8)            := beerMovement.io.beerVisible
-  io.spriteVisible(9)            := returnBeerFSM.io.beerVisible
+  io.spriteVisible(8)            := beerMovement.io.beerVisible && !resetIn
+  io.spriteVisible(9)            := returnBeerFSM.io.beerVisible && !resetIn
 
   /////////////////////////////////////////////////////////////////////////
   ///// Player animation logic
