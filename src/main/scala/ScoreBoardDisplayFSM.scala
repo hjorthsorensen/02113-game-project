@@ -64,7 +64,7 @@ class ScoreBoardDisplayFSM extends Module{
     }
     
     //ID for which digit we are writing to
-    val scoreIDReg         = RegInit(0.U(2.W))
+    val scoreIDReg         = RegInit(0.U(3.W))
     //waitReg for waiting for the calculation of the digits for doubleDabble
     val waitReg            = RegInit(0.U(5.W))
 
@@ -113,8 +113,24 @@ class ScoreBoardDisplayFSM extends Module{
                 io.writeAdress := 15.U
                 io.writeTileID := LeftDigitReg + 16.U
             }.elsewhen(scoreIDReg === 3.U){
-                stateReg := done
+                scoreIDReg := scoreIDReg + 1.U
                 io.writeAdress := 14.U
+                io.writeTileID := LeftLeftDigitReg + 16.U
+            }.elsewhen(scoreIDReg === 4.U){
+                scoreIDReg := scoreIDReg + 1.U
+                io.writeAdress := 850.U
+                io.writeTileID := RightDigitReg + 16.U
+            }.elsewhen(scoreIDReg === 5.U){
+                scoreIDReg := scoreIDReg + 1.U
+                io.writeAdress := 849.U
+                io.writeTileID := MiddleDigitReg + 16.U
+            }.elsewhen(scoreIDReg === 6.U){
+                scoreIDReg := scoreIDReg + 1.U
+                io.writeAdress := 848.U
+                io.writeTileID := LeftDigitReg + 16.U
+            }.elsewhen(scoreIDReg === 7.U){
+                stateReg := done
+                io.writeAdress := 847.U
                 io.writeTileID := LeftLeftDigitReg + 16.U
             }
         }

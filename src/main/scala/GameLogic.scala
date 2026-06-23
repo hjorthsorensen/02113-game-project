@@ -98,6 +98,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val viewBoxFSM        = Module(new AnimateViewBoxFSM())
   val menuFSM           = Module(new MenuControlFSM)
   val loadingFSM        = Module(new LoadingScreenFSM())
+  val changeBarFSM      = Module(new ChangeBarFSM())
   /////////////////////////////////////////////////////////////////////////
   ///// FSM modules connections
   /////////////////////////////////////////////////////////////////////////
@@ -112,6 +113,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   menuFSM.io.work                := false.B
   loadingFSM.io.work             := false.B
   // audioHandlerFSM.io.work        := false.B
+  changeBarFSM.io.work           := false.B
 
   resetIn := !menuFSM.io.outOfMenu
 
@@ -172,6 +174,10 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   //Loading assignment
   loadingFSM.io.work := backgroundHandler.io.loadingWork
 
+  //ChangeBar
+  changeBarFSM.io.work := backgroundHandler.io.changeBarWork
+  changeBarFSM.io.changingBar := menuFSM.io.changingBar
+
   // Connecting to spawn customer
   spawnCustomer.io.customerScored(0) := scoreFSM.io.customerOneScored
   spawnCustomer.io.customerScored(1) := scoreFSM.io.customerTwoScored
@@ -217,6 +223,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   backgroundHandler.io.beerDone            := beerLeftFSM.io.done
   backgroundHandler.io.multiplierDone      := multiplierFSM.io.done
   backgroundHandler.io.loadingDone         := loadingFSM.io.done
+  backgroundHandler.io.changeBarDone       := changeBarFSM.io.done
 
   io.backBufferWriteAddress                := backgroundHandler.io.writeAdress
   io.backBufferWriteData                   := backgroundHandler.io.writeTileID
@@ -238,6 +245,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   }.elsewhen(loadingFSM.io.writingLoading){
     backgroundHandler.io.inputAdress := loadingFSM.io.writeAdress
     backgroundHandler.io.inputTileID := loadingFSM.io.writeTileID
+  }.elsewhen(changeBarFSM.io.writingBG){
+    backgroundHandler.io.inputAdress := changeBarFSM.io.writeAdress
+    backgroundHandler.io.inputTileID := changeBarFSM.io.writeTileID
   }
   // add .elsewhen if you want to write other things to the background as well
   
@@ -258,6 +268,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   // io.led(0) := scoreFSM.io.customerOneScored
   // io.led(1) := scoreFSM.io.customerTwoScored
   io.led(0):= Mux(beerMovement.io.speed =/= 0.S, true.B,false.B)
+  io.led(1) := playerMovementFSM.io.beerLeft === 0.U
   // io.led(1) := audioHandlerFSM.io.events === 1.U
   // io.led(1) := audioGen.io.debugEvent
 

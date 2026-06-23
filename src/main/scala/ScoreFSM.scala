@@ -86,11 +86,11 @@ class ScoreFSM extends Module {
   //     customerTwoScoredReg := false.B
   //   }
 
-  when (io.resetIn) {
+/*   when (io.resetIn) {
     scoreReg        := 0.U
     scoreMultiplier := 1.U
     stateReg        := doneState
-  }
+  } */
 
   // FSM
   switch(stateReg) {
