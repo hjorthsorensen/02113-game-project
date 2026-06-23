@@ -16,7 +16,7 @@ class AudioGenerator extends Module{
         val audioDataOut = Output(SInt(16.W))
         
         //debug output signals
-        val debugEvent = Output(Bool())
+        val debugEvent = Output(Vec(4,Bool()))
      })
 
 
@@ -87,16 +87,19 @@ beerSpeed := io.beerSpeed //io.beerSpeed is from playerMovementFSM.
 
     //BEER BROKEN SIGNAL REGS
     val beerBroken = RegInit(io.beerBreaking)
-    val 
 
 
     //GAME OVER SIGNAL REGS 
     val gameOver = RegInit(io.gameOver)
 
     //io assignments.
-    io.debugEvent := beerSliding
     io.audioDataOut := data
-
+    
+    //debugs
+    io.debugEvent(0) := beerSliding
+    io.debugEvent(1) := ptScoringReg
+    io.debugEvent(2) := beerBroken
+    io.debugEvent(3) := gameOver
 
 
 //handling of sound should be default == 0.U. if stutter is false, play whatever signal is high.
