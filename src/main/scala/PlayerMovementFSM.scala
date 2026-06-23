@@ -185,8 +185,6 @@ class PlayerMovementFSM() extends Module {
         btnDownPressed := true.B
         when(spriteYReg < (480 - 64 - 24).S && !btnDownPressed) {
           spriteYReg := spriteYReg + 64.S
-        }.elsewhen(beerLeftReg === 0.U && !btnDownPressed){
-          beerLeftReg := 10.U
         }
       } .elsewhen(io.btnU && throwStrength === 0.S){
         btnUpPressed := true.B
