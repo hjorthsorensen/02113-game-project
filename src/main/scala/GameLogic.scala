@@ -7,6 +7,7 @@
 
 import chisel3._
 import chisel3.util._
+import Chisel.debug
 
 class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   val io = IO(new Bundle {
@@ -195,7 +196,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   audioGen.io.sampleReady            := I2SDriver.io.sampleReady
   audioGen.io.beerBreaking := beerMovement.io.beerBroken
   audioGen.io.gameOver := menuFSM.io.gameOver
-  audioGen.io.ptScoring := scoreFSM.io.customerOneScored || scoreFSM.io.customerTwoScored
+  audioGen.io.ptScoring := beerMovement.io.beerValid
   //connections to I2S driver
   I2SDriver.io.generatedAudio := audioGen.io.audioDataOut
 
@@ -256,15 +257,20 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   menuFSM.io.beerSpeed     := beerMovement.io.beerSpeed
 
   // DEBUG CONNECTION
+  val debugVec = RegInit(VecInit(false.B,false.B,false.B,false.B))
+  debugVec(0) := (beerMovement.io.beerSpeed =/= 0.S)
+  debugVec(1) := beerMovement.io.beerBroken
+  debugVec(2) := beerMovement.io.beerValid
+  debugVec(3) := menuFSM.io.gameOver
 
-  io.led(0) := audioGen.io.debugEvent(0)
-  io.led(1) := audioGen.io.debugEvent(1)
-  io.led(2) := audioGen.io.debugEvent(2)
-  io.led(3) := audioGen.io.debugEvent(3)
+  io.led(0) := debugVec(0)
+  io.led(1) := debugVec(1)
+  io.led(2) := debugVec(2)
+  io.led(3) := debugVec(3)
   // io.led(0) := scoreFSM.io.customerOneScored
   // io.led(1) := scoreFSM.io.customerTwoScored
-  io.led(0):= Mux(beerMovement.io.speed =/= 0.S, true.B,false.B)
-  io.led(1) := playerMovementFSM.io.beerLeft === 0.U
+  // io.led(0):= Mux(beerMovement.io.speed =/= 0.S, true.B,false.B)
+  // io.led(1) := playerMovementFSM.io.beerLeft === 0.U
   // io.led(1) := audioHandlerFSM.io.events === 1.U
   // io.led(1) := audioGen.io.debugEvent
 
