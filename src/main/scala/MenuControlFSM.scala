@@ -15,6 +15,7 @@ class MenuControlFSM extends Module {
         val outOfMenu  = Output(Bool())
         val changingBar= Output(Bool())
         val done       = Output(Bool())
+        val gameOver   = Output(Bool())
     })
 
     // GAME OVER = ikke flere Øl, øllen er kastet.
@@ -38,6 +39,7 @@ class MenuControlFSM extends Module {
     val beerSpeedFallingEdge = risingedge(io.beerSpeed === 0.S)
     
     val gameOver = (io.beersLeft === 0.U) && beerSpeedFallingEdge
+    io.gameOver := gameOver
 
     val fps = RegInit(0.U(8.W))
 
