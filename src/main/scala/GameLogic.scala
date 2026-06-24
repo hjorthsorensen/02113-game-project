@@ -198,7 +198,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   audioGen.io.gameOver := menuFSM.io.gameOver
   //should be correct...
   audioGen.io.badThrow := beerMovement.io.beerValid
-  audioGen.io.ptScoring := scoreFSM.io.customerOneScored || scoreFSM.io.customerTwoScored
+  audioGen.io.ptScoring := (spawnCustomer.io.customerScored(0) || spawnCustomer.io.customerScored(1))
   //connections to I2S driver
   I2SDriver.io.generatedAudio := audioGen.io.audioDataOut
 
@@ -264,7 +264,7 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   debugVec(1) := beerMovement.io.beerBroken
   debugVec(2) := scoreFSM.io.customerOneScored || scoreFSM.io.customerTwoScored
   debugVec(3) := menuFSM.io.gameOver
-  debugVec(4) := beerMovement.io.beerValid && !(scoreFSM.io.customerOneScored || scoreFSM.io.customerTwoScored)
+  debugVec(4) := beerMovement.io.beerValid && !(spawnCustomer.io.customerScored(0) || spawnCustomer.io.customerScored(1))
   io.led(0) := debugVec(0)
   io.led(1) := debugVec(1)
   io.led(2) := debugVec(2)
