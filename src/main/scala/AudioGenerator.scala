@@ -69,7 +69,7 @@ val data = RegInit(32000.S(16.W))
     //stutterCntReg is the counter for how long the stutter should be.
     val stutterCntReg = RegInit(0.U(12.W))
     //repeatCntReg to check how many stutters we make.
-    val repeatCntReg = RegInit(0.U(4.W))
+    val repeatCntReg = RegInit(0.U(7.W))
     when(stutterCntReg === 63.U){
         stutterCntReg := 0.U
         stutter := !stutter
