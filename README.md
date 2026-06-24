@@ -14,6 +14,8 @@ Design Sources:
 - Top.v
 - RamSpWf.v
 - RamInitSpWf.v
+
 Constraints
 - GameBasys3.xdc
 
+Now Generate Bitstream, open the hardware manager and program device.
