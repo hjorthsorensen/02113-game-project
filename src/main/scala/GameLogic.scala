@@ -196,7 +196,9 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   audioGen.io.sampleReady            := I2SDriver.io.sampleReady
   audioGen.io.beerBreaking := beerMovement.io.beerBroken
   audioGen.io.gameOver := menuFSM.io.gameOver
-  audioGen.io.ptScoring := beerMovement.io.beerValid
+  //should be correct...
+  audioGen.io.badThrow := beerMovement.io.beerValid
+  audioGen.io.ptScoring := scoreFSM.io.customerOneScored || scoreFSM.io.customerTwoScored
   //connections to I2S driver
   I2SDriver.io.generatedAudio := audioGen.io.audioDataOut
 
@@ -257,16 +259,17 @@ class GameLogic(SpriteNumber: Int, BackTileNumber: Int) extends Module {
   menuFSM.io.beerSpeed     := beerMovement.io.beerSpeed
 
   // DEBUG CONNECTION
-  val debugVec = RegInit(VecInit(false.B,false.B,false.B,false.B))
+  val debugVec = RegInit(VecInit(false.B,false.B,false.B,false.B,false.B))
   debugVec(0) := (beerMovement.io.beerSpeed =/= 0.S)
   debugVec(1) := beerMovement.io.beerBroken
-  debugVec(2) := beerMovement.io.beerValid
+  debugVec(2) := scoreFSM.io.customerOneScored || scoreFSM.io.customerTwoScored
   debugVec(3) := menuFSM.io.gameOver
-
+  debugVec(4) := beerMovement.io.beerValid && !(scoreFSM.io.customerOneScored || scoreFSM.io.customerTwoScored)
   io.led(0) := debugVec(0)
   io.led(1) := debugVec(1)
   io.led(2) := debugVec(2)
   io.led(3) := debugVec(3)
+  io.led(4) := debugVec(4)
   // io.led(0) := scoreFSM.io.customerOneScored
   // io.led(1) := scoreFSM.io.customerTwoScored
   // io.led(0):= Mux(beerMovement.io.speed =/= 0.S, true.B,false.B)
