@@ -173,6 +173,9 @@ beerSpeed := io.beerSpeed //io.beerSpeed is from playerMovementFSM.
                 }.elsewhen(repeatCntReg <= 60.U){
                     noteSelector := 2.U
                 }.otherwise{
+                    //force us to stay here.
+                    repeatCntReg := 65.U
+                    stutterCntReg := 0.U
                     noteSelector := 0.U
                 }
             }
