@@ -52,12 +52,10 @@ class ScoreFSM extends Module {
   val customerTwoScoredReg    = RegInit(false.B)
   val beerCatched             = RegInit(false.B)
   val beerCatchedIdleCntReg   = RegInit(0.U(6.W))
-  val scoreMultiplier         = RegInit(1.U(8.W))
+  val scoreMultiplier         = RegInit(1.U(4.W))
   customerOneScoredReg       := false.B
   customerTwoScoredReg       := false.B
 
-  def fallingEdge(signal: Bool): Bool = !signal && RegNext(signal)
-  val validFallingEdge = fallingEdge(io.beerValid)
 
   val distanceX1 = WireDefault(0.S(11.W))
   val distanceY1 = WireDefault(0.S(10.W))
@@ -69,7 +67,6 @@ class ScoreFSM extends Module {
   distanceX2 := io.beerPositionX - io.customerTwoPositionX
   distanceY2 := io.beerPositionY - io.customerTwoPositionY
 
-  // val hitBoxEmptyBeer = (io.beerEmptyX >= (512 - 32).S) && (io.beerEmptyX <= 512.S) && (io.playerY === io.beerEmptyY)
 
   val hitBoxXEmptyBeer    = (io.beerEmptyX >= (512 - 32).S) && (io.beerEmptyX <= 512.S)
   val hitBoxYEmptyBeer    = (io.playerY === io.beerEmptyY)
@@ -80,17 +77,6 @@ class ScoreFSM extends Module {
   // State definitions
   val idleState :: waitingForBeerState :: glassReturn :: doneState :: Nil = Enum(4)
   val stateReg = RegInit(idleState)
-  // This fixes a bug where it adds 60 numbers a sec, but appearently it didn't look good so now it runs with an intentional bug.
-  // when(validFallingEdge){
-  //     customerOneScoredReg := false.B
-  //     customerTwoScoredReg := false.B
-  //   }
-
-/*   when (io.resetIn) {
-    scoreReg        := 0.U
-    scoreMultiplier := 1.U
-    stateReg        := doneState
-  } */
 
   // FSM
   switch(stateReg) {
@@ -146,14 +132,14 @@ class ScoreFSM extends Module {
       }
 
       when(
-        io.emptyBeerValid && hitBoxValid && io.playerReadyToCatch && !beerCatchAttempt
+        io.emptyBeerValid && hitBoxValid && io.playerReadyToCatch && !beerCatchAttempt // Beer Caught
       ) {
         scoreReg := scoreReg + 1.U
         scoreMultiplier        := scoreMultiplier + 1.U
         beerCatched            := true.B
         beerCatchAttempt       := true.B
       }.elsewhen(
-        io.emptyBeerValid && ((scoreReg - 1.U) > 0.U) && !beerCatchAttempt && hitBoxXEmptyBeer && (!hitBoxYEmptyBeer || !io.playerReadyToCatch)
+        io.emptyBeerValid && ((scoreReg - 1.U) > 0.U) && !beerCatchAttempt && hitBoxXEmptyBeer && (!hitBoxYEmptyBeer || !io.playerReadyToCatch) // Beer not caught
       ) {
         beerCatchAttempt       := true.B
         scoreReg               := scoreReg - 1.U
