@@ -66,7 +66,7 @@ val data = RegInit(32000.S(16.W))
 
     val stutter = RegInit(false.B)
     //stutterCntReg is the counter for how long the stutter should be.
-    val stutterCntReg = RegInit(0.U(6.W))
+    val stutterCntReg = RegInit(0.U(12.W))
     //repeatCntReg to check how many stutters we make.
     val repeatCntReg = RegInit(0.U(4.W))
     when(stutterCntReg === 64.U){
@@ -74,6 +74,8 @@ val data = RegInit(32000.S(16.W))
         stutter := !stutter
         repeatCntReg := Mux(noteSelector === 4.U, repeatCntReg + 1.U, 0.U)
 
+    }.elsewhen(stutterCntReg === 0.U){
+        stutter := false.B
     }
 
 
@@ -105,41 +107,60 @@ beerSpeed := io.beerSpeed //io.beerSpeed is from playerMovementFSM.
     io.debugEvent(2) := beerBroken
     io.debugEvent(3) := gameOver
 
+//source is 1.U at beerSlding, 2.U at PtScoring, 3.U at beer breaks, 4.U at game over.
+
+    when(beerSliding){
+        source :=  1.U
+    }.elsewhen(ptScoringReg){
+        source := 2.U
+    }.elsewhen(beerBroken){
+        source := 3.U
+    }.elsewhen(gameOver){
+        source := 4.U
+    }
 
 //handling of sound should be default == 0.U. if stutter is false, play whatever signal is high.
 
-    switch(stutter){
-        is(false.B){ //if stutter is not true. only true during ptscoring and game over.
+
+
+
+    when(beerSliding){
+        noteSelector := 4.U
+    }.otherwise{
+        noteSelector := 0.U
+    }
+    // switch(stutter){
+    //     is(false.B){ //when 
 
         
-        switch(source){
-            is(1.U){ //beerSliding
-            stutterCntReg := 0.U
-                noteSelector := Mux(beerSpeed.abs >= 15.S, 6.U, 3.U)
-            }
-            is(2.U){//ptScoring
-                noteSelector := 8.U
-                stutterCntReg := stutterCntReg + 1.U
+    //     switch(source){
+    //         is(1.U){ //beerSliding
+    //         stutterCntReg := 0.U
+    //             noteSelector := 6.U
+    //         }
+    //         is(2.U){//ptScoring
+    //             noteSelector := 8.U
+    //             stutterCntReg := stutterCntReg + 1.U
 
-            }
-            is(3.U){ //beerBroken
-            noteSelector := 2.U
-            stutterCntReg := stutterCntReg + 1.U
+    //         }
+    //         is(3.U){ //beerBroken
+    //         noteSelector := 2.U
+    //         stutterCntReg := stutterCntReg + 1.U
 
-            }
-            is(4.U){ //gameOver
-                //play a melody?
-            noteSelector := 1.U
-            stutterCntReg := stutterCntReg + 1.U
-            }
+    //         }
+    //         is(4.U){ //gameOver
+    //             //play a melody?
+    //         noteSelector := 1.U
+    //         stutterCntReg := stutterCntReg + 1.U
+    //         }
 
-        }
-    }
-    is (true.B){ //we are in ptscoring or gameOver.
-        noteSelector := 0.U
-        stutterCntReg := stutterCntReg + 1.U
-    }
-    }
+    //     }
+    // }
+    // is (true.B){ //we are in ptscoring or gameOver.
+    //     noteSelector := 0.U
+    //     stutterCntReg := stutterCntReg + 1.U
+    // }
+    // }
     
 
 
@@ -149,7 +170,7 @@ beerSpeed := io.beerSpeed //io.beerSpeed is from playerMovementFSM.
     //sending of sample.
     when(io.sampleReady){
         tonePeriodCountReg := tonePeriodCountReg + 1.U
-        when(tonePeriodCountReg === noteSelector - 1.U){
+        when(tonePeriodCountReg === tonePeriodLUT - 1.U){
             data := -data
             tonePeriodCountReg := 0.U
         }
