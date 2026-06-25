@@ -8,8 +8,9 @@ Xilinx Vivado
 IDE to generate files for vivado
 
 ## Instructions
-Fork / Clone project onto your machine Open in IDE Open terminal and run 
-'sbt run' and await completion. Create project in Vivado and add:
+Fork / Clone project onto your machine
+Open in IDE Open terminal and run 'sbt run' and await completion.
+Create project in Vivado and add:
 
 Design Sources:
 - Top.v
