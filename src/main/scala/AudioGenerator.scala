@@ -31,8 +31,7 @@ class AudioGenerator extends Module{
 
 //source is our inner condition for noteSelector, and it is decided from inputs from the other modules.
 val source = RegInit(0.U(4.W))
-//sources we want: beerSliding, PtScoring, beer breaks.
-//source is 1.U at beerSlding, 2.U at PtScoring, 3.U at beer breaks, 4.U at game over.
+//source is 1.U at beerSlding, 2.U at bad throw, 3.U at ptScoring, 4.U at beer breaks, 5.U at game over.
 
 
         //AUDIO
@@ -92,9 +91,15 @@ beerSpeed := io.beerSpeed //io.beerSpeed is from playerMovementFSM.
     val ptScoringReg = RegInit(false.B)
     ptScoringReg := io.ptScoring
 
-    //bad throw == didnt go to ptScoring.
+    /*
+    bad throw == didnt go to ptScoring.
+    bad throw, in practice, doesnt work, as the ptScoring doesnt work.
+    both signals from scoreFSM & spawnCustomerFSM refuse to activate while active.
+    However, the structure of the signals ensure that, when ptScoring is made to work,
+    both will work.
+    */
     val badThrowReg = RegInit(true.B)
-    badThrowReg := io.badThrow && !io.ptScoring
+    badThrowReg := io.badThrow && !ptScoringReg
 
 
     //BEER BROKEN SIGNAL REGS
@@ -174,6 +179,7 @@ beerSpeed := io.beerSpeed //io.beerSpeed is from playerMovementFSM.
                     noteSelector := 2.U
                 }.otherwise{
                     //force us to stay here.
+                    //probably could add condition to gameOverReg, to make source go back to 0.U instead.
                     repeatCntReg := 65.U
                     stutterCntReg := 0.U
                     noteSelector := 0.U
@@ -200,6 +206,7 @@ beerSpeed := io.beerSpeed //io.beerSpeed is from playerMovementFSM.
 
         }
         tonePeriodCountReg := tonePeriodCountReg + 1.U
+        //flip the data! to make the squarewave actually be a squarewave.
         when(tonePeriodCountReg === tonePeriodLUT - 1.U){
             data := -data
             tonePeriodCountReg := 0.U
