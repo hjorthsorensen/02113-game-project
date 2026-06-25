@@ -23,7 +23,7 @@ Open terminal and run 'sbt run' and await completion.
 Create project in Vivado and add:  
 
 Design Sources:  
-- Top.v  
+- Top.v  - top module
 - RamSpWf.v  
 - RamInitSpWf.v  
 
