@@ -72,7 +72,7 @@ class ReturnBeerFSM extends Module{
 
 
 
-    def risingEdge(signal: Bool): Bool = signal && !RegNext(signal)
+    //Adds a costumer to queue when they are done scoring.
     when(io.returnCustomer1 && !returnCustomer1RegQueue){
         returnCustomer1RegQueue := true.B
     }
@@ -94,9 +94,11 @@ class ReturnBeerFSM extends Module{
             when(io.work){
                 stateReg := busy
                 //Default assignment of returning beer based on which costumer is returning
+                //Costumer 1
                 when(!beerVisibleReg && returnCustomer1RegQueue){
                     beerVisibleReg         := true.B
                     beerReturnValidReg     := true.B
+                    //Conditional speed, closest is a bit slower
                     when(returnBeerX1PosPrevReg < 280.S){
                         returnBeerSpeedReg := 28.S
                     }.otherwise{
@@ -105,12 +107,13 @@ class ReturnBeerFSM extends Module{
                     returnBeerXPosReg      := returnBeerX1PosPrevReg
                     returnBeerYPosReg      := returnBeerY1PosPrevReg
                     returningCustomer1     := true.B
-                
+                //Costumer 2
                 }.elsewhen(!beerVisibleReg && returnCustomer2RegQueue){
                     beerVisibleReg         := true.B
                     beerReturnValidReg     := true.B
                     returnBeerXPosReg      := returnBeerX2PosPrevReg
                     returnBeerYPosReg      := returnBeerY2PosPrevReg
+                    //Conditional speed, closest is a bit slower
                     when(returnBeerX2PosPrevReg < 280.S){
                         returnBeerSpeedReg := 28.S
                     }.otherwise{
@@ -121,12 +124,17 @@ class ReturnBeerFSM extends Module{
             }
         }
         is(busy){
+            //Only when visible: update and move beer.
+
             when(beerVisibleReg){
+                //Beer movement
                 returnBeerXPosReg := returnBeerXPosReg + returnBeerSpeedReg
-                when(fpsReg === 1.U){
+                when(fpsReg === 1.U){//delay for slower speed update.
                     returnBeerSpeedReg := returnBeerSpeedReg - 1.S
                 }
                 returnBeerSpeedReg := returnBeerSpeedReg - 1.S
+
+                //catch or returnbeer was not catched condition, costumer based.
                 when((returnBeerXPosReg >= 512.S || io.isBeerCatched) && returningCustomer1){
                     beerVisibleReg             := false.B
                     beerReturnValidReg         := false.B
