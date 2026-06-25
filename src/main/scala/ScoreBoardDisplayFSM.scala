@@ -36,30 +36,30 @@ class ScoreBoardDisplayFSM extends Module{
     
     //Repeat for 16 cycles, corresponding to the 16 times we are shifting into the bcd wire
     for (i <- 0 until 16) {
-      val bcd = shiftReg(31, 16) // Wire to hold the digits
+        val bcd = shiftReg(31, 16) // Wire to hold the digits
     
     //values of bcd before adding 3
-      val ones          = bcd(3, 0)
-      val tens          = bcd(7, 4)
-      val hundreds      = bcd(11, 8)
-      val thousands     = bcd(15, 12)
+        val ones          = bcd(3, 0)
+        val tens          = bcd(7, 4)
+        val hundreds      = bcd(11, 8)
+        val thousands     = bcd(15, 12)
     //Values after adding 3
-      val onesAdj       = Mux(ones >= 5.U, ones + 3.U, ones)
-      val tensAdj       = Mux(tens >= 5.U, tens + 3.U, tens)
-      val hundredsAdj   = Mux(hundreds >= 5.U, hundreds + 3.U, hundreds)
-      val thousandsAdj  = Mux(thousands >= 5.U, thousands + 3.U, thousands)
+        val onesAdj       = Mux(ones >= 5.U, ones + 3.U, ones)
+        val tensAdj       = Mux(tens >= 5.U, tens + 3.U, tens)
+        val hundredsAdj   = Mux(hundreds >= 5.U, hundreds + 3.U, hundreds)
+        val thousandsAdj  = Mux(thousands >= 5.U, thousands + 3.U, thousands)
     //Collect the wires to the new BCD
-      val newBcd        = Cat(thousandsAdj, hundredsAdj, tensAdj, onesAdj)
+        val newBcd        = Cat(thousandsAdj, hundredsAdj, tensAdj, onesAdj)
     //Assign the shift reg the new wire of digits and the shiftReg.
-      shiftReg          = Cat(newBcd, shiftReg(15, 0)) << 1
+        shiftReg          = Cat(newBcd, shiftReg(15, 0)) << 1
     }
     //Output for digits
     val result = shiftReg(31, 16)
     (// Return the 4 base10 digits.
-      result(3, 0), // ones
-      result(7, 4), // tens
-      result(11, 8), // hundreds
-      result(15, 12) // thousands
+        result(3, 0), // ones
+        result(7, 4), // tens
+        result(11, 8), // hundreds
+        result(15, 12) // thousands
     )
     }
     
